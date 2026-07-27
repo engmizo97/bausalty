@@ -1,0 +1,26 @@
+@import "tailwindcss";
+@config "../../tailwind.config.ts";
+
+@theme {
+  --color-royal-dark: #1E3A8A;
+  --color-royal-light: #1D4ED8;
+  --color-sky-dark: #0284C7;
+  --color-sky-light: #38BDF8;
+
+  --color-brand-royal: #1E3A8A;
+  --color-brand-royal-light: #1D4ED8;
+  --color-brand-sky: #0284C7;
+  --color-brand-sky-light: #38BDF8;
+  --color-brand-white: #FFFFFF;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #0f172a;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
