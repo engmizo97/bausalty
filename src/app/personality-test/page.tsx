@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Compass,
@@ -15,6 +16,7 @@ import {
   GraduationCap,
   HelpCircle,
   Zap,
+  Lock,
 } from 'lucide-react';
 import { MBTI_QUESTIONS, MbtiTrait } from '@/data/mbtiDataset';
 import { ARCHETYPES } from '@/data/archetypes';
@@ -34,10 +36,30 @@ interface MbtiResultData {
 }
 
 export default function PersonalityTestPage() {
+  const router = useRouter();
   const { language } = useLanguage();
   const isArabic = language === 'ar';
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
+  // Lazy auth state initialization
+  const [isAuthenticated] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        return !!localStorage.getItem('bausalty_user_session');
+      } catch {
+        return false;
+      }
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push('/login?callbackUrl=/personality-test');
+    }
+  }, [isAuthenticated, router]);
+
+  // UNSELECTED BY DEFAULT: answers initializes as empty object {}
   const [answers, setAnswers] = useState<Record<number, MbtiTrait>>(() => {
     if (typeof window !== 'undefined') {
       try {
@@ -186,6 +208,17 @@ export default function PersonalityTestPage() {
     }
   };
 
+  if (!isAuthenticated) {
+    return (
+      <div className="flex-1 bg-paper flex items-center justify-center p-12">
+        <div className="text-center space-y-4">
+          <Lock className="w-10 h-10 text-teal mx-auto animate-bounce" />
+          <p className="text-ink font-bold font-display">{isArabic ? 'جاري التحقق من تسجيل الدخول...' : 'Checking Student Authentication...'}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex-1 bg-paper min-h-screen py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto space-y-8">
@@ -243,7 +276,7 @@ export default function PersonalityTestPage() {
                 </button>
 
                 <Link
-                  href="/assessment"
+                  href="/assessment/quiz"
                   className="h-11 px-5 bg-teal hover:bg-teal-deep text-white border-2 border-ink rounded-xl font-bold text-xs shadow-notebook-xs inline-flex items-center gap-2"
                 >
                   <Compass className="w-4 h-4 text-yellow" />
@@ -421,15 +454,12 @@ export default function PersonalityTestPage() {
                     Item #{currentIndex + 1} ({currentQuestion.dimension})
                   </span>
 
-                  <h2 className="text-xl sm:text-2xl font-display font-bold text-ink leading-snug">
+                  <h2 className={`font-display font-bold text-ink leading-snug ${isArabic ? 'text-xl sm:text-2xl font-prose text-right' : 'text-xl sm:text-2xl text-left'}`}>
                     {isArabic ? currentQuestion.textAr : currentQuestion.textEn}
                   </h2>
-                  <p className="text-xs text-muted font-bold">
-                    {isArabic ? currentQuestion.textEn : currentQuestion.textAr}
-                  </p>
                 </div>
 
-                {/* Option A vs Option B Selection Cards */}
+                {/* Option A vs Option B Selection Cards — Unselected By Default */}
                 <div className="space-y-3 pt-2">
                   <p className="text-xs font-bold text-ink-soft uppercase tracking-wider flex items-center gap-1.5">
                     <HelpCircle className="w-4 h-4 text-teal" />
@@ -455,9 +485,6 @@ export default function PersonalityTestPage() {
                         <div>
                           <p className="font-bold text-sm sm:text-base text-ink">
                             {isArabic ? currentQuestion.optionA.labelAr : currentQuestion.optionA.labelEn}
-                          </p>
-                          <p className="text-xs text-muted font-bold mt-0.5">
-                            {isArabic ? currentQuestion.optionA.labelEn : currentQuestion.optionA.labelAr}
                           </p>
                         </div>
                       </div>
@@ -485,9 +512,6 @@ export default function PersonalityTestPage() {
                         <div>
                           <p className="font-bold text-sm sm:text-base text-ink">
                             {isArabic ? currentQuestion.optionB.labelAr : currentQuestion.optionB.labelEn}
-                          </p>
-                          <p className="text-xs text-muted font-bold mt-0.5">
-                            {isArabic ? currentQuestion.optionB.labelEn : currentQuestion.optionB.labelAr}
                           </p>
                         </div>
                       </div>

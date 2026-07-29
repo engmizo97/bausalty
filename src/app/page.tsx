@@ -116,7 +116,7 @@ export default function HomePage() {
               className="inline-flex items-center gap-2 bg-yellow text-ink border-2 border-ink px-4 py-1.5 rounded-full text-xs sm:text-sm font-extrabold shadow-notebook-xs"
             >
               <Sparkles className="w-4 h-4 text-purple" />
-              <span>{isArabic ? 'مجموعة تحسين للذكاء الاصطناعي | Tahseen AI Group' : 'Tahseen AI Group | مجموعة تحسين للذكاء الاصطناعي'}</span>
+              <span>{isArabic ? 'مجموعة تحسين للذكاء الاصطناعي' : 'Tahseen AI Group'}</span>
             </motion.div>
 
             {/* Main Title */}
@@ -232,9 +232,6 @@ export default function HomePage() {
                       <h3 className="text-xl font-display font-bold text-ink">
                         {isArabic ? item.titleAr : item.titleEn}
                       </h3>
-                      <p className="text-xs font-bold text-muted">
-                        {isArabic ? item.titleEn : item.titleAr}
-                      </p>
                     </div>
 
                     <p className="text-ink-soft text-sm font-prose leading-relaxed">
@@ -290,9 +287,6 @@ export default function HomePage() {
                   <h3 className="text-lg font-display font-bold text-ink">
                     {isArabic ? item.titleAr : item.titleEn}
                   </h3>
-                  <p className="text-xs font-bold text-muted">
-                    {isArabic ? item.titleEn : item.titleAr}
-                  </p>
                 </div>
 
                 <p className="text-ink-soft text-sm font-prose leading-relaxed">

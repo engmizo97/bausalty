@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Compass, Sparkles, Menu, X, ArrowRight, Languages } from 'lucide-react';
+import { Compass, Sparkles, Menu, X, Languages, User } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
 export default function Header() {
@@ -13,9 +13,35 @@ export default function Header() {
 
   const isArabic = language === 'ar';
 
+  // Lazy state initialization from localStorage
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        return !!localStorage.getItem('bausalty_user_session');
+      } catch {
+        return false;
+      }
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    const checkAuth = () => {
+      try {
+        const savedSession = localStorage.getItem('bausalty_user_session');
+        setIsLoggedIn(!!savedSession);
+      } catch {
+        setIsLoggedIn(false);
+      }
+    };
+
+    window.addEventListener('storage', checkAuth);
+    return () => window.removeEventListener('storage', checkAuth);
+  }, []);
+
   const navLinks = [
     { href: '/', labelEn: 'Home', labelAr: 'الرئيسية' },
-    { href: '/assessment', labelEn: 'Assessment', labelAr: 'اختبار الشخصية' },
+    { href: '/assessment', labelEn: 'Quiz Hub', labelAr: 'مركز الاختبارات' },
     { href: '/majors', labelEn: 'Majors Explorer', labelAr: 'مستكشف التخصصات' },
   ];
 
@@ -27,7 +53,7 @@ export default function Header() {
           {/* Logo & Tahseen AI Group Badge */}
           <Link href="/" className="flex items-center gap-3 group shrink-0">
             <div className="w-12 h-12 rounded-xl bg-teal text-white border-2 border-ink flex items-center justify-center shadow-notebook-xs group-hover:scale-105 transition-transform duration-200">
-              <Compass className="w-7 h-7 animate-spin-slow text-yellow" />
+              <Compass className="w-7 h-7 text-yellow" />
             </div>
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
@@ -48,7 +74,7 @@ export default function Header() {
             </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
+          {/* Desktop Navigation Links (Clean Single-Language) */}
           <nav className="hidden md:flex items-center gap-6 lg:gap-8">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
@@ -68,28 +94,46 @@ export default function Header() {
             })}
           </nav>
 
-          {/* Action CTAs & Language Toggle */}
+          {/* Action CTAs, Auth Button & Language Toggle */}
           <div className="hidden md:flex items-center gap-3">
             
             {/* PROMINENT LANGUAGE TOGGLE BUTTON */}
             <button
               onClick={toggleLanguage}
               className="h-11 px-4 rounded-xl border-2 border-ink bg-paper-card text-ink font-bold text-sm shadow-notebook-xs hover:bg-yellow hover:scale-102 active:scale-98 transition-all flex items-center gap-2 min-w-[120px] justify-center"
-              title={isArabic ? 'Switch to English' : 'التحويل إلى العربية'}
               aria-label="Language Toggle"
             >
               <Languages className="w-4 h-4 text-teal" />
               <span>{isArabic ? '🇬🇧 English' : '🇸🇦 العربية'}</span>
             </button>
 
+            {/* Dynamic Sign In / Dashboard Button */}
+            {isLoggedIn ? (
+              <Link
+                href="/dashboard"
+                className="h-11 inline-flex items-center gap-2 bg-yellow hover:bg-amber-300 text-ink px-5 rounded-xl font-display font-black text-sm border-2 border-ink shadow-notebook-xs hover:scale-102 active:scale-98 transition-all"
+              >
+                <User className="w-4 h-4 text-purple" />
+                <span>{isArabic ? 'لوحة التحكم' : 'Dashboard'}</span>
+              </Link>
+            ) : (
+              <Link
+                href="/login"
+                className="h-11 inline-flex items-center gap-2 bg-teal hover:bg-teal-deep text-white px-5 rounded-xl font-extrabold text-sm border-2 border-ink shadow-notebook-xs hover:scale-102 active:scale-98 transition-all"
+              >
+                <User className="w-4 h-4 text-yellow" />
+                <span>{isArabic ? 'تسجيل الدخول' : 'Sign In'}</span>
+              </Link>
+            )}
+
             <Link
               href="/assessment"
-              className="h-11 inline-flex items-center gap-2 bg-teal hover:bg-teal-deep text-white px-5 rounded-xl font-extrabold text-sm border-2 border-ink shadow-notebook-xs hover:scale-102 active:scale-98 transition-all"
+              className="h-11 inline-flex items-center gap-2 bg-paper hover:bg-paper-inset text-ink px-4 rounded-xl font-bold text-sm border-2 border-ink shadow-notebook-xs hover:scale-102 transition-all"
             >
-              <Sparkles className="w-4 h-4 text-yellow" />
-              <span>{isArabic ? 'ابدأ الاختبار' : 'Take Test'}</span>
-              <ArrowRight className={`w-4 h-4 ${isArabic ? 'rotate-180' : ''}`} />
+              <Sparkles className="w-4 h-4 text-teal" />
+              <span>{isArabic ? 'الاختبارات' : 'Quizzes'}</span>
             </Link>
+
           </div>
 
           {/* Mobile Menu & Language Toggle */}
@@ -133,15 +177,26 @@ export default function Header() {
             );
           })}
 
-          <div className="pt-2">
-            <Link
-              href="/assessment"
-              onClick={() => setMobileMenuOpen(false)}
-              className="w-full h-12 inline-flex items-center justify-center gap-2 bg-teal text-white border-2 border-ink rounded-xl font-extrabold text-base shadow-notebook-sm"
-            >
-              <Sparkles className="w-5 h-5 text-yellow" />
-              <span>{isArabic ? 'ابدأ الاختبار الآن' : 'Take Test Now'}</span>
-            </Link>
+          <div className="pt-2 space-y-2">
+            {isLoggedIn ? (
+              <Link
+                href="/dashboard"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full h-12 inline-flex items-center justify-center gap-2 bg-yellow text-ink border-2 border-ink rounded-xl font-display font-black text-base shadow-notebook-sm"
+              >
+                <User className="w-5 h-5 text-purple" />
+                <span>{isArabic ? 'لوحة التحكم' : 'Dashboard'}</span>
+              </Link>
+            ) : (
+              <Link
+                href="/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full h-12 inline-flex items-center justify-center gap-2 bg-teal text-white border-2 border-ink rounded-xl font-extrabold text-base shadow-notebook-sm"
+              >
+                <User className="w-5 h-5 text-yellow" />
+                <span>{isArabic ? 'تسجيل الدخول' : 'Sign In'}</span>
+              </Link>
+            )}
           </div>
         </div>
       )}
