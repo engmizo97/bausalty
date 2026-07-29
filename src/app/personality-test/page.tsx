@@ -14,21 +14,34 @@ import {
   Brain,
   GraduationCap,
   HelpCircle,
+  Zap,
 } from 'lucide-react';
-import { PERSONALITY_QUESTIONS } from '@/data/personalityQuestions';
-import { calculatePersonalityType } from '@/lib/personalityScoring';
-import { PersonalityResult, PersonalityTrait } from '@/types/personality';
+import { MBTI_QUESTIONS, MbtiTrait } from '@/data/mbtiDataset';
+import { ARCHETYPES } from '@/data/archetypes';
+import { ArchetypeInfo } from '@/types/personality';
 import { useLanguage } from '@/context/LanguageContext';
+
+interface MbtiResultData {
+  code: string;
+  archetype: ArchetypeInfo;
+  percentages: {
+    EI: { E: number; I: number };
+    SN: { S: number; N: number };
+    TF: { T: number; F: number };
+    JP: { J: number; P: number };
+  };
+  completedAt: string;
+}
 
 export default function PersonalityTestPage() {
   const { language } = useLanguage();
   const isArabic = language === 'ar';
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [answers, setAnswers] = useState<Record<number, PersonalityTrait>>(() => {
+  const [answers, setAnswers] = useState<Record<number, MbtiTrait>>(() => {
     if (typeof window !== 'undefined') {
       try {
-        const saved = localStorage.getItem('bausalty_personality_quiz_answers');
+        const saved = localStorage.getItem('bausalty_mbti_answers');
         if (saved) return JSON.parse(saved);
       } catch {
         // Ignore read error
@@ -37,10 +50,10 @@ export default function PersonalityTestPage() {
     return {};
   });
 
-  const [result, setResult] = useState<PersonalityResult | null>(() => {
+  const [result, setResult] = useState<MbtiResultData | null>(() => {
     if (typeof window !== 'undefined') {
       try {
-        const savedResult = localStorage.getItem('bausalty_personality_result');
+        const savedResult = localStorage.getItem('bausalty_mbti_result');
         if (savedResult) return JSON.parse(savedResult);
       } catch {
         // Ignore read error
@@ -49,11 +62,65 @@ export default function PersonalityTestPage() {
     return null;
   });
 
-  const totalQuestions = PERSONALITY_QUESTIONS.length;
-  const currentQuestion = PERSONALITY_QUESTIONS[currentIndex];
+  const totalQuestions = MBTI_QUESTIONS.length; // 70 Questions
+  const currentQuestion = MBTI_QUESTIONS[currentIndex];
   const progressPercent = Math.round(((currentIndex + 1) / totalQuestions) * 100);
+  const answeredCount = Object.keys(answers).length;
 
-  const handleSelectOption = (trait: PersonalityTrait) => {
+  const calculateMbtiResult = (allAnswers: Record<number, MbtiTrait>): MbtiResultData => {
+    const counts: Record<MbtiTrait, number> = {
+      E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0
+    };
+
+    MBTI_QUESTIONS.forEach((q) => {
+      const trait = allAnswers[q.id];
+      if (trait && trait in counts) {
+        counts[trait] += 1;
+      }
+    });
+
+    const letterEI = counts.E > counts.I ? 'E' : 'I';
+    const letterSN = counts.S > counts.N ? 'S' : 'N';
+    const letterTF = counts.T > counts.F ? 'T' : 'F';
+    const letterJP = counts.J > counts.P ? 'J' : 'P';
+
+    const code = `${letterEI}${letterSN}${letterTF}${letterJP}`;
+
+    const totalEI = counts.E + counts.I || 17;
+    const totalSN = counts.S + counts.N || 18;
+    const totalTF = counts.T + counts.F || 17;
+    const totalJP = counts.J + counts.P || 18;
+
+    const percentages = {
+      EI: {
+        E: Math.round((counts.E / totalEI) * 100),
+        I: Math.round((counts.I / totalEI) * 100),
+      },
+      SN: {
+        S: Math.round((counts.S / totalSN) * 100),
+        N: Math.round((counts.N / totalSN) * 100),
+      },
+      TF: {
+        T: Math.round((counts.T / totalTF) * 100),
+        F: Math.round((counts.F / totalTF) * 100),
+      },
+      JP: {
+        J: Math.round((counts.J / totalJP) * 100),
+        P: Math.round((counts.P / totalJP) * 100),
+      },
+    };
+
+    const archetype = ARCHETYPES[code] || ARCHETYPES['INTJ'];
+
+    return {
+      code,
+      archetype,
+      percentages,
+      completedAt: new Date().toISOString(),
+    };
+  };
+
+  const handleSelectOption = (trait: MbtiTrait) => {
     const updatedAnswers = {
       ...answers,
       [currentQuestion.id]: trait,
@@ -61,7 +128,7 @@ export default function PersonalityTestPage() {
     setAnswers(updatedAnswers);
 
     try {
-      localStorage.setItem('bausalty_personality_quiz_answers', JSON.stringify(updatedAnswers));
+      localStorage.setItem('bausalty_mbti_answers', JSON.stringify(updatedAnswers));
     } catch {
       // Ignore write error
     }
@@ -69,14 +136,15 @@ export default function PersonalityTestPage() {
     if (currentIndex < totalQuestions - 1) {
       setTimeout(() => {
         setCurrentIndex((prev) => Math.min(prev + 1, totalQuestions - 1));
-      }, 250);
+      }, 200);
     } else {
-      // Completed last question -> calculate results
+      // Completed all 70 questions -> compute final MBTI profile
       setTimeout(() => {
-        const calculated = calculatePersonalityType(updatedAnswers, PERSONALITY_QUESTIONS);
-        setResult(calculated);
+        const computed = calculateMbtiResult(updatedAnswers);
+        setResult(computed);
         try {
-          localStorage.setItem('bausalty_personality_result', JSON.stringify(calculated));
+          localStorage.setItem('bausalty_mbti_result', JSON.stringify(computed));
+          localStorage.setItem('bausalty_personality_result', JSON.stringify(computed));
         } catch {
           // Ignore
         }
@@ -96,11 +164,25 @@ export default function PersonalityTestPage() {
       setResult(null);
       setCurrentIndex(0);
       try {
-        localStorage.removeItem('bausalty_personality_quiz_answers');
-        localStorage.removeItem('bausalty_personality_result');
+        localStorage.removeItem('bausalty_mbti_answers');
+        localStorage.removeItem('bausalty_mbti_result');
       } catch {
         // Ignore
       }
+    }
+  };
+
+  const handleForceFinish = () => {
+    if (answeredCount < 12) {
+      alert(isArabic ? 'يرجى الإجابة على 12 سؤالاً على الأقل للحصول على نمط دقيق.' : 'Please answer at least 12 questions for an accurate archetype calculation.');
+      return;
+    }
+    const computed = calculateMbtiResult(answers);
+    setResult(computed);
+    try {
+      localStorage.setItem('bausalty_mbti_result', JSON.stringify(computed));
+    } catch {
+      // Ignore
     }
   };
 
@@ -112,16 +194,16 @@ export default function PersonalityTestPage() {
         <div className="text-center space-y-3">
           <div className="inline-flex items-center gap-2 bg-yellow text-ink border-2 border-ink px-4 py-1.5 rounded-full text-xs sm:text-sm font-extrabold shadow-notebook-xs">
             <Sparkles className="w-4 h-4 text-purple" />
-            <span>{isArabic ? 'اختبار الشخصية المجاني (16Personalities)' : 'Free 16Personalities Assessment (100% Free)'}</span>
+            <span>{isArabic ? 'اختبار الشخصية المجاني الشامل (70 سؤالاً MBTI)' : 'Full Free 16Personalities Assessment (70 Items)'}</span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl font-display font-black text-ink">
-            {isArabic ? 'اختبار نمط الشخصية 16Personalities' : 'Discover Your 16Personalities Archetype'}
+            {isArabic ? 'اختبار نمط الشخصية 16Personalities الكامل' : 'Discover Your 16Personalities Archetype'}
           </h1>
           <p className="text-xs sm:text-sm text-ink-soft font-prose max-w-2xl mx-auto">
             {isArabic
-              ? 'أجب على 12 سؤالاً لاكتشاف نمط شخصيتك الخماسي (مثل INTJ العقل المدبر أو ENFP المناضل)، وكيف ترتبط أبعاد شخصيتك بالتخصصات الجامعية السعودية.'
-              : 'Answer 12 quick scenario items to calculate your 4-letter Myers-Briggs archetype (e.g. INTJ Architect, ENFP Campaigner) and link your traits to Saudi university majors.'}
+              ? 'أجب على الأسئلة لاكتشاف نمط شخصيتك الخماسي (مثل INTJ العقل المدبر أو ENFP المناضل)، وكيف ترتبط أبعاد شخصيتك بالتخصصات الجامعية السعودية.'
+              : 'Answer standardized scenario items to calculate your 4-letter Myers-Briggs archetype (e.g. INTJ Architect, ENFP Campaigner) and link your traits to Saudi university majors.'}
           </p>
         </div>
 
@@ -308,7 +390,12 @@ export default function PersonalityTestPage() {
             <div className="bg-paper-card p-4 rounded-2xl border-2 border-ink shadow-notebook-xs space-y-2">
               <div className="flex items-center justify-between text-xs sm:text-sm font-bold text-ink">
                 <span>{isArabic ? `السؤال ${currentIndex + 1} من ${totalQuestions}` : `Question ${currentIndex + 1} of ${totalQuestions}`}</span>
-                <span className="text-teal font-extrabold">{progressPercent}%</span>
+                <div className="flex items-center gap-3">
+                  <span className="text-xs font-black bg-yellow border border-ink px-2.5 py-0.5 rounded-full">
+                    {answeredCount} / {totalQuestions} {isArabic ? 'مجاب' : 'Answered'}
+                  </span>
+                  <span className="text-teal font-extrabold">{progressPercent}%</span>
+                </div>
               </div>
               <div className="w-full h-3 bg-paper-inset rounded-full overflow-hidden p-0.5 border border-ink">
                 <motion.div
@@ -429,6 +516,16 @@ export default function PersonalityTestPage() {
                 <ArrowLeft className={`w-4 h-4 ${isArabic ? 'rotate-180' : ''}`} />
                 <span>{isArabic ? 'السابق' : 'Previous'}</span>
               </button>
+
+              {answeredCount >= 12 && (
+                <button
+                  onClick={handleForceFinish}
+                  className="h-12 px-5 rounded-xl bg-yellow text-ink border-2 border-ink font-display font-black text-xs shadow-notebook-xs flex items-center gap-1.5"
+                >
+                  <Zap className="w-4 h-4 text-purple" />
+                  <span>{isArabic ? 'إنهاء وحساب النتيجة' : 'Finish & View Result'}</span>
+                </button>
+              )}
 
               <button
                 onClick={handleReset}
