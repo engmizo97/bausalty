@@ -15,52 +15,46 @@ import {
 import { QUESTIONS, RIASEC_CATEGORIES } from '@/data/questions';
 import { calculateScores, generateHollandCode, getMajorRecommendations } from '@/lib/scoring';
 import { AssessmentResult, RiasecType } from '@/types';
+import { useLanguage } from '@/context/LanguageContext';
 
 const LIKERT_OPTIONS = [
   {
     value: 1,
     labelEn: 'Strongly Disagree',
     labelAr: 'لا أتفق بشدة',
-    color: 'hover:border-rose-300 hover:bg-rose-50/50 text-slate-700',
-    selectedColor: 'border-rose-500 bg-rose-50 text-rose-900 ring-2 ring-rose-400',
     badge: '1',
   },
   {
     value: 2,
     labelEn: 'Disagree',
     labelAr: 'لا أتفق',
-    color: 'hover:border-amber-300 hover:bg-amber-50/50 text-slate-700',
-    selectedColor: 'border-amber-500 bg-amber-50 text-amber-900 ring-2 ring-amber-400',
     badge: '2',
   },
   {
     value: 3,
     labelEn: 'Neutral',
     labelAr: 'محايد',
-    color: 'hover:border-slate-300 hover:bg-slate-100/60 text-slate-700',
-    selectedColor: 'border-slate-500 bg-slate-100 text-slate-900 ring-2 ring-slate-400',
     badge: '3',
   },
   {
     value: 4,
     labelEn: 'Agree',
     labelAr: 'أتفق',
-    color: 'hover:border-sky-300 hover:bg-sky-50/50 text-slate-700',
-    selectedColor: 'border-[#0284C7] bg-sky-50 text-[#0284C7] ring-2 ring-[#0284C7]',
     badge: '4',
   },
   {
     value: 5,
     labelEn: 'Strongly Agree',
     labelAr: 'أتفق بشدة',
-    color: 'hover:border-blue-400 hover:bg-blue-50/50 text-slate-700',
-    selectedColor: 'border-[#1E3A8A] bg-blue-50 text-[#1E3A8A] ring-2 ring-[#1E3A8A]',
     badge: '5',
   },
 ];
 
 export default function AssessmentPage() {
   const router = useRouter();
+  const { language } = useLanguage();
+  const isArabic = language === 'ar';
+
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   // Lazy state initialization from localStorage
@@ -120,7 +114,7 @@ export default function AssessmentPage() {
   };
 
   const handleReset = () => {
-    if (confirm('Are you sure you want to reset your quiz answers? / هل تريد إعادة ديد الاختبار؟')) {
+    if (confirm(isArabic ? 'هل تريد إعادة ضبط جميع إجاباتك؟' : 'Are you sure you want to reset your quiz answers?')) {
       setAnswers({});
       setCurrentIndex(0);
       try {
@@ -136,7 +130,9 @@ export default function AssessmentPage() {
       const missingCount = totalQuestions - answeredCount;
       if (
         !confirm(
-          `You have ${missingCount} unanswered questions. Unanswered questions will be rated as neutral. Proceed? \nلديك ${missingCount} أسئلة غير مجاب عليها. هل ترغب بالمتابعة؟`
+          isArabic
+            ? `لديك ${missingCount} أسئلة غير مجاب عليها. هل ترغب بالمتابعة؟`
+            : `You have ${missingCount} unanswered questions. Proceed?`
         )
       ) {
         return;
@@ -170,30 +166,30 @@ export default function AssessmentPage() {
   };
 
   return (
-    <div className="flex-1 flex flex-col bg-slate-50 min-h-screen">
+    <div className="flex-1 flex flex-col bg-paper min-h-screen">
       
       {/* --- STICKY PROGRESS BAR --- */}
-      <div className="sticky top-20 z-40 bg-white border-b border-slate-200 shadow-xs">
+      <div className="sticky top-20 z-40 bg-[#fffdf6] border-b-2 border-ink shadow-notebook-xs">
         <div className="max-w-4xl mx-auto px-4 py-3 sm:px-6">
-          <div className="flex items-center justify-between text-xs sm:text-sm font-bold text-slate-700 mb-2">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs sm:text-sm font-bold text-ink gap-1 mb-2">
             
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#0284C7] animate-ping" />
-              <span>Question / السؤال {currentIndex + 1} of {totalQuestions}</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-teal animate-ping" />
+              <span>{isArabic ? `السؤال ${currentIndex + 1} من ${totalQuestions}` : `Question ${currentIndex + 1} of ${totalQuestions}`}</span>
             </div>
 
-            <div className="flex items-center gap-3">
-              <span className="text-[#1E3A8A] font-extrabold bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100">
-                {currentCategory.nameEn} ({currentCategory.nameAr})
+            <div className="flex items-center justify-between sm:justify-end gap-3">
+              <span className="text-ink font-extrabold bg-teal-soft px-2.5 py-0.5 rounded-full border border-teal text-xs">
+                {isArabic ? currentCategory.nameAr : currentCategory.nameEn}
               </span>
-              <span className="text-slate-500 font-semibold">{progressPercent}%</span>
+              <span className="text-ink-soft font-semibold">{progressPercent}%</span>
             </div>
           </div>
 
           {/* Progress Bar Track */}
-          <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200">
+          <div className="w-full h-3 bg-paper-inset rounded-full overflow-hidden p-0.5 border border-ink">
             <motion.div
-              className="h-full bg-gradient-to-r from-[#1E3A8A] via-[#1D4ED8] to-[#0284C7] rounded-full"
+              className="h-full bg-teal rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${progressPercent}%` }}
               transition={{ duration: 0.3 }}
@@ -203,22 +199,22 @@ export default function AssessmentPage() {
       </div>
 
       {/* --- MAIN QUESTION CARD CONTAINER --- */}
-      <div className="flex-1 max-w-3xl w-full mx-auto px-4 py-8 sm:px-6 flex flex-col justify-center">
+      <div className="flex-1 max-w-3xl w-full mx-auto px-4 py-6 sm:py-10 flex flex-col justify-center">
         
         {/* Category Header Badge */}
-        <div className="mb-6 flex items-center justify-between">
-          <div className="flex items-center gap-2 bg-white px-3.5 py-1.5 rounded-xl border border-slate-200 shadow-2xs text-xs font-bold text-slate-700">
-            <Award className="w-4 h-4 text-[#0284C7]" />
-            <span>Category: {currentCategory.titleEn} ({currentCategory.titleAr})</span>
+        <div className="mb-4 flex items-center justify-between">
+          <div className="flex items-center gap-2 bg-paper-card px-3.5 py-1.5 rounded-xl border-2 border-ink shadow-notebook-xs text-xs font-bold text-ink">
+            <Award className="w-4 h-4 text-teal" />
+            <span>{isArabic ? `الفئة: ${currentCategory.titleAr}` : `Category: ${currentCategory.titleEn}`}</span>
           </div>
 
           <button
             onClick={handleReset}
-            className="text-xs font-semibold text-slate-500 hover:text-rose-600 flex items-center gap-1 transition-colors"
-            title="Reset Quiz / إعادة الضبط"
+            className="text-xs font-bold text-ink-soft hover:text-rose-600 flex items-center gap-1 transition-colors py-1 px-2.5 rounded-lg border border-transparent hover:border-rose-300"
+            title="Reset Quiz"
           >
             <RotateCcw className="w-3.5 h-3.5" />
-            <span>Reset</span>
+            <span>{isArabic ? 'إعادة ضبط' : 'Reset'}</span>
           </button>
         </div>
 
@@ -230,28 +226,28 @@ export default function AssessmentPage() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.25 }}
-            className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/90 shadow-lg space-y-8"
+            className="bg-[#fffdf6] rounded-notebook p-6 sm:p-10 border-2 border-ink shadow-notebook-md space-y-6 sm:space-y-8"
           >
             {/* Question Text */}
-            <div className="space-y-3 text-center sm:text-left">
-              <span className="text-xs font-extrabold uppercase tracking-widest text-[#0284C7] bg-sky-50 px-3 py-1 rounded-full border border-sky-100">
+            <div className="space-y-3">
+              <span className="text-xs font-black uppercase tracking-widest text-ink bg-yellow border border-ink px-3 py-1 rounded-full shadow-notebook-xs inline-block">
                 Item #{currentIndex + 1}
               </span>
 
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-snug">
-                {currentQuestion.textEn}
+              <h2 className={`font-display font-bold text-slate-900 leading-snug ${isArabic ? 'text-2xl sm:text-3xl font-prose text-right' : 'text-xl sm:text-2xl text-left'}`}>
+                {isArabic ? currentQuestion.textAr : currentQuestion.textEn}
               </h2>
 
-              <p className="text-xl sm:text-2xl font-bold text-[#1E3A8A] font-sans leading-relaxed dir-rtl text-right sm:text-right border-t border-slate-100 pt-3">
-                {currentQuestion.textAr}
+              <p className={`text-sm sm:text-base font-semibold text-muted border-t border-ink/10 pt-2 ${isArabic ? 'text-left' : 'text-right'}`}>
+                {isArabic ? currentQuestion.textEn : currentQuestion.textAr}
               </p>
             </div>
 
             {/* CARD-SELECTION LAYOUT (Replacing Radio Buttons) */}
             <div className="space-y-3 pt-2">
-              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                <HelpCircle className="w-3.5 h-3.5 text-[#0284C7]" />
-                <span>Select how much this statement describes you / اختر مستوى التوافق</span>
+              <p className="text-xs font-bold text-ink-soft uppercase tracking-wider flex items-center gap-1.5">
+                <HelpCircle className="w-4 h-4 text-teal" />
+                <span>{isArabic ? 'اختر مستوى التوافق الذي يمثلك:' : 'Select how much this statement describes you:'}</span>
               </p>
 
               <div className="grid grid-cols-1 gap-3">
@@ -264,31 +260,37 @@ export default function AssessmentPage() {
                       whileHover={{ scale: 1.01, translateY: -1 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => handleSelectOption(opt.value)}
-                      className={`w-full p-4 rounded-2xl border text-left flex items-center justify-between transition-all duration-150 ${
-                        isSelected ? opt.selectedColor : `bg-white border-slate-200 ${opt.color}`
+                      className={`w-full min-h-[48px] p-3.5 sm:p-4 rounded-xl border-2 text-left flex items-center justify-between transition-all duration-150 ${
+                        isSelected
+                          ? 'bg-teal-tint border-ink shadow-notebook-xs text-ink font-extrabold ring-2 ring-teal'
+                          : 'bg-paper-card border-ink/20 hover:border-ink hover:bg-paper-inset text-ink-soft'
                       }`}
                     >
                       <div className="flex items-center gap-3">
                         <div
-                          className={`w-8 h-8 rounded-xl flex items-center justify-center font-black text-sm transition-colors ${
+                          className={`w-8 h-8 rounded-lg border-2 border-ink flex items-center justify-center font-display font-black text-sm transition-colors ${
                             isSelected
-                              ? 'bg-[#1E3A8A] text-white'
-                              : 'bg-slate-100 text-slate-600'
+                              ? 'bg-teal text-white'
+                              : 'bg-paper-inset text-ink'
                           }`}
                         >
                           {opt.badge}
                         </div>
 
                         <div>
-                          <p className="font-bold text-base text-slate-900">{opt.labelEn}</p>
-                          <p className="text-sm font-semibold text-slate-500 font-sans">{opt.labelAr}</p>
+                          <p className="font-bold text-base text-ink">
+                            {isArabic ? opt.labelAr : opt.labelEn}
+                          </p>
+                          <p className="text-xs font-semibold text-muted">
+                            {isArabic ? opt.labelEn : opt.labelAr}
+                          </p>
                         </div>
                       </div>
 
                       {isSelected ? (
-                        <CheckCircle2 className="w-6 h-6 text-[#1E3A8A] fill-blue-100 shrink-0" />
+                        <CheckCircle2 className="w-6 h-6 text-teal fill-yellow shrink-0" />
                       ) : (
-                        <div className="w-5 h-5 rounded-full border-2 border-slate-300 shrink-0" />
+                        <div className="w-5 h-5 rounded-full border-2 border-ink/30 shrink-0" />
                       )}
                     </motion.button>
                   );
@@ -299,37 +301,37 @@ export default function AssessmentPage() {
           </motion.div>
         </AnimatePresence>
 
-        {/* --- NAVIGATION FOOTER BUTTONS --- */}
+        {/* --- NAVIGATION FOOTER BUTTONS with 48px touch targets --- */}
         <div className="mt-8 flex items-center justify-between gap-4">
           <button
             onClick={handlePrev}
             disabled={currentIndex === 0}
-            className={`inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-sm transition-all ${
+            className={`h-12 min-h-[48px] inline-flex items-center gap-2 px-5 rounded-xl font-bold text-sm border-2 transition-all ${
               currentIndex === 0
-                ? 'opacity-40 cursor-not-allowed text-slate-400 bg-slate-100'
-                : 'text-slate-700 bg-white border border-slate-200 hover:bg-slate-100 shadow-xs'
+                ? 'opacity-40 cursor-not-allowed text-muted border-ink/20 bg-paper-inset'
+                : 'text-ink bg-paper-card border-ink hover:bg-paper-inset shadow-notebook-xs'
             }`}
           >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Previous / السابق</span>
+            <ArrowLeft className={`w-4 h-4 ${isArabic ? 'rotate-180' : ''}`} />
+            <span>{isArabic ? 'السابق' : 'Previous'}</span>
           </button>
 
           {currentIndex < totalQuestions - 1 ? (
             <button
               onClick={handleNext}
-              className="inline-flex items-center gap-2 bg-[#1E3A8A] hover:bg-[#1D4ED8] text-white px-6 py-3 rounded-xl font-bold text-sm shadow-md transition-all hover:scale-102 active:scale-98"
+              className="h-12 min-h-[48px] inline-flex items-center gap-2 bg-teal hover:bg-teal-deep text-white px-6 rounded-xl font-extrabold text-sm border-2 border-ink shadow-notebook-xs transition-all hover:scale-102 active:scale-98"
             >
-              <span>Next Question / التالي</span>
-              <ArrowRight className="w-4 h-4" />
+              <span>{isArabic ? 'التالي' : 'Next'}</span>
+              <ArrowRight className={`w-4 h-4 ${isArabic ? 'rotate-180' : ''}`} />
             </button>
           ) : (
             <button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-[#1E3A8A] via-[#1D4ED8] to-[#0284C7] text-white px-7 py-3.5 rounded-xl font-black text-base shadow-xl hover:brightness-110 active:scale-98 transition-all"
+              className="h-12 min-h-[48px] inline-flex items-center gap-2 bg-yellow hover:bg-amber-300 text-ink px-7 rounded-xl font-display font-black text-base border-2 border-ink shadow-notebook-md hover:scale-102 active:scale-98 transition-all"
             >
-              <Sparkles className="w-5 h-5" />
-              <span>{isSubmitting ? 'Calculating...' : 'View Results / عرض النتائج'}</span>
+              <Sparkles className="w-5 h-5 text-purple" />
+              <span>{isSubmitting ? (isArabic ? 'جاري التحليل...' : 'Calculating...') : (isArabic ? 'عرض النتائج' : 'View Results')}</span>
             </button>
           )}
         </div>

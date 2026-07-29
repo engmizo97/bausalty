@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ClientProviders from "@/components/ClientProviders";
 
 export const metadata: Metadata = {
   title: "Bausalty (بوصالتي) | RIASEC College Major Alignment for Saudi Students",
@@ -26,11 +27,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full antialiased scroll-smooth">
-      <body className="min-h-full flex flex-col bg-slate-50 text-slate-900 font-sans selection:bg-[#0284C7] selection:text-white">
-        <Header />
-        <main className="flex-1 flex flex-col">{children}</main>
-        <Footer />
+    <html lang="ar" dir="rtl" className="h-full antialiased scroll-smooth">
+      <body className="min-h-full flex flex-col bg-paper text-ink font-sans selection:bg-yellow selection:text-ink border-t-4 border-teal">
+        <ClientProviders>
+          <Header />
+          <main className="flex-1 flex flex-col">{children}</main>
+          <Footer />
+        </ClientProviders>
       </body>
     </html>
   );

@@ -3,11 +3,15 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Compass, Sparkles, Menu, X, ArrowRight } from 'lucide-react';
+import { Compass, Sparkles, Menu, X, ArrowRight, Languages } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { language, toggleLanguage } = useLanguage();
+
+  const isArabic = language === 'ar';
 
   const navLinks = [
     { href: '/', labelEn: 'Home', labelAr: 'الرئيسية' },
@@ -16,28 +20,28 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-xs">
+    <header className="sticky top-0 z-50 bg-[#fffdf6]/95 backdrop-blur-md border-b-2 border-ink shadow-notebook-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
           {/* Logo & Tahseen AI Group Badge */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#1E3A8A] to-[#0284C7] flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform duration-200">
-              <Compass className="w-7 h-7 animate-spin-slow" />
+          <Link href="/" className="flex items-center gap-3 group shrink-0">
+            <div className="w-12 h-12 rounded-xl bg-teal text-white border-2 border-ink flex items-center justify-center shadow-notebook-xs group-hover:scale-105 transition-transform duration-200">
+              <Compass className="w-7 h-7 animate-spin-slow text-yellow" />
             </div>
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
-                <span className="text-2xl font-black tracking-tight text-slate-900">
+                <span className="text-2xl font-display font-black tracking-tight text-ink">
                   Bausalty
                 </span>
-                <span className="text-xl font-bold text-[#0284C7]">
+                <span className="text-xl font-display font-bold text-teal">
                   بوصالتي
                 </span>
               </div>
-              <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#0284C7]" />
+              <div className="flex items-center gap-1.5 text-xs font-semibold text-ink-soft">
+                <span className="inline-block w-2 h-2 rounded-full bg-teal" />
                 <span>Tahseen AI Group</span>
-                <span className="text-[10px] bg-sky-100 text-[#0284C7] px-1.5 py-0.5 rounded font-bold">
+                <span className="text-[10px] bg-teal-soft text-teal-deep px-1.5 py-0.5 rounded-full font-bold border border-teal">
                   تحسين
                 </span>
               </div>
@@ -45,43 +49,61 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-6 lg:gap-8">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-sm font-semibold transition-colors duration-150 flex items-center gap-1.5 ${
+                  className={`text-sm lg:text-base font-bold transition-all duration-150 py-1.5 px-3 rounded-xl ${
                     isActive
-                      ? 'text-[#1E3A8A] font-bold border-b-2 border-[#0284C7] pb-1'
-                      : 'text-slate-600 hover:text-[#0284C7]'
+                      ? 'bg-yellow text-ink border-2 border-ink shadow-notebook-xs'
+                      : 'text-ink-soft hover:text-ink hover:bg-paper-inset'
                   }`}
                 >
-                  <span>{link.labelEn}</span>
-                  <span className="text-xs text-slate-400 font-normal">({link.labelAr})</span>
+                  <span>{isArabic ? link.labelAr : link.labelEn}</span>
                 </Link>
               );
             })}
           </nav>
 
-          {/* Action CTAs */}
-          <div className="hidden md:flex items-center gap-4">
+          {/* Action CTAs & Language Toggle */}
+          <div className="hidden md:flex items-center gap-3">
+            
+            {/* PROMINENT LANGUAGE TOGGLE BUTTON */}
+            <button
+              onClick={toggleLanguage}
+              className="h-11 px-4 rounded-xl border-2 border-ink bg-paper-card text-ink font-bold text-sm shadow-notebook-xs hover:bg-yellow hover:scale-102 active:scale-98 transition-all flex items-center gap-2 min-w-[120px] justify-center"
+              title={isArabic ? 'Switch to English' : 'التحويل إلى العربية'}
+              aria-label="Language Toggle"
+            >
+              <Languages className="w-4 h-4 text-teal" />
+              <span>{isArabic ? '🇬🇧 English' : '🇸🇦 العربية'}</span>
+            </button>
+
             <Link
               href="/assessment"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-[#1E3A8A] via-[#1D4ED8] to-[#0284C7] text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-md hover:shadow-lg hover:brightness-110 active:scale-98 transition-all duration-200"
+              className="h-11 inline-flex items-center gap-2 bg-teal hover:bg-teal-deep text-white px-5 rounded-xl font-extrabold text-sm border-2 border-ink shadow-notebook-xs hover:scale-102 active:scale-98 transition-all"
             >
-              <Sparkles className="w-4 h-4" />
-              <span>Take Test / ابدأ الاختبار</span>
-              <ArrowRight className="w-4 h-4" />
+              <Sparkles className="w-4 h-4 text-yellow" />
+              <span>{isArabic ? 'ابدأ الاختبار' : 'Take Test'}</span>
+              <ArrowRight className={`w-4 h-4 ${isArabic ? 'rotate-180' : ''}`} />
             </Link>
           </div>
 
-          {/* Mobile Menu Toggle Button */}
-          <div className="md:hidden flex items-center">
+          {/* Mobile Menu & Language Toggle */}
+          <div className="md:hidden flex items-center gap-2">
+            <button
+              onClick={toggleLanguage}
+              className="h-11 px-3 rounded-xl border-2 border-ink bg-paper-card text-ink font-bold text-xs shadow-notebook-xs flex items-center gap-1.5"
+            >
+              <span>{isArabic ? '🇬🇧 EN' : '🇸🇦 عربي'}</span>
+            </button>
+
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-slate-700 hover:bg-slate-100 focus:outline-none"
+              className="h-11 w-11 rounded-xl border-2 border-ink bg-paper-card text-ink flex items-center justify-center shadow-notebook-xs"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -92,7 +114,7 @@ export default function Header() {
 
       {/* Mobile Dropdown Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-100 bg-white px-4 pt-3 pb-6 space-y-3 shadow-lg">
+        <div className="md:hidden border-t-2 border-ink bg-[#fffdf6] px-4 pt-4 pb-6 space-y-3 shadow-notebook-md">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
@@ -100,16 +122,13 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block px-3 py-2 rounded-lg text-base font-semibold ${
+                className={`block px-4 py-3 rounded-xl text-base font-bold border-2 ${
                   isActive
-                    ? 'bg-sky-50 text-[#1E3A8A] font-bold'
-                    : 'text-slate-700 hover:bg-slate-50'
+                    ? 'bg-yellow text-ink border-ink shadow-notebook-xs'
+                    : 'bg-paper border-transparent text-ink-soft hover:border-ink'
                 }`}
               >
-                <div className="flex justify-between items-center">
-                  <span>{link.labelEn}</span>
-                  <span className="text-xs text-slate-500 font-normal">{link.labelAr}</span>
-                </div>
+                <span>{isArabic ? link.labelAr : link.labelEn}</span>
               </Link>
             );
           })}
@@ -118,10 +137,10 @@ export default function Header() {
             <Link
               href="/assessment"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#1E3A8A] to-[#0284C7] text-white px-5 py-3 rounded-xl font-bold text-base shadow-md"
+              className="w-full h-12 inline-flex items-center justify-center gap-2 bg-teal text-white border-2 border-ink rounded-xl font-extrabold text-base shadow-notebook-sm"
             >
-              <Sparkles className="w-5 h-5" />
-              <span>Take Test / ابدأ الاختبار</span>
+              <Sparkles className="w-5 h-5 text-yellow" />
+              <span>{isArabic ? 'ابدأ الاختبار الآن' : 'Take Test Now'}</span>
             </Link>
           </div>
         </div>
