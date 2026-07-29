@@ -1,11 +1,12 @@
 /* قدرات AI — base element styles + notebook background utilities */
-body{background:var(--paper);color:var(--ink);font-family:var(--font-ui);direction:rtl}
-::selection{background:var(--yellow);color:var(--ink)}
-a{text-decoration:none;color:var(--teal)}
-a:hover{color:var(--teal-deep)}
-h1,h2,h3{font-family:var(--font-display);font-weight:700;color:var(--ink)}
-.notebook-bg{background-image:repeating-linear-gradient(transparent 0px,transparent 35px,var(--rule-line) 36px)}
-.margin-line{position:relative}
-.margin-line::before{content:"";position:absolute;top:0;bottom:0;right:60px;width:2px;background:var(--red-margin);pointer-events:none}
-.hl-y{background:linear-gradient(transparent 55%,var(--yellow) 55%,var(--yellow) 92%,transparent 92%);padding:0 8px}
-.hl-t{background:linear-gradient(transparent 55%,var(--teal-soft) 55%,var(--teal-soft) 92%,transparent 92%);padding:0 8px}
+body { background: var(--paper); color: var(--ink); font-family: var(--font-ui); direction: rtl; }
+::selection { background: var(--yellow); color: var(--ink); }
+a { text-decoration: none; }
+a:where(:not([class*="text-"])) { color: var(--teal); }
+a:where(:not([class*="text-"])):hover { color: var(--teal-deep); }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; color: var(--ink); }
+.notebook-bg { background-image: repeating-linear-gradient(transparent 0px, transparent 35px, var(--rule-line) 36px); }
+.margin-line { position: relative; }
+.margin-line::before { content: ""; position: absolute; top: 0; bottom: 0; right: 60px; width: 2px; background: var(--red-margin); pointer-events: none; }
+.hl-y { background: linear-gradient(transparent 55%, var(--yellow) 55%, var(--yellow) 92%, transparent 92%); padding: 0 8px; }
+.hl-t { background: linear-gradient(transparent 55%, var(--teal-soft) 55%, var(--teal-soft) 92%, transparent 92%); padding: 0 8px; }

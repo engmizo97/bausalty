@@ -58,6 +58,17 @@
   --foreground: #3a2f21;
 }
 
+/* Base Anchor Reset to prevent overriding Tailwind utility classes */
+a[class*="text-white"],
+.text-white {
+  color: #ffffff !important;
+}
+
+a[class*="text-ink"],
+.text-ink {
+  color: #3a2f21 !important;
+}
+
 /* Notebook Canvas Background & Ruled Lines */
 body {
   background-color: var(--paper, #fbf6ea);
