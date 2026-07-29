@@ -1,0 +1,23 @@
+.notebook-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: #fbf6ea;
+    color: #3a2f21;
+    font-family: "Baloo Bhaijaan 2", system-ui, sans-serif;
+}
+
+.notebook-loader__lines,
+.notebook-loader__margin { position: absolute; pointer-events: none; }
+.notebook-loader__lines { inset: 0; background-image: repeating-linear-gradient(transparent 0 35px, rgba(13, 148, 136, 0.1) 36px); }
+.notebook-loader__margin { inset-block: 0; inset-inline-end: 60px; width: 2px; background: rgba(220, 38, 38, 0.2); }
+.notebook-loader__content { position: relative; display: flex; width: min(360px, calc(100vw - 48px)); flex-direction: column; align-items: center; gap: 14px; padding: 30px 28px; border: 2px solid #3a2f21; border-radius: 7px 11px 9px 6px; background: rgba(255, 253, 246, 0.9); box-shadow: 7px 8px 0 rgba(58, 47, 33, 0.14); transform: rotate(-1deg); }
+.notebook-loader__mark { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 12px 8px 11px 7px; background: #0d9488; color: #fffdf6; font-family: "Marhey", sans-serif; font-size: 22px; font-weight: 700; transform: rotate(3deg); }
+.notebook-loader__percent { margin: 0; font-family: "Marhey", sans-serif; font-size: 38px; font-weight: 700; line-height: 1; }
+.notebook-loader__pencil-line { width: 100%; height: 7px; overflow: hidden; border-radius: 999px; background: rgba(58, 47, 33, 0.13); }
+.notebook-loader__pencil-line i { display: block; height: 100%; border-radius: inherit; background: #3a2f21; transition: width 120ms ease-out; }
+.notebook-loader__hint { margin: 0; color: #8a7a5f; font-size: 14px; font-weight: 600; }
+@media (max-width: 560px) { .notebook-loader__margin { inset-inline-end: 26px; } }

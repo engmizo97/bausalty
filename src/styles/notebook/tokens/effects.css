@@ -1,0 +1,33 @@
+/* قدرات AI — borders, shadows, radii, rotation. Hand-drawn sketch language */
+:root{
+  /* borders: everything meaningful gets a 2px ink border */
+  --border-card:2px solid var(--ink);
+  --border-dashed:2px dashed rgba(58,47,33,.28); /* @kind other */
+  --border-dashed-accent:1.5px dashed var(--teal);
+  --border-option:1.5px solid var(--border-soft);
+  /* hard offset shadows (never blurred) */
+  --shadow-xs:2.5px 2.5px 0 var(--ink);
+  --shadow-sm:3px 3px 0 rgba(58,47,33,.35);
+  --shadow-md:4px 4px 0 rgba(58,47,33,.35);
+  --shadow-lg:5px 5px 0 rgba(58,47,33,.4);
+  --shadow-xl:6px 6px 0 rgba(58,47,33,.9);
+  --shadow-solid:6px 6px 0 var(--ink);
+  /* radii */
+  --radius-sticky:4px;     /* sticky notes, stamps, testimonial cards */
+  --radius-input:10px;
+  --radius-btn:12px;
+  --radius-btn-lg:14px;
+  --radius-card:18px;
+  --radius-card-lg:20px;
+  --radius-pill:999px;
+  /* playful rotation */
+  --rotate-card:2deg; /* @kind other */
+  --rotate-card-neg:-1deg; /* @kind other */
+  --rotate-sticky:-4deg; /* @kind other */
+  --rotate-tag:-1deg; /* @kind other */
+  --rotate-badge:-3deg; /* @kind other */
+  /* motion */
+  --ease-out:cubic-bezier(.22,1,.36,1); /* @kind other */
+  --dur-fast:.2s; /* @kind other */
+  --dur-base:.3s; /* @kind other */
+}

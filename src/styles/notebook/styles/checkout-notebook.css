@@ -1,0 +1,152 @@
+.checkout-notebook-page {
+  min-height: 100%;
+  color: var(--ink);
+  font-family: var(--font-ui);
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(90deg, transparent 0, transparent 94%, rgba(209, 72, 54, .22) 94%, rgba(209, 72, 54, .22) calc(94% + 2px), transparent calc(94% + 2px)),
+    repeating-linear-gradient(0deg, transparent 0, transparent 38px, rgba(64, 148, 144, .12) 39px, transparent 40px);
+}
+
+.checkout-page-heading {
+  margin: 0 0 26px;
+  text-align: right;
+}
+
+.checkout-page-heading span {
+  color: var(--orange);
+  font-weight: 800;
+}
+
+.checkout-page-heading h1 {
+  display: inline-block;
+  position: relative;
+  z-index: 0;
+  margin: 4px 0 2px;
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4vw, 3.45rem);
+  line-height: 1.1;
+}
+
+.checkout-page-heading h1::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  right: 18%;
+  bottom: 1px;
+  width: 78%;
+  height: 13px;
+  background: var(--yellow);
+  transform: rotate(-1deg);
+}
+
+.checkout-page-heading p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.checkout-notebook-page .checkout-plan-card,
+.checkout-notebook-page .checkout-order-card,
+.checkout-notebook-page div.bg-white.rounded-2xl {
+  background: rgba(255, 253, 246, .96) !important;
+  border: 2px solid var(--ink) !important;
+  border-radius: var(--radius-card) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+.checkout-notebook-page .checkout-plan-header {
+  position: relative;
+  color: var(--ink) !important;
+  background: linear-gradient(135deg, rgba(255, 216, 111, .78), rgba(204, 239, 232, .9)) !important;
+  border-bottom: 2px dashed rgba(58, 47, 33, .42);
+}
+
+.checkout-notebook-page .checkout-plan-header::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 14%;
+  width: 112px;
+  height: 24px;
+  background: rgba(255, 210, 92, .62);
+  transform: rotate(2deg);
+}
+
+.checkout-notebook-page .checkout-plan-header .text-white,
+.checkout-notebook-page .checkout-plan-header .text-white\/90 {
+  color: var(--ink) !important;
+}
+
+.checkout-notebook-page .checkout-plan-header .bg-white\/20 {
+  color: var(--teal);
+  background: var(--paper) !important;
+  border: 2px dashed var(--teal);
+  border-radius: 14px !important;
+}
+
+.checkout-notebook-page .checkout-order-card h2,
+.checkout-notebook-page .checkout-plan-card h2,
+.checkout-notebook-page h3 {
+  color: var(--ink) !important;
+  font-family: var(--font-display);
+}
+
+.checkout-notebook-page .checkout-primary-action,
+.checkout-notebook-page .btn-primary {
+  color: #fff !important;
+  background: var(--teal) !important;
+  border: 2px solid var(--ink) !important;
+  border-radius: var(--radius-btn-lg) !important;
+  box-shadow: 4px 4px 0 var(--ink) !important;
+  transition: transform .16s ease, box-shadow .16s ease !important;
+}
+
+.checkout-notebook-page .checkout-primary-action:hover,
+.checkout-notebook-page .btn-primary:hover {
+  transform: translate(-1px, 2px) !important;
+  box-shadow: 2px 2px 0 var(--ink) !important;
+}
+
+.checkout-notebook-page input,
+.checkout-notebook-page .input-field {
+  color: var(--ink) !important;
+  background: var(--paper) !important;
+  border: 2px solid rgba(58, 47, 33, .55) !important;
+  border-radius: 12px !important;
+}
+
+.checkout-notebook-page .checkout-stepper {
+  background: rgba(251, 246, 234, .96) !important;
+  border-bottom: 2px dashed rgba(58, 47, 33, .35) !important;
+}
+
+.checkout-notebook-page .checkout-stepper [class*="rounded-full"] {
+  border: 1px solid var(--ink);
+}
+
+.checkout-notebook-page .text-primary-600,
+.checkout-notebook-page .text-purple-600,
+.checkout-notebook-page .text-purple-700,
+.checkout-notebook-page .text-amber-600 {
+  color: var(--teal) !important;
+}
+
+.checkout-notebook-page .border-gray-100,
+.checkout-notebook-page .border-gray-200,
+.checkout-notebook-page .dark\:border-gray-700 {
+  border-color: rgba(58, 47, 33, .25) !important;
+}
+
+@media (max-width: 1023px) {
+  .checkout-notebook-page {
+    padding-bottom: 24px;
+    background-image: repeating-linear-gradient(0deg, transparent 0, transparent 38px, rgba(64, 148, 144, .12) 39px, transparent 40px);
+  }
+
+  .checkout-notebook-page .checkout-plan-card,
+  .checkout-notebook-page .checkout-order-card,
+  .checkout-notebook-page div.bg-white.rounded-2xl {
+    box-shadow: 4px 4px 0 rgba(58, 47, 33, .22) !important;
+  }
+}

@@ -1,0 +1,42 @@
+/* قدرات AI — color tokens. Source of truth: Agent_LP landing page (notebook aesthetic) */
+:root{
+  /* paper surfaces */
+  --paper:#fbf6ea;        /* page background */
+  --paper-2:#fffdf6;      /* card background */
+  --paper-3:#f3ead9;      /* inset / bar background */
+  --white:#ffffff;        /* elevated card (question card, chat) */
+  /* ink (text) */
+  --ink:#3a2f21;          /* headings, borders, primary text */
+  --ink-soft:#5c4f3a;     /* body text */
+  --muted:#8a7a5f;        /* captions, meta */
+  --border-soft:#e4dbc8;  /* subtle option borders */
+  /* brand accents */
+  --teal:#0d9488;         /* primary action */
+  --teal-deep:#0f766e;    /* primary hover */
+  --teal-soft:#c9f2e8;    /* tag fill */
+  --teal-tint:#e8f7f3;    /* selected option / ai bubble */
+  --yellow:#ffd66e;       /* highlighter, sticky notes, secondary CTA */
+  --yellow-soft:#fff3d1;  /* popular plan / warm card fill */
+  --purple:#7c3aed;       /* AI accent */
+  --purple-deep:#5b21b6;  /* AI text on soft */
+  --purple-soft:#f5efff;  /* AI hint fill */
+  --orange:#c2410c;       /* page numbers, popular badge, alerts */
+  --orange-2:#e0762e;     /* secondary warm accent */
+  --green:#22c55e;        /* live / success */
+  --green-soft:#dcfce7;   /* completed cards / success tint */
+  --star:#e0a72e;         /* rating stars */
+  --red-margin:rgba(220,38,38,.18); /* notebook margin line */
+  /* semantic aliases */
+  --surface-page:var(--paper);
+  --surface-card:var(--paper-2);
+  --surface-elevated:var(--white);
+  --text-heading:var(--ink);
+  --text-body:var(--ink-soft);
+  --text-caption:var(--muted);
+  --action-primary:var(--teal);
+  --action-primary-hover:var(--teal-deep);
+  --action-secondary:var(--yellow);
+  --accent-ai:var(--purple);
+  --border-ink:var(--ink);
+  --rule-line:rgba(13,148,136,.09); /* notebook ruled lines */
+}

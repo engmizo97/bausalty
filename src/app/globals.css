@@ -1,7 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Marhey:wght@400;500;600;700&family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 @config "../../tailwind.config.ts";
 
+/* Notebook Design System Import */
+@import "../styles/notebook/styles.css";
+
 @theme {
+  --color-paper: #fbf6ea;
+  --color-paper-card: #fffdf6;
+  --color-paper-inset: #f3ead9;
+  
+  --color-ink: #3a2f21;
+  --color-ink-soft: #5c4f3a;
+  --color-muted: #8a7a5f;
+
+  --color-teal: #0d9488;
+  --color-teal-deep: #0f766e;
+  --color-teal-soft: #c9f2e8;
+  --color-yellow: #ffd66e;
+  --color-purple: #7c3aed;
+
   --color-royal-dark: #1E3A8A;
   --color-royal-light: #1D4ED8;
   --color-sky-dark: #0284C7;
@@ -12,15 +30,78 @@
   --color-brand-sky: #0284C7;
   --color-brand-sky-light: #38BDF8;
   --color-brand-white: #FFFFFF;
+
+  --font-display: 'Marhey', cursive;
+  --font-ui: 'Baloo Bhaijaan 2', system-ui, sans-serif;
+  --font-prose: 'Noto Naskh Arabic', serif;
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #0f172a;
+  --paper: #fbf6ea;
+  --paper-card: #fffdf6;
+  --paper-inset: #f3ead9;
+  --white: #ffffff;
+
+  --ink: #3a2f21;
+  --ink-soft: #5c4f3a;
+  --muted: #8a7a5f;
+  
+  --teal: #0d9488;
+  --teal-deep: #0f766e;
+  --teal-soft: #c9f2e8;
+  --yellow: #ffd66e;
+  --purple: #7c3aed;
+  --rule-line: rgba(13, 148, 136, 0.09);
+  --red-margin: rgba(220, 38, 38, 0.18);
+
+  --background: #fbf6ea;
+  --foreground: #3a2f21;
 }
 
+/* Notebook Canvas Background & Ruled Lines */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--paper, #fbf6ea);
+  background-image: repeating-linear-gradient(
+    transparent 0px,
+    transparent 35px,
+    var(--rule-line, rgba(13, 148, 136, 0.09)) 36px
+  );
+  color: var(--ink, #3a2f21);
+  font-family: var(--font-ui, 'Baloo Bhaijaan 2', system-ui, sans-serif);
+  min-height: 100vh;
+}
+
+/* Red Notebook Margin Line Utility */
+.notebook-margin-line {
+  position: relative;
+}
+
+.notebook-margin-line::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50px;
+  width: 2px;
+  background: var(--red-margin, rgba(220, 38, 38, 0.18));
+  pointer-events: none;
+}
+
+/* Notebook Hand-drawn Hard Shadow Card Utility */
+.notebook-card {
+  background-color: var(--paper-card, #fffdf6);
+  border: 2px solid var(--ink, #3a2f21);
+  box-shadow: 3px 3px 0px var(--ink, #3a2f21);
+  border-radius: 18px;
+}
+
+/* Highlight utilities */
+.hl-yellow {
+  background: linear-gradient(transparent 55%, var(--yellow, #ffd66e) 55%, var(--yellow, #ffd66e) 92%, transparent 92%);
+  padding: 0 6px;
+}
+
+.hl-teal {
+  background: linear-gradient(transparent 55%, var(--teal-soft, #c9f2e8) 55%, var(--teal-soft, #c9f2e8) 92%, transparent 92%);
+  padding: 0 6px;
 }
