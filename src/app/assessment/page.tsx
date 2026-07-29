@@ -16,6 +16,7 @@ import { QUESTIONS, RIASEC_CATEGORIES } from '@/data/questions';
 import { calculateScores, generateHollandCode, getMajorRecommendations } from '@/lib/scoring';
 import { AssessmentResult, RiasecType } from '@/types';
 import { useLanguage } from '@/context/LanguageContext';
+import UpgradeModal from '@/components/UpgradeModal';
 
 const LIKERT_OPTIONS = [
   {
@@ -56,6 +57,7 @@ export default function AssessmentPage() {
   const isArabic = language === 'ar';
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [showUpgradeModal, setShowUpgradeModal] = useState<boolean>(false);
 
   // Lazy state initialization from localStorage
   const [answers, setAnswers] = useState<Record<number, number>>(() => {
@@ -70,6 +72,19 @@ export default function AssessmentPage() {
       }
     }
     return {};
+  });
+
+  const [isPaid] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        if (localStorage.getItem('bausalty_is_paid') === 'true') return true;
+        const savedSession = localStorage.getItem('bausalty_user_session');
+        if (savedSession && JSON.parse(savedSession).plan === 'PAID') return true;
+      } catch {
+        // Ignore read error
+      }
+    }
+    return false;
   });
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -93,6 +108,14 @@ export default function AssessmentPage() {
       // Ignore write error
     }
 
+    // Free Tier Paywall Check: Question 12 max (index 11)
+    if (!isPaid && currentIndex === 11) {
+      setTimeout(() => {
+        setShowUpgradeModal(true);
+      }, 200);
+      return;
+    }
+
     // Auto advance after 250ms delay for smooth UX if not on last question
     if (currentIndex < totalQuestions - 1) {
       setTimeout(() => {
@@ -102,6 +125,12 @@ export default function AssessmentPage() {
   };
 
   const handleNext = () => {
+    // Free Tier Paywall Check
+    if (!isPaid && currentIndex === 11) {
+      setShowUpgradeModal(true);
+      return;
+    }
+
     if (currentIndex < totalQuestions - 1) {
       setCurrentIndex((prev) => prev + 1);
     }
@@ -126,6 +155,11 @@ export default function AssessmentPage() {
   };
 
   const handleSubmit = () => {
+    if (!isPaid && answeredCount < totalQuestions) {
+      setShowUpgradeModal(true);
+      return;
+    }
+
     if (answeredCount < totalQuestions) {
       const missingCount = totalQuestions - answeredCount;
       if (
@@ -166,8 +200,15 @@ export default function AssessmentPage() {
   };
 
   return (
-    <div className="flex-1 flex flex-col bg-paper min-h-screen">
+    <div className="flex-1 flex flex-col bg-paper min-h-screen relative">
       
+      {/* --- PAYWALL UPGRADE MODAL --- */}
+      <UpgradeModal
+        isOpen={showUpgradeModal}
+        onClose={() => setShowUpgradeModal(false)}
+        questionsCompleted={12}
+      />
+
       {/* --- STICKY PROGRESS BAR --- */}
       <div className="sticky top-20 z-40 bg-[#fffdf6] border-b-2 border-ink shadow-notebook-xs">
         <div className="max-w-4xl mx-auto px-4 py-3 sm:px-6">
