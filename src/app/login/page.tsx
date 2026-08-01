@@ -30,6 +30,8 @@ export default function LoginPage() {
 
     try {
       localStorage.setItem('bausalty_user_session', JSON.stringify(userProfile));
+      // Notify other components of authentication state change
+      window.dispatchEvent(new Event('storage'));
     } catch {
       // Ignore write error
     }
@@ -53,6 +55,8 @@ export default function LoginPage() {
 
     try {
       localStorage.setItem('bausalty_user_session', JSON.stringify(userProfile));
+      // Notify other components of authentication state change
+      window.dispatchEvent(new Event('storage'));
     } catch {
       // Ignore write error
     }
