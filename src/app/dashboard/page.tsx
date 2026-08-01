@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -13,6 +13,7 @@ import {
   BookOpen,
   Zap,
   LogOut,
+  Lock,
 } from 'lucide-react';
 import { AssessmentResult } from '@/types';
 import { RIASEC_CATEGORIES } from '@/data/questions';
@@ -32,44 +33,40 @@ export default function StudentDashboardPage() {
   const { language } = useLanguage();
   const isArabic = language === 'ar';
 
-  // Lazy state initialization from localStorage
-  const [student, setStudent] = useState<StudentProfile | null>(() => {
-    if (typeof window !== 'undefined') {
+  const [student, setStudent] = useState<StudentProfile | null>(null);
+  const [result, setResult] = useState<AssessmentResult | null>(null);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
       try {
         const savedSession = localStorage.getItem('bausalty_user_session');
-        if (savedSession) {
-          return JSON.parse(savedSession);
+        if (!savedSession) {
+          // Redirect unauthenticated user to login
+          router.push('/login?callbackUrl=/dashboard');
+          return;
         }
-      } catch {
-        // Ignore read error
-      }
-    }
-    return {
-      id: 'student-demo-101',
-      name: isArabic ? 'فهد السعدي' : 'Fahad Al-Saudi',
-      email: 'fahad.saudi@kaust.edu.sa',
-      plan: 'FREE',
-      image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
-    };
-  });
 
-  const [result] = useState<AssessmentResult | null>(() => {
-    if (typeof window !== 'undefined') {
-      try {
+        setStudent(JSON.parse(savedSession));
+
         const savedResult = localStorage.getItem('bausalty_assessment_result');
         if (savedResult) {
-          return JSON.parse(savedResult);
+          setResult(JSON.parse(savedResult));
         }
       } catch {
-        // Ignore read error
+        // Ignore
+      } finally {
+        setIsLoaded(true);
       }
-    }
-    return null;
-  });
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [router]);
 
   const handleSignOut = () => {
     try {
       localStorage.removeItem('bausalty_user_session');
+      // Trigger storage event so Header updates its state instantly
+      window.dispatchEvent(new Event('storage'));
     } catch {
       // Ignore
     }
@@ -88,6 +85,17 @@ export default function StudentDashboardPage() {
     alert(isArabic ? 'تم ترقية حسابك بنجاح إلى الفئة الممتازة!' : 'Your account has been upgraded to Premium!');
   };
 
+  if (!isLoaded || !student) {
+    return (
+      <div className="flex-1 bg-paper flex items-center justify-center p-12">
+        <div className="text-center space-y-4">
+          <Lock className="w-10 h-10 text-teal mx-auto animate-bounce" />
+          <p className="text-ink font-bold font-display">{isArabic ? 'جاري تحميل لوحة التحكم...' : 'Loading Student Dashboard...'}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex-1 bg-paper py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto space-y-8 sm:space-y-10">
@@ -99,7 +107,7 @@ export default function StudentDashboardPage() {
             {/* Student Avatar */}
             <div className="relative shrink-0">
               <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-2 border-ink overflow-hidden shadow-notebook-xs relative bg-paper-inset">
-                {student?.image ? (
+                {student.image ? (
                   <Image
                     src={student.image}
                     alt={student.name || 'Student Avatar'}
@@ -109,7 +117,7 @@ export default function StudentDashboardPage() {
                   />
                 ) : (
                   <div className="w-full h-full bg-teal text-white flex items-center justify-center font-display font-black text-2xl">
-                    {student?.name?.[0] || 'S'}
+                    {student.name?.[0] || 'S'}
                   </div>
                 )}
               </div>
@@ -119,14 +127,14 @@ export default function StudentDashboardPage() {
             </div>
 
             {/* Name, Email, Account Badge */}
-            <div className="space-y-1.5">
+            <div className="space-y-1.5 text-left">
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
                 <h1 className="text-2xl sm:text-3xl font-display font-black text-ink">
-                  {student?.name || 'Student'}
+                  {student.name}
                 </h1>
 
                 {/* Account Status Badge */}
-                {student?.plan === 'PAID' ? (
+                {student.plan === 'PAID' ? (
                   <span className="inline-flex items-center gap-1 bg-yellow text-ink border border-ink px-3 py-0.5 rounded-full text-xs font-black shadow-2xs">
                     <Crown className="w-3.5 h-3.5 text-purple" />
                     <span>Premium Student</span>
@@ -140,7 +148,7 @@ export default function StudentDashboardPage() {
               </div>
 
               <p className="text-xs sm:text-sm text-ink-soft font-bold font-mono">
-                {student?.email || 'student@kaust.edu.sa'}
+                {student.email}
               </p>
 
               <p className="text-xs text-muted font-prose">
@@ -154,7 +162,7 @@ export default function StudentDashboardPage() {
 
           {/* Action CTAs */}
           <div className="flex flex-wrap items-center justify-center gap-3 shrink-0 w-full md:w-auto">
-            {student?.plan === 'FREE' && (
+            {student.plan === 'FREE' && (
               <button
                 onClick={handleUpgradePlan}
                 className="h-12 min-h-[48px] px-5 rounded-2xl bg-yellow hover:bg-amber-300 text-ink border-2 border-ink font-display font-black text-xs sm:text-sm shadow-notebook-xs flex items-center gap-2 hover:scale-102 transition-all"
@@ -175,7 +183,7 @@ export default function StudentDashboardPage() {
         </div>
 
         {/* --- FREE TIER UPGRADE CTA BANNER --- */}
-        {student?.plan === 'FREE' && (
+        {student.plan === 'FREE' && (
           <div className="bg-yellow rounded-3xl p-6 sm:p-8 text-ink border-2 border-ink shadow-notebook-md flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="space-y-2 text-center md:text-left">
               <div className="inline-flex items-center gap-2 bg-paper-card px-3 py-1 rounded-full border border-ink text-xs font-extrabold shadow-2xs">
@@ -233,7 +241,7 @@ export default function StudentDashboardPage() {
               ) : (
                 <div className="py-2">
                   <p className="text-xs text-muted font-bold">No saved Holland test result yet.</p>
-                  <Link href="/assessment" className="text-xs font-extrabold text-teal hover:underline mt-1 inline-block">
+                  <Link href="/assessment/quiz" className="text-xs font-extrabold text-teal hover:underline mt-1 inline-block">
                     Take 42-item RIASEC Test →
                   </Link>
                 </div>
@@ -260,7 +268,7 @@ export default function StudentDashboardPage() {
             {/* Action Buttons */}
             <div className="pt-2 space-y-2">
               <Link
-                href="/assessment"
+                href="/assessment/quiz"
                 className="w-full h-11 min-h-[44px] inline-flex items-center justify-center gap-2 bg-paper hover:bg-paper-inset text-ink border-2 border-ink rounded-xl font-bold text-xs shadow-notebook-xs transition-all"
               >
                 <RotateCcw className="w-4 h-4 text-teal" />
@@ -305,7 +313,7 @@ export default function StudentDashboardPage() {
                   <Compass className="w-12 h-12 text-teal mx-auto animate-pulse" />
                   <p className="text-ink-soft text-sm font-bold">Please complete the test first to generate your personality card.</p>
                   <Link
-                    href="/assessment"
+                    href="/assessment/quiz"
                     className="inline-flex items-center gap-2 bg-teal text-white border-2 border-ink px-6 py-3 rounded-xl font-black text-sm shadow-notebook-xs"
                   >
                     <span>Start Test Now</span>
