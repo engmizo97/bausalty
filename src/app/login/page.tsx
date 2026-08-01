@@ -15,6 +15,18 @@ export default function LoginPage() {
   const [name, setName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  const getCallbackUrl = (): string => {
+    if (typeof window !== 'undefined') {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('callbackUrl') || '/dashboard';
+      } catch {
+        return '/dashboard';
+      }
+    }
+    return '/dashboard';
+  };
+
   const handleDemoSignIn = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -38,7 +50,7 @@ export default function LoginPage() {
 
     setTimeout(() => {
       setIsLoading(false);
-      router.push('/dashboard');
+      router.push(getCallbackUrl());
     }, 400);
   };
 
@@ -63,7 +75,7 @@ export default function LoginPage() {
 
     setTimeout(() => {
       setIsLoading(false);
-      router.push('/dashboard');
+      router.push(getCallbackUrl());
     }, 500);
   };
 
