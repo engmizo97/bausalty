@@ -13,17 +13,8 @@ export default function Header() {
 
   const isArabic = language === 'ar';
 
-  // Lazy state initialization from localStorage
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        return !!localStorage.getItem('bausalty_user_session');
-      } catch {
-        return false;
-      }
-    }
-    return false;
-  });
+  // Initialize with false to match server HTML exactly during hydration
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
     const checkAuth = () => {
@@ -35,9 +26,12 @@ export default function Header() {
       }
     };
 
+    // Run immediately on client mount
+    checkAuth();
+
     window.addEventListener('storage', checkAuth);
     return () => window.removeEventListener('storage', checkAuth);
-  }, []);
+  }, [pathname]);
 
   const navLinks = [
     { href: '/', labelEn: 'Home', labelAr: 'الرئيسية' },

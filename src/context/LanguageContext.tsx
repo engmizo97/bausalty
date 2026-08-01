@@ -10,32 +10,45 @@ interface LanguageContextType {
   dir: Direction;
   setLanguage: (lang: Language) => void;
   toggleLanguage: () => void;
+  mounted: boolean;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  // Lazy state initialization from localStorage
-  const [language, setLanguageState] = useState<Language>(() => {
-    if (typeof window !== 'undefined') {
+  // Start with a static default value to match SSR exactly
+  const [language, setLanguageState] = useState<Language>('ar');
+  const [mounted, setMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMounted(true);
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
       try {
         const savedLang = localStorage.getItem('bausalty_lang') as Language;
         if (savedLang === 'ar' || savedLang === 'en') {
-          return savedLang;
+          setLanguageState(savedLang);
         }
       } catch {
         // Ignore read error
       }
-    }
-    return 'ar'; // Default to Arabic
-  });
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
 
   const dir: Direction = language === 'ar' ? 'rtl' : 'ltr';
 
   useEffect(() => {
-    document.documentElement.dir = dir;
-    document.documentElement.lang = language;
-  }, [language, dir]);
+    if (mounted) {
+      document.documentElement.dir = dir;
+      document.documentElement.lang = language;
+    }
+  }, [language, dir, mounted]);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
@@ -51,7 +64,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <LanguageContext.Provider value={{ language, dir, setLanguage, toggleLanguage }}>
+    <LanguageContext.Provider value={{ language, dir, setLanguage, toggleLanguage, mounted }}>
       {children}
     </LanguageContext.Provider>
   );
