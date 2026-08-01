@@ -541,7 +541,7 @@ export default function PersonalityTestPage() {
                 <span>{isArabic ? 'السابق' : 'Previous'}</span>
               </button>
 
-              {answeredCount >= 12 && (
+              {answeredCount === totalQuestions && (
                 <button
                   onClick={handleForceFinish}
                   className="h-12 px-5 rounded-xl bg-yellow text-ink border-2 border-ink font-display font-black text-xs shadow-notebook-xs flex items-center gap-1.5"
