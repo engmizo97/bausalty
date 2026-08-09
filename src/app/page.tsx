@@ -105,8 +105,8 @@ export default function HomePage() {
   return (
     <div className="flex-1 flex flex-col bg-paper overflow-x-hidden">
       
-      {/* --- HERO BANNER SECTION (CLEAN & SPACIOUS 2-COLUMN LANDING LAYOUT) --- */}
-      <section className="relative pt-6 pb-12 md:pt-10 md:pb-16 bg-paper border-b border-dashed border-teal/20 overflow-hidden notebook-margin-line">
+      {/* --- HERO BANNER SECTION (FULL VIEWPORT OPEN NOTEBOOK LANDING LAYOUT) --- */}
+      <section className="relative min-h-[calc(100vh-64px)] flex flex-col justify-center py-8 md:py-12 bg-paper border-b border-dashed border-teal/20 overflow-hidden notebook-margin-line">
         
         {/* Decorative Purple Plus Doodle */}
         <div className="absolute top-6 left-8 md:left-16 text-purple/30 text-3xl font-display font-black pointer-events-none select-none">
