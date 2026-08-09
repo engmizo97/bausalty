@@ -40,21 +40,21 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-paper-card/95 backdrop-blur-md border-b-2 border-ink shadow-notebook-xs">
+    <header className="sticky top-0 z-50 bg-paper-card/95 backdrop-blur-md border-b-2 border-dashed border-teal/40 shadow-notebook-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16">
           
           {/* Logo & Tahseen AI Group Badge */}
-          <Link href="/" className="flex items-center gap-3 group shrink-0">
-            <div className="w-12 h-12 rounded-xl bg-teal text-white border-2 border-ink flex items-center justify-center shadow-notebook-xs group-hover:scale-105 transition-transform duration-200">
-              <Compass className="w-7 h-7 text-yellow" />
+          <Link href="/" className="flex items-center gap-2.5 group shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-teal text-white border-2 border-ink flex items-center justify-center shadow-notebook-xs group-hover:scale-105 transition-transform duration-200">
+              <Compass className="w-6 h-6 text-yellow" />
             </div>
             <div className="flex flex-col">
-              <span className="text-2xl font-display font-black tracking-tight text-ink">
+              <span className="text-xl font-display font-black tracking-tight text-ink">
                 بوصلتي
               </span>
-              <div className="flex items-center gap-1.5 text-xs font-semibold text-ink-soft">
-                <span className="inline-block w-2 h-2 rounded-full bg-teal" />
+              <div className="flex items-center gap-1.5 text-[11px] font-semibold text-ink-soft">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-teal" />
                 <span>مجموعة تحسين للذكاء الاصطناعي</span>
               </div>
             </div>
@@ -81,15 +81,15 @@ export default function Header() {
           </nav>
 
           {/* Action CTAs, Auth Button & Language Toggle */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-2.5">
             
             {/* PROMINENT LANGUAGE TOGGLE BUTTON */}
             <button
               onClick={toggleLanguage}
-              className="h-11 px-4 rounded-xl border-2 border-ink bg-paper-card text-ink font-bold text-sm shadow-notebook-xs hover:bg-yellow hover:scale-102 active:scale-98 transition-all flex items-center gap-2 min-w-[120px] justify-center"
+              className="h-10 px-3.5 rounded-xl border-2 border-ink bg-paper-card text-ink font-extrabold text-xs shadow-notebook-xs hover:bg-yellow hover:scale-102 active:scale-98 transition-all flex items-center gap-1.5 min-w-[105px] justify-center"
               aria-label="Language Toggle"
             >
-              <Languages className="w-4 h-4 text-teal" />
+              <Languages className="w-3.5 h-3.5 text-teal" />
               <span>{isArabic ? '🇬🇧 English' : '🇸🇦 العربية'}</span>
             </button>
 
@@ -97,26 +97,26 @@ export default function Header() {
             {isLoggedIn ? (
               <Link
                 href="/dashboard"
-                className="h-11 inline-flex items-center gap-2 bg-yellow hover:bg-amber-300 text-ink px-5 rounded-xl font-display font-black text-sm border-2 border-ink shadow-notebook-xs hover:scale-102 active:scale-98 transition-all"
+                className="h-10 inline-flex items-center gap-1.5 bg-yellow hover:bg-amber-300 text-ink px-4 rounded-xl font-display font-black text-xs sm:text-sm border-2 border-ink shadow-notebook-xs hover:scale-102 active:scale-98 transition-all"
               >
-                <User className="w-4 h-4 text-purple" />
+                <User className="w-3.5 h-3.5 text-purple" />
                 <span>{isArabic ? 'لوحة التحكم' : 'Dashboard'}</span>
               </Link>
             ) : (
               <Link
                 href="/login"
-                className="h-11 inline-flex items-center gap-2 bg-yellow hover:bg-amber-300 text-ink px-6 rounded-xl font-display font-black text-sm border-2 border-ink shadow-notebook-xs hover:scale-102 active:scale-98 transition-all"
+                className="h-10 inline-flex items-center gap-1.5 bg-yellow hover:bg-amber-300 text-ink px-5 rounded-xl font-display font-black text-xs sm:text-sm border-2 border-ink shadow-notebook-xs hover:scale-102 active:scale-98 transition-all"
               >
-                <User className="w-4 h-4 text-ink" />
+                <User className="w-3.5 h-3.5 text-ink" />
                 <span>{isArabic ? 'تسجيل الدخول' : 'Sign In'}</span>
               </Link>
             )}
 
             <Link
               href="/assessment"
-              className="h-11 inline-flex items-center gap-2 bg-paper hover:bg-paper-inset text-ink px-4 rounded-xl font-bold text-sm border-2 border-ink shadow-notebook-xs hover:scale-102 transition-all"
+              className="h-10 inline-flex items-center gap-1.5 bg-paper hover:bg-paper-inset text-ink px-3.5 rounded-xl font-extrabold text-xs sm:text-sm border-2 border-ink shadow-notebook-xs hover:scale-102 transition-all"
             >
-              <Sparkles className="w-4 h-4 text-teal" />
+              <Sparkles className="w-3.5 h-3.5 text-teal" />
               <span>{isArabic ? 'الاختبارات' : 'Quizzes'}</span>
             </Link>
 
