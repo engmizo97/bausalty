@@ -5,7 +5,7 @@ a { text-decoration: none; }
 a:where(:not([class*="text-"])) { color: var(--teal); }
 a:where(:not([class*="text-"])):hover { color: var(--teal-deep); }
 h1, h2, h3 { font-family: var(--font-display); font-weight: 700; color: var(--ink); }
-.notebook-bg { background-image: repeating-linear-gradient(transparent 0px, transparent 35px, var(--rule-line) 36px); }
+.notebook-bg { background-image: repeating-linear-gradient(to bottom, transparent 0px, transparent 35px, var(--rule-line) 35px, var(--rule-line) 37px); }
 .margin-line { position: relative; }
 .margin-line::before { content: ""; position: absolute; top: 0; bottom: 0; right: 60px; width: 2px; background: var(--red-margin); pointer-events: none; }
 .hl-y { background: linear-gradient(transparent 55%, var(--yellow) 55%, var(--yellow) 92%, transparent 92%); padding: 0 8px; }

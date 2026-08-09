@@ -38,5 +38,5 @@
   --action-secondary:var(--yellow);
   --accent-ai:var(--purple);
   --border-ink:var(--ink);
-  --rule-line:rgba(34,197,94,.22); /* notebook ruled lines */
+  --rule-line:rgba(34,197,94,.35); /* notebook ruled lines */
 }
