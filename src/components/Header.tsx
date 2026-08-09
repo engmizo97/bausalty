@@ -40,7 +40,7 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-paper-card/95 backdrop-blur-md border-b-2 border-dashed border-teal/40 shadow-notebook-xs">
+    <header className="sticky top-0 z-50 bg-paper-card/95 backdrop-blur-md border-b border-dashed border-teal/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           
@@ -53,7 +53,7 @@ export default function Header() {
               <span className="text-xl font-display font-black tracking-tight text-ink">
                 بوصلتي
               </span>
-              <div className="flex items-center gap-1.5 text-[11px] font-semibold text-ink-soft">
+              <div className="flex items-center gap-1.5 text-[10px] font-semibold text-ink-soft">
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-teal" />
                 <span>مجموعة تحسين للذكاء الاصطناعي</span>
               </div>
@@ -68,10 +68,10 @@ export default function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-sm lg:text-base font-bold transition-all duration-150 py-1.5 px-3 rounded-xl ${
+                  className={`text-sm font-extrabold transition-all duration-150 py-1 px-3 rounded-lg ${
                     isActive
-                      ? 'bg-yellow text-ink border-2 border-ink shadow-notebook-xs'
-                      : 'text-ink-soft hover:text-ink hover:bg-paper-inset'
+                      ? 'bg-yellow text-ink border border-ink shadow-2xs'
+                      : 'text-ink-soft hover:text-ink'
                   }`}
                 >
                   <span>{isArabic ? link.labelAr : link.labelEn}</span>
@@ -86,7 +86,7 @@ export default function Header() {
             {/* PROMINENT LANGUAGE TOGGLE BUTTON */}
             <button
               onClick={toggleLanguage}
-              className="h-10 px-3.5 rounded-xl border-2 border-ink bg-paper-card text-ink font-extrabold text-xs shadow-notebook-xs hover:bg-yellow hover:scale-102 active:scale-98 transition-all flex items-center gap-1.5 min-w-[105px] justify-center"
+              className="h-9 px-3 rounded-xl border border-ink/40 bg-paper-card text-ink font-semibold text-xs hover:border-ink transition-all flex items-center gap-1.5 justify-center"
               aria-label="Language Toggle"
             >
               <Languages className="w-3.5 h-3.5 text-teal" />
@@ -97,7 +97,7 @@ export default function Header() {
             {isLoggedIn ? (
               <Link
                 href="/dashboard"
-                className="h-10 inline-flex items-center gap-1.5 bg-yellow hover:bg-amber-300 text-ink px-4 rounded-xl font-display font-black text-xs sm:text-sm border-2 border-ink shadow-notebook-xs hover:scale-102 active:scale-98 transition-all"
+                className="h-9 inline-flex items-center gap-1.5 bg-yellow hover:bg-amber-300 text-ink px-4 rounded-xl font-display font-black text-xs border-2 border-ink shadow-notebook-xs hover:scale-102 transition-all"
               >
                 <User className="w-3.5 h-3.5 text-purple" />
                 <span>{isArabic ? 'لوحة التحكم' : 'Dashboard'}</span>
@@ -105,7 +105,7 @@ export default function Header() {
             ) : (
               <Link
                 href="/login"
-                className="h-10 inline-flex items-center gap-1.5 bg-yellow hover:bg-amber-300 text-ink px-5 rounded-xl font-display font-black text-xs sm:text-sm border-2 border-ink shadow-notebook-xs hover:scale-102 active:scale-98 transition-all"
+                className="h-9 inline-flex items-center gap-1.5 bg-yellow hover:bg-amber-300 text-ink px-5 rounded-xl font-display font-black text-xs border-2 border-ink shadow-notebook-xs hover:scale-102 transition-all"
               >
                 <User className="w-3.5 h-3.5 text-ink" />
                 <span>{isArabic ? 'تسجيل الدخول' : 'Sign In'}</span>
@@ -114,7 +114,7 @@ export default function Header() {
 
             <Link
               href="/assessment"
-              className="h-10 inline-flex items-center gap-1.5 bg-paper hover:bg-paper-inset text-ink px-3.5 rounded-xl font-extrabold text-xs sm:text-sm border-2 border-ink shadow-notebook-xs hover:scale-102 transition-all"
+              className="h-9 inline-flex items-center gap-1.5 bg-paper hover:bg-paper-inset text-ink px-3.5 rounded-xl font-extrabold text-xs border border-ink shadow-2xs hover:scale-102 transition-all"
             >
               <Sparkles className="w-3.5 h-3.5 text-teal" />
               <span>{isArabic ? 'الاختبارات' : 'Quizzes'}</span>
@@ -126,17 +126,17 @@ export default function Header() {
           <div className="md:hidden flex items-center gap-2">
             <button
               onClick={toggleLanguage}
-              className="h-11 px-3 rounded-xl border-2 border-ink bg-paper-card text-ink font-bold text-xs shadow-notebook-xs flex items-center gap-1.5"
+              className="h-9 px-2.5 rounded-xl border border-ink/40 bg-paper-card text-ink font-bold text-xs flex items-center gap-1"
             >
               <span>{isArabic ? '🇬🇧 EN' : '🇸🇦 عربي'}</span>
             </button>
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="h-11 w-11 rounded-xl border-2 border-ink bg-paper-card text-ink flex items-center justify-center shadow-notebook-xs"
+              className="h-9 w-9 rounded-xl border border-ink bg-paper-card text-ink flex items-center justify-center shadow-2xs"
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
@@ -144,7 +144,7 @@ export default function Header() {
 
       {/* Mobile Dropdown Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t-2 border-ink bg-paper-card px-4 pt-4 pb-6 space-y-3 shadow-notebook-md">
+        <div className="md:hidden border-t border-dashed border-teal/30 bg-paper-card px-4 pt-3 pb-5 space-y-2.5 shadow-notebook-sm">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
@@ -152,10 +152,10 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block px-4 py-3 rounded-xl text-base font-bold border-2 ${
+                className={`block px-4 py-2.5 rounded-xl text-sm font-bold border ${
                   isActive
-                    ? 'bg-yellow text-ink border-ink shadow-notebook-xs'
-                    : 'bg-paper border-transparent text-ink-soft hover:border-ink'
+                    ? 'bg-yellow text-ink border-ink shadow-2xs'
+                    : 'bg-paper border-transparent text-ink-soft hover:border-ink/30'
                 }`}
               >
                 <span>{isArabic ? link.labelAr : link.labelEn}</span>
@@ -168,18 +168,18 @@ export default function Header() {
               <Link
                 href="/dashboard"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full h-12 inline-flex items-center justify-center gap-2 bg-yellow text-ink border-2 border-ink rounded-xl font-display font-black text-base shadow-notebook-sm"
+                className="w-full h-10 inline-flex items-center justify-center gap-2 bg-yellow text-ink border-2 border-ink rounded-xl font-display font-black text-sm shadow-notebook-xs"
               >
-                <User className="w-5 h-5 text-purple" />
+                <User className="w-4 h-4 text-purple" />
                 <span>{isArabic ? 'لوحة التحكم' : 'Dashboard'}</span>
               </Link>
             ) : (
               <Link
                 href="/login"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full h-12 inline-flex items-center justify-center gap-2 bg-teal text-white border-2 border-ink rounded-xl font-extrabold text-base shadow-notebook-sm"
+                className="w-full h-10 inline-flex items-center justify-center gap-2 bg-yellow text-ink border-2 border-ink rounded-xl font-display font-black text-sm shadow-notebook-xs"
               >
-                <User className="w-5 h-5 text-yellow" />
+                <User className="w-4 h-4 text-ink" />
                 <span>{isArabic ? 'تسجيل الدخول' : 'Sign In'}</span>
               </Link>
             )}
