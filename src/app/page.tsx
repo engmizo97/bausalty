@@ -145,7 +145,7 @@ export default function HomePage() {
               className="text-base sm:text-xl text-ink-soft font-prose leading-relaxed"
             >
               {isArabic
-                ? 'تعتمد بوصالتي على نموذج هولاند (RIASEC) النفسي المعتمد عالمياً والمكيف خصيصاً للطلاب في السعودية لمطابقة ميولك واهتماماتك مع التخصصات المستهدفة في رؤية السعودية 2030.'
+                ? 'تعتمد بوصلتي على نموذج هولاند (RIASEC) النفسي المعتمد عالمياً والمكيف خصيصاً للطلاب في السعودية لمطابقة ميولك واهتماماتك مع التخصصات المستهدفة في رؤية السعودية 2030.'
                 : 'Bausalty uses the psychometric Holland Code (RIASEC) framework adapted specifically for Saudi high school graduates to align your unique personality strengths with high-demand Saudi Vision 2030 university majors.'}
             </motion.p>
 
@@ -206,7 +206,7 @@ export default function HomePage() {
             </h2>
             <p className="text-ink-soft text-base sm:text-lg font-prose">
               {isArabic
-                ? 'يربط محرك بوصالتي نتائج كودك الشخصي مباشرة مع القطاعات الاستراتيجية الوطنية ضمن برنامج تنمية القدرات البشرية.'
+                ? 'يربط محرك بوصلتي نتائج كودك الشخصي مباشرة مع القطاعات الاستراتيجية الوطنية ضمن برنامج تنمية القدرات البشرية.'
                 : 'Bausalty maps your Holland Code profile directly to strategic national sectors developed under the Human Capability Development Program.'}
             </p>
           </div>

@@ -226,7 +226,7 @@ export default function ResultsPage() {
               {isArabic ? 'بطاقة شخصيتك القابلة للمشاركة' : 'Shareable Profile'}
             </span>
             <h2 className="text-3xl font-display font-black text-ink">
-              {isArabic ? 'بطاقة شخصية بوصالتي' : 'Your Bausalty Personality Card'}
+              {isArabic ? 'بطاقة شخصية بوصلتي' : 'Your Bausalty Personality Card'}
             </h2>
             <p className="text-ink-soft text-sm font-prose">
               {isArabic

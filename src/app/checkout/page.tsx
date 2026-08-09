@@ -68,7 +68,7 @@ export default function CheckoutPage() {
               <Compass className="w-7 h-7 text-yellow" />
             </div>
             <div className="text-right">
-              <span className="text-3xl font-display font-black text-ink block">بوصالتي</span>
+              <span className="text-3xl font-display font-black text-ink block">بوصلتي</span>
               <span className="text-xs font-bold text-teal block">مجموعة تحسين للذكاء الاصطناعي</span>
             </div>
           </Link>

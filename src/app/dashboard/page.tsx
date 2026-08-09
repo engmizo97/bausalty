@@ -153,7 +153,7 @@ export default function StudentDashboardPage() {
 
               <p className="text-xs text-muted font-prose">
                 {isArabic
-                  ? 'طالب مسجل في منصة بوصالتي لتقييم التخصصات ومسارات المستقبل'
+                  ? 'طالب مسجل في منصة بوصلتي لتقييم التخصصات ومسارات المستقبل'
                   : 'Registered student on Bausalty Major & Career Alignment Engine'}
               </p>
             </div>
@@ -292,7 +292,7 @@ export default function StudentDashboardPage() {
               <div className="flex items-center justify-between border-b-2 border-ink/10 pb-4">
                 <div>
                   <h2 className="text-xl font-display font-black text-ink">
-                    {isArabic ? 'بطاقة شخصية بوصالتي الرسمية' : 'Official Bausalty Personality Card'}
+                    {isArabic ? 'بطاقة شخصية بوصلتي الرسمية' : 'Official Bausalty Personality Card'}
                   </h2>
                   <p className="text-xs font-semibold text-muted">
                     {isArabic ? 'بطاقة التقرير المعتمدة لمشاركتها مع التوجيه الأكاديمي' : 'Official shareable profile card'}

@@ -51,7 +51,7 @@ export default function Header() {
             </div>
             <div className="flex flex-col">
               <span className="text-2xl font-display font-black tracking-tight text-ink">
-                بوصالتي
+                بوصلتي
               </span>
               <div className="flex items-center gap-1.5 text-xs font-semibold text-ink-soft">
                 <span className="inline-block w-2 h-2 rounded-full bg-teal" />
