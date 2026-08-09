@@ -447,7 +447,7 @@ export default function PersonalityTestPage() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.25 }}
-                className="bg-[#fffdf6] rounded-notebook p-6 sm:p-10 border-2 border-ink shadow-notebook-md space-y-8"
+                className="bg-paper-card rounded-notebook p-6 sm:p-10 border-2 border-ink shadow-notebook-md space-y-8"
               >
                 <div className="space-y-2">
                   <span className="text-xs font-black uppercase bg-yellow border border-ink px-3 py-1 rounded-full shadow-2xs inline-block">

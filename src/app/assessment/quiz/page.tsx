@@ -240,7 +240,7 @@ export default function RiasecQuizPage() {
       />
 
       {/* --- STICKY PROGRESS BAR --- */}
-      <div className="sticky top-20 z-40 bg-[#fffdf6] border-b-2 border-ink shadow-notebook-xs">
+      <div className="sticky top-20 z-40 bg-paper-card border-b-2 border-ink shadow-notebook-xs">
         <div className="max-w-4xl mx-auto px-4 py-3 sm:px-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs sm:text-sm font-bold text-ink gap-1 mb-2">
             
@@ -297,7 +297,7 @@ export default function RiasecQuizPage() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.25 }}
-            className="bg-[#fffdf6] rounded-notebook p-6 sm:p-10 border-2 border-ink shadow-notebook-md space-y-6 sm:space-y-8"
+            className="bg-paper-card rounded-notebook p-6 sm:p-10 border-2 border-ink shadow-notebook-md space-y-6 sm:space-y-8"
           >
             {/* Question Text (Single-Language Clean Display) */}
             <div className="space-y-3">

@@ -40,7 +40,7 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-[#fffdf6]/95 backdrop-blur-md border-b-2 border-ink shadow-notebook-xs">
+    <header className="sticky top-0 z-50 bg-paper-card/95 backdrop-blur-md border-b-2 border-ink shadow-notebook-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
@@ -144,7 +144,7 @@ export default function Header() {
 
       {/* Mobile Dropdown Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t-2 border-ink bg-[#fffdf6] px-4 pt-4 pb-6 space-y-3 shadow-notebook-md">
+        <div className="md:hidden border-t-2 border-ink bg-paper-card px-4 pt-4 pb-6 space-y-3 shadow-notebook-md">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (

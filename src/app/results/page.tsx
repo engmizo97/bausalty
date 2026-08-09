@@ -159,7 +159,7 @@ export default function ResultsPage() {
                   />
                   <Tooltip
                     formatter={(val) => [`${val}%`, 'Score']}
-                    contentStyle={{ borderRadius: '12px', border: '2px solid #3a2f21', backgroundColor: '#fffdf6', boxShadow: '3px 3px 0px #3a2f21' }}
+                    contentStyle={{ borderRadius: '12px', border: '2px solid #3a2f21', backgroundColor: '#ffffff', boxShadow: '3px 3px 0px #3a2f21' }}
                   />
                 </RadarChart>
               </ResponsiveContainer>
