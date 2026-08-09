@@ -50,20 +50,12 @@ export default function Header() {
               <Compass className="w-7 h-7 text-yellow" />
             </div>
             <div className="flex flex-col">
-              <div className="flex items-center gap-2">
-                <span className="text-2xl font-display font-black tracking-tight text-ink">
-                  Bausalty
-                </span>
-                <span className="text-xl font-display font-bold text-teal">
-                  بوصالتي
-                </span>
-              </div>
+              <span className="text-2xl font-display font-black tracking-tight text-ink">
+                بوصالتي
+              </span>
               <div className="flex items-center gap-1.5 text-xs font-semibold text-ink-soft">
                 <span className="inline-block w-2 h-2 rounded-full bg-teal" />
-                <span>Tahseen AI Group</span>
-                <span className="text-[10px] bg-teal-soft text-teal-deep px-1.5 py-0.5 rounded-full font-bold border border-teal">
-                  تحسين
-                </span>
+                <span>مجموعة تحسين للذكاء الاصطناعي</span>
               </div>
             </div>
           </Link>

@@ -21,8 +21,7 @@ export default function Footer() {
                 <Compass className="w-6 h-6 text-yellow" />
               </div>
               <div>
-                <span className="text-2xl font-display font-black text-ink">Bausalty</span>
-                <span className="text-xl font-display font-bold text-teal ml-2">بوصالتي</span>
+                <span className="text-2xl font-display font-black text-ink">بوصالتي</span>
               </div>
             </div>
 
