@@ -105,9 +105,9 @@ export default function Header() {
             ) : (
               <Link
                 href="/login"
-                className="h-11 inline-flex items-center gap-2 bg-teal hover:bg-teal-deep text-white px-5 rounded-xl font-extrabold text-sm border-2 border-ink shadow-notebook-xs hover:scale-102 active:scale-98 transition-all"
+                className="h-11 inline-flex items-center gap-2 bg-yellow hover:bg-amber-300 text-ink px-6 rounded-xl font-display font-black text-sm border-2 border-ink shadow-notebook-xs hover:scale-102 active:scale-98 transition-all"
               >
-                <User className="w-4 h-4 text-yellow" />
+                <User className="w-4 h-4 text-ink" />
                 <span>{isArabic ? 'تسجيل الدخول' : 'Sign In'}</span>
               </Link>
             )}

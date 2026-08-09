@@ -17,6 +17,9 @@ import {
   Award,
   Target,
   Users,
+  Check,
+  Brain,
+  Zap,
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -102,92 +105,188 @@ export default function HomePage() {
   return (
     <div className="flex-1 flex flex-col bg-paper overflow-x-hidden">
       
-      {/* --- HERO BANNER SECTION WITH NOTEBOOK AESTHETIC --- */}
-      <section className="relative pt-12 pb-16 md:pt-20 md:pb-24 bg-paper border-b-2 border-ink overflow-hidden notebook-margin-line">
+      {/* --- HERO BANNER SECTION (NOTEBOOK 2-COLUMN LANDING LAYOUT) --- */}
+      <section className="relative pt-8 pb-16 md:pt-14 md:pb-24 bg-paper border-b-2 border-ink overflow-hidden notebook-margin-line">
         
+        {/* Decorative Purple Plus Doodle */}
+        <div className="absolute top-10 left-10 md:left-20 text-purple/40 text-4xl font-display font-black pointer-events-none select-none">
+          +
+        </div>
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center max-w-3xl mx-auto space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             
-            {/* Tahseen AI Group Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 bg-yellow text-ink border-2 border-ink px-4 py-1.5 rounded-full text-xs sm:text-sm font-extrabold shadow-notebook-xs"
-            >
-              <Sparkles className="w-4 h-4 text-purple" />
-              <span>{isArabic ? 'مجموعة تحسين للذكاء الاصطناعي' : 'Tahseen AI Group'}</span>
-            </motion.div>
-
-            {/* Main Title */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-3xl sm:text-5xl md:text-6xl font-display font-black tracking-tight leading-tight text-ink"
-            >
-              {isArabic ? (
-                <>
-                  بوصلتك الذكية نحو <span className="hl-yellow">التخصص الجامعي الأنسب</span> في السعودية
-                </>
-              ) : (
-                <>
-                  Discover Your Ideal College Major in <span className="hl-yellow">Saudi Arabia</span>
-                </>
-              )}
-            </motion.h1>
-
-            {/* Value Proposition Description */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-base sm:text-xl text-ink-soft font-prose leading-relaxed"
-            >
-              {isArabic
-                ? 'تعتمد بوصلتي على نموذج هولاند (RIASEC) النفسي المعتمد عالمياً والمكيف خصيصاً للطلاب في السعودية لمطابقة ميولك واهتماماتك مع التخصصات المستهدفة في رؤية السعودية 2030.'
-                : 'Bausalty uses the psychometric Holland Code (RIASEC) framework adapted specifically for Saudi high school graduates to align your unique personality strengths with high-demand Saudi Vision 2030 university majors.'}
-            </motion.p>
-
-            {/* Action Buttons with 48px touch targets */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4"
-            >
-              <Link
-                href="/assessment"
-                className="w-full sm:w-auto h-14 min-h-[48px] inline-flex items-center justify-center gap-3 bg-teal hover:bg-teal-deep text-white px-8 rounded-2xl font-display font-black text-lg border-2 border-ink shadow-notebook-md hover:scale-102 active:scale-98 transition-all group"
+            {/* --- RIGHT COLUMN (TEXT, TITLE, CTAS, STATS) --- */}
+            <div className="lg:col-span-7 space-y-6 text-right">
+              
+              {/* Dashed Pill Badge */}
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="inline-flex items-center gap-2 bg-paper-card border-2 border-dashed border-teal px-4 py-1.5 rounded-full text-xs sm:text-sm font-extrabold text-teal shadow-2xs"
               >
-                <Compass className="w-6 h-6 text-yellow group-hover:rotate-45 transition-transform duration-300" />
-                <span>{isArabic ? 'ابدأ اختبار هولاند الآن' : 'Start Personality Test'}</span>
-                <ArrowRight className={`w-5 h-5 text-white ${isArabic ? 'rotate-180' : ''}`} />
-              </Link>
+                <Sparkles className="w-4 h-4 text-teal" />
+                <span>{isArabic ? 'نموذج هولاند النفسي (RIASEC) • رؤية السعودية 2030' : 'Holland RIASEC Framework • Saudi Vision 2030'}</span>
+              </motion.div>
 
-              <Link
-                href="/majors"
-                className="w-full sm:w-auto h-14 min-h-[48px] inline-flex items-center justify-center gap-2 bg-paper-card text-ink border-2 border-ink px-6 rounded-2xl font-bold text-base shadow-notebook-xs hover:bg-paper-inset transition-all"
+              {/* Giant Calligraphic Headline */}
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="text-4xl sm:text-6xl lg:text-7xl font-display font-black tracking-tight leading-[1.15] text-ink"
               >
-                <span>{isArabic ? 'مستكشف التخصصات السعودية' : 'Explore Saudi Majors'}</span>
-              </Link>
-            </motion.div>
+                {isArabic ? (
+                  <>
+                    لا تدرس عشوائياً <br />
+                    <span className="hl-yellow inline-block mt-1">اكتشف تخصصك الأنسب</span>
+                  </>
+                ) : (
+                  <>
+                    Don't Choose Randomly <br />
+                    <span className="hl-yellow inline-block mt-1">Find Your Ideal Major</span>
+                  </>
+                )}
+              </motion.h1>
 
-            {/* Trust Highlights */}
-            <div className="pt-6 grid grid-cols-3 gap-2 sm:gap-6 text-xs sm:text-sm font-bold text-ink border-t-2 border-ink/20 mt-8">
-              <div className="flex items-center justify-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-teal" />
-                <span>{isArabic ? '42 سؤالاً تقييمياً' : '42 Psychometric Items'}</span>
+              {/* Description Body */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-base sm:text-xl text-ink-soft font-prose leading-relaxed max-w-2xl"
+              >
+                {isArabic
+                  ? 'طريقك نحو التخصص الجامعي الأنسب يبدأ من هنا: حلل مهاراتك وميولك باختبار هولاند المعتمد (RIASEC)، وخلّ الذكاء الاصطناعي يطابقك مع التخصصات السعودية ورؤية 2030 — كأن معك موجه أكاديمي في دفترك.'
+                  : 'Your journey to the ideal university major starts here: assess your personality with the validated Holland Code (RIASEC), and let AI align your strengths with Saudi market demand.'}
+              </motion.p>
+
+              {/* CTAs Side by Side */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="pt-2 flex flex-col sm:flex-row items-center gap-4"
+              >
+                <Link
+                  href="/assessment"
+                  className="w-full sm:w-auto h-14 min-h-[48px] inline-flex items-center justify-center gap-3 bg-teal hover:bg-teal-deep text-white px-8 rounded-2xl font-display font-black text-lg border-2 border-ink shadow-notebook-md hover:scale-102 active:scale-98 transition-all group"
+                >
+                  <Compass className="w-6 h-6 text-yellow group-hover:rotate-45 transition-transform duration-300" />
+                  <span>{isArabic ? 'ابدأ اختبار هولاند مجاناً ←' : 'Start Assessment Free ←'}</span>
+                </Link>
+
+                <Link
+                  href="/majors"
+                  className="w-full sm:w-auto h-14 min-h-[48px] inline-flex items-center justify-center gap-2 text-ink font-bold text-base hover:text-teal transition-all underline decoration-dashed underline-offset-8 decoration-ink/40 hover:decoration-teal"
+                >
+                  <span>{isArabic ? 'شاهد التخصصات المتاحة' : 'Explore Available Majors'}</span>
+                </Link>
+              </motion.div>
+
+              {/* Stats Row */}
+              <div className="pt-6 grid grid-cols-2 sm:grid-cols-4 gap-4 border-t-2 border-dashed border-ink/20 mt-8">
+                <div>
+                  <div className="text-2xl sm:text-3xl font-display font-black text-ink">٤٢</div>
+                  <div className="text-xs font-bold text-ink-soft">{isArabic ? 'سؤالاً تقييمياً' : 'Assessment Items'}</div>
+                </div>
+                <div>
+                  <div className="text-2xl sm:text-3xl font-display font-black text-teal">٦</div>
+                  <div className="text-xs font-bold text-ink-soft">{isArabic ? 'مجالات RIASEC' : 'Holland Domains'}</div>
+                </div>
+                <div>
+                  <div className="text-2xl sm:text-3xl font-display font-black text-purple">+٥٠</div>
+                  <div className="text-xs font-bold text-ink-soft">{isArabic ? 'تخصصاً موصى به' : 'Saudi Majors'}</div>
+                </div>
+                <div>
+                  <div className="text-2xl sm:text-3xl font-display font-black text-ink">١٠٠٪</div>
+                  <div className="text-xs font-bold text-ink-soft">{isArabic ? 'مجاني ومتاح فوراً' : 'Free & Instant'}</div>
+                </div>
               </div>
-              <div className="flex items-center justify-center gap-1.5">
-                <Award className="w-4 h-4 text-purple" />
-                <span>{isArabic ? 'نموذج RIASEC المعتمد' : 'Holland RIASEC Engine'}</span>
-              </div>
-              <div className="flex items-center justify-center gap-1.5">
-                <Target className="w-4 h-4 text-orange" />
-                <span>{isArabic ? 'رؤية السعودية 2030' : 'Saudi Vision 2030 Tagged'}</span>
-              </div>
+
             </div>
+
+            {/* --- LEFT COLUMN (NOTEBOOK INTERACTIVE PREVIEW CARD & MASCOT) --- */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="lg:col-span-5 relative"
+            >
+              
+              {/* Mascot / Avatar Badge Floating on Top Left */}
+              <div className="absolute -top-10 -left-4 z-20 w-16 h-16 sm:w-20 sm:h-20 bg-yellow rounded-2xl border-2 border-ink shadow-notebook-xs flex items-center justify-center -rotate-6 hover:rotate-0 transition-transform">
+                <Brain className="w-9 h-9 text-ink" />
+              </div>
+
+              {/* Notebook Question Preview Card */}
+              <div className="bg-paper-card rounded-notebook p-6 sm:p-8 border-2 border-ink shadow-notebook-lg relative -rotate-1 hover:rotate-0 transition-transform duration-300 space-y-5">
+                
+                {/* Yellow Washi Tape Strip at top */}
+                <div className="absolute -top-3.5 right-1/3 w-32 h-7 bg-yellow/90 border border-ink/40 shadow-2xs rotate-2 flex items-center justify-center text-[10px] font-black text-ink uppercase tracking-wider">
+                  {isArabic ? 'معاينة الاختبار' : 'Quiz Preview'}
+                </div>
+
+                {/* Card Header & Timer */}
+                <div className="flex items-center justify-between border-b-2 border-dashed border-ink/20 pb-3 pt-2">
+                  <span className="text-xs font-extrabold text-ink-soft bg-paper border border-ink px-3 py-1 rounded-full shadow-2xs">
+                    {isArabic ? 'سؤال ١٢ من ٤٢ • أحياء' : 'Question 12 of 42'}
+                  </span>
+                  <span className="text-xs font-black text-teal flex items-center gap-1">
+                    <span>04:32</span>
+                    <span>⏱️</span>
+                  </span>
+                </div>
+
+                {/* Question Text */}
+                <div className="space-y-2">
+                  <h3 className="text-lg sm:text-xl font-display font-black text-ink leading-snug">
+                    {isArabic
+                      ? 'ما هي الأنشطة التي تجد نفسك أكثر شغفاً وإبداعاً عند ممارستها؟'
+                      : 'Which activities drive your creative passion and focus?'}
+                  </h3>
+                </div>
+
+                {/* Question Options */}
+                <div className="space-y-2.5">
+                  <div className="p-3.5 rounded-xl border-2 border-ink/30 bg-paper text-ink-soft text-xs sm:text-sm font-bold flex items-center justify-between hover:border-ink transition-colors">
+                    <span>{isArabic ? 'تحليل البيانات والبرمجة وحل المشكلات المعقدة' : 'Data analysis, programming & problem solving'}</span>
+                    <span className="w-5 h-5 rounded-full border-2 border-ink/30 shrink-0" />
+                  </div>
+
+                  <div className="p-3.5 rounded-xl border-2 border-ink bg-teal-soft text-ink text-xs sm:text-sm font-extrabold flex items-center justify-between shadow-2xs">
+                    <span className="text-teal-deep">{isArabic ? 'تصميم الواجهات، الفنون، وصناعة المحتوى التفاعلي' : 'UI/UX Design, creative arts & media'}</span>
+                    <span className="w-5 h-5 rounded-full bg-teal text-white flex items-center justify-center shrink-0 border border-ink">
+                      <Check className="w-3.5 h-3.5 stroke-[3]" />
+                    </span>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl border-2 border-ink/30 bg-paper text-ink-soft text-xs sm:text-sm font-bold flex items-center justify-between hover:border-ink transition-colors">
+                    <span>{isArabic ? 'إدارة المشاريع، القيادة، والريادة في الأعمال' : 'Project management, leadership & venture growth'}</span>
+                    <span className="w-5 h-5 rounded-full border-2 border-ink/30 shrink-0" />
+                  </div>
+                </div>
+
+                {/* AI Recommendation Box */}
+                <div className="p-3.5 rounded-xl border-2 border-dashed border-purple bg-purple-soft text-purple-deep text-xs font-extrabold flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-purple shrink-0" />
+                  <span>
+                    {isArabic
+                      ? 'الذكاء الاصطناعي يوصي بـ: الأمن السيبراني والذكاء الاصطناعي'
+                      : 'AI Recommendation: Cybersecurity & Artificial Intelligence'}
+                  </span>
+                </div>
+
+                {/* Taped Sticky Note Preview on Bottom Corner */}
+                <div className="absolute -bottom-5 -right-3 sm:-right-5 bg-yellow border-2 border-ink p-3 rounded-xl shadow-notebook-xs rotate-3 text-xs font-black text-ink flex items-center gap-1.5 z-20">
+                  <Zap className="w-4 h-4 text-orange fill-orange" />
+                  <span>{isArabic ? 'تذكير: كودك الثلاثي المتوقع I-A-E ⚡' : 'Expected Code: I-A-E ⚡'}</span>
+                </div>
+
+              </div>
+
+            </motion.div>
 
           </div>
         </div>
@@ -239,12 +338,15 @@ export default function HomePage() {
                     </p>
                   </div>
 
-                  <div className="pt-4 border-t-2 border-ink/10 mt-4 flex items-center justify-between text-xs font-bold">
-                    <span className="text-teal-deep bg-teal-soft px-2.5 py-1 rounded-full border border-teal font-extrabold">
+                  <div className="pt-6 border-t border-ink/10 flex items-center justify-between mt-6">
+                    <span className="text-xs font-black text-ink-soft bg-paper-card border border-ink px-2.5 py-0.5 rounded-full">
                       Vision 2030
                     </span>
-                    <Link href="/majors" className="text-ink hover:text-teal font-extrabold inline-flex items-center gap-1">
-                      <span>{isArabic ? 'استكشف التخصصات' : 'View Majors'}</span>
+                    <Link
+                      href="/majors"
+                      className="text-xs font-extrabold text-teal hover:text-teal-deep flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                    >
+                      <span>{isArabic ? 'استكشف التخصصات' : 'Explore Majors'}</span>
                       <ArrowRight className={`w-3.5 h-3.5 ${isArabic ? 'rotate-180' : ''}`} />
                     </Link>
                   </div>
@@ -256,68 +358,69 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* --- HOW IT WORKS / RIASEC PROCESS --- */}
-      <section className="py-16 md:py-20 bg-paper">
+      {/* --- HOW IT WORKS (3 SIMPLE STEPS) --- */}
+      <section className="py-16 md:py-20 bg-paper border-b-2 border-ink">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
-            <span className="text-xs sm:text-sm font-black uppercase tracking-widest text-ink bg-teal-soft border-2 border-ink px-3 py-1 rounded-full shadow-notebook-xs">
-              {isArabic ? 'طريقة عمل المحرك' : 'The Bausalty Engine'}
+          <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
+            <span className="text-xs sm:text-sm font-black uppercase tracking-widest text-teal bg-teal-soft border-2 border-ink px-3 py-1 rounded-full shadow-notebook-xs">
+              {isArabic ? 'طريقة عمل المحرك' : 'Simple 3-Step Process'}
             </span>
             <h2 className="text-3xl sm:text-4xl font-display font-black text-ink tracking-tight">
-              {isArabic ? '3 خطوات بسيطة لاكتشاف تخصصك المستقبلي' : '3 Simple Steps to Your Career Blueprint'}
+              {isArabic ? '3 خطوات بسيطة لاكتشاف تخصصك المستقبلي' : 'Discover Your Future Major in 3 Simple Steps'}
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
             {steps.map((item, idx) => (
               <motion.div
                 key={item.step}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.15 }}
-                className="bg-paper-card rounded-notebook p-8 border-2 border-ink shadow-notebook-sm relative space-y-4"
+                transition={{ duration: 0.5, delay: idx * 0.12 }}
+                className="bg-paper-card border-2 border-ink rounded-notebook p-8 shadow-notebook-md relative flex flex-col justify-between space-y-6"
               >
-                <div className="w-12 h-12 rounded-xl bg-teal text-white border-2 border-ink flex items-center justify-center text-xl font-display font-black shadow-notebook-xs">
-                  {item.step}
-                </div>
+                <div className="space-y-4">
+                  <div className="w-12 h-12 rounded-2xl bg-yellow text-ink border-2 border-ink flex items-center justify-center font-display font-black text-xl shadow-notebook-xs">
+                    {item.step}
+                  </div>
 
-                <div className="space-y-1">
-                  <h3 className="text-lg font-display font-bold text-ink">
+                  <h3 className="text-2xl font-display font-black text-ink">
                     {isArabic ? item.titleAr : item.titleEn}
                   </h3>
-                </div>
 
-                <p className="text-ink-soft text-sm font-prose leading-relaxed">
-                  {isArabic ? item.descAr : item.descEn}
-                </p>
+                  <p className="text-ink-soft text-sm sm:text-base font-prose leading-relaxed">
+                    {isArabic ? item.descAr : item.descEn}
+                  </p>
+                </div>
               </motion.div>
             ))}
           </div>
 
-          {/* Quick CTA Card with notebook styling */}
-          <div className="mt-16 bg-yellow rounded-3xl p-8 sm:p-12 border-2 border-ink shadow-notebook-lg flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="space-y-2 text-center md:text-left">
-              <h3 className="text-2xl sm:text-3xl font-display font-black text-ink">
-                {isArabic ? 'جاهز لاكتشاف تخصصك الجامعي الأنسب؟' : 'Ready to Find Your Major?'}
-              </h3>
-              <p className="text-ink-soft text-base font-prose max-w-xl">
-                {isArabic
-                  ? 'يستغرق الاختبار من 5 إلى 7 دقائق فقط. أجب على الأسئلة واحصل فوراً على بطاقة شخصيتك الهولندية!'
-                  : 'Takes only 5 to 7 minutes. Complete the assessment and download your personalized Bausalty Personality Card!'}
-              </p>
-            </div>
+        </div>
+      </section>
 
+      {/* --- BOTTOM CALL TO ACTION BANNER --- */}
+      <section className="py-16 bg-yellow border-b-2 border-ink">
+        <div className="max-w-5xl mx-auto px-4 text-center space-y-6">
+          <h2 className="text-3xl sm:text-5xl font-display font-black text-ink">
+            {isArabic ? 'جاهز لاكتشاف تخصصك الجامعي الأنسب؟' : 'Ready to Discover Your Ideal Saudi College Major?'}
+          </h2>
+          <p className="text-ink font-prose text-lg sm:text-xl max-w-2xl mx-auto font-medium">
+            {isArabic
+              ? 'انضم الآن لآلاف الطلاب وابدأ اختبار هولاند (RIASEC) مجاناً واحصل على توصيات دقيقة فوراً.'
+              : 'Join thousands of Saudi high school graduates and get your personalized major report now.'}
+          </p>
+          <div className="pt-2">
             <Link
               href="/assessment"
-              className="h-14 min-h-[48px] bg-teal hover:bg-teal-deep text-white border-2 border-ink px-8 rounded-2xl font-display font-black text-lg shadow-notebook-sm hover:scale-105 transition-all shrink-0 inline-flex items-center justify-center gap-2"
+              className="h-14 inline-flex items-center justify-center gap-3 bg-teal hover:bg-teal-deep text-white px-10 rounded-2xl font-display font-black text-lg border-2 border-ink shadow-notebook-md hover:scale-105 active:scale-98 transition-all"
             >
-              <Users className="w-5 h-5 text-yellow" />
-              <span>{isArabic ? 'ابدأ الاختبار الآن' : 'Start Test Now'}</span>
+              <Compass className="w-6 h-6 text-yellow" />
+              <span>{isArabic ? 'ابدأ الاختبار الآن' : 'Start Free Assessment'}</span>
             </Link>
           </div>
-
         </div>
       </section>
 
