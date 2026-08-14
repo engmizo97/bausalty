@@ -6,9 +6,9 @@
 @import "../styles/notebook/styles.css";
 
 @theme {
-  --color-paper: #fbf6ea;
-  --color-paper-card: #fffdf6;
-  --color-paper-inset: #f3ead9;
+  --color-paper: #faf9f5;
+  --color-paper-card: #ffffff;
+  --color-paper-inset: #f2efe8;
   
   --color-ink: #3a2f21;
   --color-ink-soft: #5c4f3a;
@@ -37,9 +37,9 @@
 }
 
 :root {
-  --paper: #fbf6ea;
-  --paper-card: #fffdf6;
-  --paper-inset: #f3ead9;
+  --paper: #faf9f5;
+  --paper-card: #ffffff;
+  --paper-inset: #f2efe8;
   --white: #ffffff;
 
   --ink: #3a2f21;
@@ -51,10 +51,10 @@
   --teal-soft: #c9f2e8;
   --yellow: #ffd66e;
   --purple: #7c3aed;
-  --rule-line: rgba(13, 148, 136, 0.09);
+  --rule-line: rgba(34, 197, 94, 0.10);
   --red-margin: rgba(220, 38, 38, 0.18);
 
-  --background: #fbf6ea;
+  --background: #faf9f5;
   --foreground: #3a2f21;
 }
 
@@ -71,15 +71,25 @@ a[class*="text-ink"],
 
 /* Notebook Canvas Background & Ruled Lines */
 body {
-  background-color: var(--paper, #fbf6ea);
+  background-color: var(--paper, #faf9f5);
   background-image: repeating-linear-gradient(
     transparent 0px,
     transparent 35px,
-    var(--rule-line, rgba(13, 148, 136, 0.09)) 36px
+    var(--rule-line, rgba(34, 197, 94, 0.10)) 36px
   );
   color: var(--ink, #3a2f21);
   font-family: var(--font-ui, 'Baloo Bhaijaan 2', system-ui, sans-serif);
   min-height: 100vh;
+}
+
+.bg-paper,
+.notebook-bg {
+  background-color: var(--paper, #faf9f5);
+  background-image: repeating-linear-gradient(
+    transparent 0px,
+    transparent 35px,
+    var(--rule-line, rgba(34, 197, 94, 0.10)) 36px
+  );
 }
 
 /* Red Notebook Margin Line Utility */
@@ -92,7 +102,7 @@ body {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 50px;
+  right: 48px;
   width: 2px;
   background: var(--red-margin, rgba(220, 38, 38, 0.18));
   pointer-events: none;
@@ -100,7 +110,7 @@ body {
 
 /* Notebook Hand-drawn Hard Shadow Card Utility */
 .notebook-card {
-  background-color: var(--paper-card, #fffdf6);
+  background-color: var(--paper-card, #ffffff);
   border: 2px solid var(--ink, #3a2f21);
   box-shadow: 3px 3px 0px var(--ink, #3a2f21);
   border-radius: 18px;

@@ -159,7 +159,7 @@ export default function ResultsPage() {
                   />
                   <Tooltip
                     formatter={(val) => [`${val}%`, 'Score']}
-                    contentStyle={{ borderRadius: '12px', border: '2px solid #3a2f21', backgroundColor: '#fffdf6', boxShadow: '3px 3px 0px #3a2f21' }}
+                    contentStyle={{ borderRadius: '12px', border: '2px solid #3a2f21', backgroundColor: '#ffffff', boxShadow: '3px 3px 0px #3a2f21' }}
                   />
                 </RadarChart>
               </ResponsiveContainer>
@@ -226,7 +226,7 @@ export default function ResultsPage() {
               {isArabic ? 'بطاقة شخصيتك القابلة للمشاركة' : 'Shareable Profile'}
             </span>
             <h2 className="text-3xl font-display font-black text-ink">
-              {isArabic ? 'بطاقة شخصية بوصالتي' : 'Your Bausalty Personality Card'}
+              {isArabic ? 'بطاقة شخصية بوصلتي' : 'Your Bausalty Personality Card'}
             </h2>
             <p className="text-ink-soft text-sm font-prose">
               {isArabic

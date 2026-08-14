@@ -1,4 +1,4 @@
-# Bausalty (بوصالتي)
+# Bausalty (بوصلتي)
 
 > **Holland Code (RIASEC) Personality-to-College-Major Alignment Engine for Saudi Students**  
 > *A project under Tahseen AI Group (مجموعة تحسين للذكاء الاصطناعي)*

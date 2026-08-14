@@ -5,12 +5,12 @@ import Footer from "@/components/Footer";
 import ClientProviders from "@/components/ClientProviders";
 
 export const metadata: Metadata = {
-  title: "Bausalty (بوصالتي) | RIASEC College Major Alignment for Saudi Students",
+  title: "Bausalty (بوصلتي) | RIASEC College Major Alignment for Saudi Students",
   description:
     "Holland Code (RIASEC) personality-to-college-major recommendation engine for Saudi students. Discover top academic majors aligned with Saudi Vision 2030. Part of Tahseen AI Group.",
   keywords: [
     "Bausalty",
-    "بوصالتي",
+    "بوصلتي",
     "RIASEC",
     "Holland Code",
     "Saudi College Majors",

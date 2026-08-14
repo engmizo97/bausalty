@@ -21,14 +21,13 @@ export default function Footer() {
                 <Compass className="w-6 h-6 text-yellow" />
               </div>
               <div>
-                <span className="text-2xl font-display font-black text-ink">Bausalty</span>
-                <span className="text-xl font-display font-bold text-teal ml-2">بوصالتي</span>
+                <span className="text-2xl font-display font-black text-ink">بوصلتي</span>
               </div>
             </div>
 
             <p className="text-ink-soft text-sm sm:text-base leading-relaxed max-w-md font-prose">
               {isArabic
-                ? 'بوصالتي هي محرك ذكاء اصطناعي لمطابقة الشخصية والأكواد الهولندية (RIASEC) مع التخصصات الجامعية للطلاب في المملكة العربية السعودية بما يتوافق مع رؤية السعودية 2030.'
+                ? 'بوصلتي هي محرك ذكاء اصطناعي لمطابقة الشخصية والأكواد الهولندية (RIASEC) مع التخصصات الجامعية للطلاب في المملكة العربية السعودية بما يتوافق مع رؤية السعودية 2030.'
                 : 'Bausalty is an AI-powered Holland Code (RIASEC) personality-to-college-major alignment engine built for Saudi high school and university students, empowering decisions aligned with Saudi Vision 2030.'}
             </p>
 
@@ -83,7 +82,7 @@ export default function Footer() {
 
         {/* Bottom Copyright */}
         <div className="pt-6 border-t-2 border-ink flex flex-col sm:flex-row items-center justify-between text-xs text-ink-soft gap-4">
-          <p>© {new Date().getFullYear()} Bausalty (بوصالتي). All rights reserved. Tahseen AI Group.</p>
+          <p>© {new Date().getFullYear()} Bausalty (بوصلتي). All rights reserved. Tahseen AI Group.</p>
           <div className="flex items-center gap-1 font-bold">
             <span>Engineered with passion for Saudi Youth</span>
             <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />

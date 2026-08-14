@@ -38,7 +38,7 @@ export default function UpgradeModal({
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          className="bg-[#fffdf6] rounded-3xl border-2 border-ink shadow-notebook-lg max-w-lg w-full p-6 sm:p-8 relative space-y-6 overflow-hidden"
+          className="bg-paper-card rounded-3xl border-2 border-ink shadow-notebook-lg max-w-lg w-full p-6 sm:p-8 relative space-y-6 overflow-hidden"
         >
           {/* Close Button if dismissible */}
           {onClose && (

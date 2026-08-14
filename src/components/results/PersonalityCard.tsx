@@ -81,7 +81,7 @@ export default function PersonalityCard({ result }: PersonalityCardProps) {
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-xl font-black text-white tracking-tight">Bausalty</span>
-                <span className="text-lg font-bold text-sky-200">بوصالتي</span>
+                <span className="text-lg font-bold text-sky-200">بوصلتي</span>
               </div>
               <p className="text-[11px] font-semibold text-sky-200">
                 Tahseen AI Group | مجموعة تحسين
