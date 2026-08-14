@@ -75,7 +75,7 @@ body {
   background-image: repeating-linear-gradient(
     transparent 0px,
     transparent 35px,
-    var(--rule-line, rgba(34, 197, 94, 0.10)) 36px
+    var(--rule-line, rgba(34, 197, 94, 0.05)) 36px
   );
   color: var(--ink, #3a2f21);
   font-family: var(--font-ui, 'Baloo Bhaijaan 2', system-ui, sans-serif);
@@ -88,24 +88,26 @@ body {
   background-image: repeating-linear-gradient(
     transparent 0px,
     transparent 35px,
-    var(--rule-line, rgba(34, 197, 94, 0.10)) 36px
+    var(--rule-line, rgba(34, 197, 94, 0.05)) 36px
   );
 }
 
-/* Red Notebook Margin Line Utility */
+/* Red Notebook Margin Line Utility - only on desktop to prevent mobile layout pollution */
 .notebook-margin-line {
   position: relative;
 }
 
-.notebook-margin-line::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 48px;
-  width: 2px;
-  background: var(--red-margin, rgba(220, 38, 38, 0.18));
-  pointer-events: none;
+@media (min-width: 1024px) {
+  .notebook-margin-line::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 48px;
+    width: 2px;
+    background: var(--red-margin, rgba(220, 38, 38, 0.15));
+    pointer-events: none;
+  }
 }
 
 /* Notebook Hand-drawn Hard Shadow Card Utility */
@@ -118,11 +120,13 @@ body {
 
 /* Highlight utilities */
 .hl-yellow {
-  background: linear-gradient(transparent 55%, var(--yellow, #ffd66e) 55%, var(--yellow, #ffd66e) 92%, transparent 92%);
-  padding: 0 6px;
+  background: linear-gradient(180deg, transparent 55%, rgba(255, 214, 110, 0.85) 55%, rgba(255, 214, 110, 0.85) 94%, transparent 94%);
+  padding: 0 4px;
+  border-radius: 4px;
 }
 
 .hl-teal {
-  background: linear-gradient(transparent 55%, var(--teal-soft, #c9f2e8) 55%, var(--teal-soft, #c9f2e8) 92%, transparent 92%);
-  padding: 0 6px;
+  background: linear-gradient(180deg, transparent 55%, rgba(201, 242, 232, 0.85) 55%, rgba(201, 242, 232, 0.85) 94%, transparent 94%);
+  padding: 0 4px;
+  border-radius: 4px;
 }

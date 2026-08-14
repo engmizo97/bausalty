@@ -105,39 +105,41 @@ export default function HomePage() {
     <div className="flex-1 flex flex-col bg-paper overflow-x-hidden">
       
       {/* --- HERO BANNER SECTION (FULL VIEWPORT NOTEBOOK LANDING LAYOUT) --- */}
-      <section className="relative min-h-[calc(100vh-64px)] flex flex-col justify-center py-8 md:py-12 bg-paper border-b border-dashed border-teal/20 overflow-hidden notebook-margin-line">
+      <section className="relative min-h-[calc(100vh-64px)] flex flex-col justify-center py-6 sm:py-10 md:py-14 bg-paper border-b border-dashed border-teal/20 overflow-hidden notebook-margin-line">
         
-        {/* Decorative Purple Plus Doodle */}
-        <div className="absolute top-8 left-8 md:left-16 text-purple/30 text-4xl font-display font-black pointer-events-none select-none">
+        {/* Decorative Purple Plus Doodle - hidden on mobile */}
+        <div className="hidden sm:block absolute top-8 left-8 md:left-16 text-purple/20 text-4xl font-display font-black pointer-events-none select-none">
           +
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-center">
             
             {/* --- RIGHT COLUMN (TEXT, TITLE, CTAS, STATS) --- */}
-            <div className="lg:col-span-7 space-y-5 text-right">
+            <div className="lg:col-span-7 space-y-4 sm:space-y-5 text-right flex flex-col items-start">
               
               {/* Dashed Pill Badge */}
               <div
-                className="inline-flex items-center gap-2 bg-paper-card border border-dashed border-teal px-4 py-1.5 rounded-full text-xs sm:text-sm font-extrabold text-teal shadow-2xs"
+                className="inline-flex items-center gap-2 bg-paper-card border border-dashed border-teal/70 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-extrabold text-teal shadow-2xs"
               >
-                <Sparkles className="w-4 h-4 text-teal" />
+                <Sparkles className="w-4 h-4 text-teal shrink-0" />
                 <span>{isArabic ? 'أحدث المعايير النفسية (RIASEC) • مدعوم بالذكاء الاصطناعي' : 'Holland RIASEC Framework • AI Powered'}</span>
               </div>
 
               {/* Calligraphic Headline */}
               <h1
-                className="text-4xl sm:text-6xl lg:text-7xl font-display font-black tracking-tight leading-[1.15] text-ink"
+                className="text-3xl sm:text-5xl lg:text-6xl font-display font-black tracking-tight leading-[1.2] text-ink"
               >
                 {isArabic ? (
                   <>
-                    لا تدرس عشوائياً <br />
+                    <span>لا تدرس عشوائياً</span>
+                    <br />
                     <span className="hl-yellow inline-block mt-1">اكتشف تخصصك الأنسب</span>
                   </>
                 ) : (
                   <>
-                    Don't Choose Randomly <br />
+                    <span>Don't Choose Randomly</span>
+                    <br />
                     <span className="hl-yellow inline-block mt-1">Find Your Ideal Major</span>
                   </>
                 )}
@@ -145,7 +147,7 @@ export default function HomePage() {
 
               {/* Description Body */}
               <p
-                className="text-sm sm:text-lg text-ink-soft font-prose leading-relaxed max-w-2xl"
+                className="text-xs sm:text-base text-ink-soft font-prose leading-relaxed max-w-2xl"
               >
                 {isArabic
                   ? 'طريقك نحو التخصص الجامعي الأنسب يبدأ من هنا: حلل مهاراتك وميولك باختبار هولاند المعتمد (RIASEC)، وخلّ الذكاء الاصطناعي يطابقك مع التخصصات السعودية ورؤية 2030 — كأن معك موجه أكاديمي في دفترك.'
@@ -154,41 +156,41 @@ export default function HomePage() {
 
               {/* CTAs Side by Side */}
               <div
-                className="pt-2 flex flex-col sm:flex-row items-center gap-4"
+                className="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto"
               >
                 <Link
                   href="/assessment"
-                  className="w-full sm:w-auto h-13 min-h-[48px] inline-flex items-center justify-center gap-3 bg-teal hover:bg-teal-deep text-white px-8 rounded-2xl font-display font-black text-base sm:text-lg border-2 border-ink shadow-notebook-md hover:scale-102 active:scale-98 transition-all group"
+                  className="h-12 min-h-[48px] inline-flex items-center justify-center gap-2.5 bg-teal hover:bg-teal-deep text-white px-6 sm:px-8 rounded-xl font-display font-black text-base border border-ink shadow-notebook-xs hover:scale-102 active:scale-98 transition-all group"
                 >
-                  <Compass className="w-5.5 h-5.5 text-yellow group-hover:rotate-45 transition-transform duration-300" />
+                  <Compass className="w-5 h-5 text-yellow group-hover:rotate-45 transition-transform duration-300" />
                   <span>{isArabic ? 'أنشئ تقريرك مجاناً ←' : 'Start Assessment Free ←'}</span>
                 </Link>
 
                 <Link
                   href="/majors"
-                  className="w-full sm:w-auto h-13 min-h-[48px] inline-flex items-center justify-center gap-2 text-ink font-extrabold text-sm sm:text-base hover:text-teal transition-all underline decoration-dashed underline-offset-8 decoration-ink/40 hover:decoration-teal"
+                  className="h-12 min-h-[48px] inline-flex items-center justify-center gap-2 bg-paper-card hover:bg-paper-inset text-ink border border-ink/40 hover:border-ink px-5 rounded-xl font-extrabold text-sm transition-all shadow-2xs"
                 >
                   <span>{isArabic ? 'شاهد التخصصات المتاحة' : 'Explore Available Majors'}</span>
                 </Link>
               </div>
 
               {/* Stats Row */}
-              <div className="pt-5 grid grid-cols-2 sm:grid-cols-4 gap-4 border-t border-dashed border-ink/20 mt-6">
-                <div>
-                  <div className="text-2xl sm:text-3xl font-display font-black text-ink">٤٢</div>
-                  <div className="text-xs font-bold text-ink-soft">{isArabic ? 'سؤالاً تقييمياً' : 'Assessment Items'}</div>
+              <div className="pt-4 grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4 border-t border-dashed border-ink/15 mt-3 w-full">
+                <div className="bg-paper-card/70 border border-ink/10 rounded-xl p-2.5 sm:p-3 text-center">
+                  <div className="text-xl sm:text-2xl font-display font-black text-ink">٤٢</div>
+                  <div className="text-[11px] sm:text-xs font-bold text-ink-soft">{isArabic ? 'سؤالاً تقييمياً' : 'Assessment Items'}</div>
                 </div>
-                <div>
-                  <div className="text-2xl sm:text-3xl font-display font-black text-teal">٦</div>
-                  <div className="text-xs font-bold text-ink-soft">{isArabic ? 'مجالات RIASEC' : 'Holland Domains'}</div>
+                <div className="bg-paper-card/70 border border-ink/10 rounded-xl p-2.5 sm:p-3 text-center">
+                  <div className="text-xl sm:text-2xl font-display font-black text-teal">٦</div>
+                  <div className="text-[11px] sm:text-xs font-bold text-ink-soft">{isArabic ? 'مجالات RIASEC' : 'Holland Domains'}</div>
                 </div>
-                <div>
-                  <div className="text-2xl sm:text-3xl font-display font-black text-purple">+٥٠</div>
-                  <div className="text-xs font-bold text-ink-soft">{isArabic ? 'تخصصاً موصى به' : 'Saudi Majors'}</div>
+                <div className="bg-paper-card/70 border border-ink/10 rounded-xl p-2.5 sm:p-3 text-center">
+                  <div className="text-xl sm:text-2xl font-display font-black text-purple">+٥٠</div>
+                  <div className="text-[11px] sm:text-xs font-bold text-ink-soft">{isArabic ? 'تخصصاً موصى به' : 'Saudi Majors'}</div>
                 </div>
-                <div>
-                  <div className="text-2xl sm:text-3xl font-display font-black text-ink">١٠٠٪</div>
-                  <div className="text-xs font-bold text-ink-soft">{isArabic ? 'مجاني ومتاح فوراً' : 'Free & Instant'}</div>
+                <div className="bg-paper-card/70 border border-ink/10 rounded-xl p-2.5 sm:p-3 text-center">
+                  <div className="text-xl sm:text-2xl font-display font-black text-ink">١٠٠٪</div>
+                  <div className="text-[11px] sm:text-xs font-bold text-ink-soft">{isArabic ? 'مجاني ومتاح فوراً' : 'Free & Instant'}</div>
                 </div>
               </div>
 
@@ -196,25 +198,25 @@ export default function HomePage() {
 
             {/* --- LEFT COLUMN (NOTEBOOK INTERACTIVE PREVIEW CARD & MASCOT) --- */}
             <div
-              className="lg:col-span-5 relative"
+              className="lg:col-span-5 relative mt-4 lg:mt-0"
             >
               
               {/* Mascot / Avatar Badge Floating on Top Left */}
-              <div className="absolute -top-8 -left-3 z-20 w-14 h-14 sm:w-16 sm:h-16 bg-yellow rounded-2xl border-2 border-ink shadow-notebook-xs flex items-center justify-center -rotate-6 hover:rotate-0 transition-transform">
-                <Brain className="w-8 h-8 text-ink" />
+              <div className="absolute -top-6 left-2 sm:-left-3 z-20 w-12 h-12 sm:w-14 sm:h-14 bg-yellow rounded-xl border-2 border-ink shadow-notebook-xs flex items-center justify-center -rotate-6 hover:rotate-0 transition-transform">
+                <Brain className="w-6 h-6 sm:w-7 sm:h-7 text-ink" />
               </div>
 
               {/* Notebook Question Preview Card */}
-              <div className="bg-paper-card rounded-2xl p-6 sm:p-7 border-2 border-ink shadow-notebook-md relative -rotate-1 hover:rotate-0 transition-transform duration-300 space-y-4">
+              <div className="bg-paper-card rounded-2xl p-5 sm:p-7 border-2 border-ink shadow-notebook-md relative space-y-3.5">
                 
                 {/* Yellow Washi Tape Strip at top */}
-                <div className="absolute -top-3.5 right-1/3 w-32 h-6 bg-yellow/90 border border-ink/40 shadow-2xs rotate-2 flex items-center justify-center text-[11px] font-black text-ink uppercase tracking-wider">
+                <div className="absolute -top-3 right-6 sm:right-1/3 px-3 py-0.5 bg-yellow/95 border border-ink/40 shadow-2xs rotate-1 flex items-center justify-center text-[10px] sm:text-[11px] font-black text-ink uppercase tracking-wider rounded-xs">
                   {isArabic ? 'معاينة الاختبار' : 'Quiz Preview'}
                 </div>
 
                 {/* Card Header & Timer */}
-                <div className="flex items-center justify-between border-b border-dashed border-ink/20 pb-3 pt-1">
-                  <span className="text-xs font-extrabold text-ink-soft bg-paper border border-ink/50 px-3 py-1 rounded-full shadow-2xs">
+                <div className="flex items-center justify-between border-b border-dashed border-ink/20 pb-2.5 pt-1">
+                  <span className="text-[11px] sm:text-xs font-extrabold text-ink-soft bg-paper border border-ink/40 px-2.5 py-0.5 rounded-full shadow-2xs">
                     {isArabic ? 'سؤال ٠١ من ٤٢ • تقييم هولاند (RIASEC)' : 'Question 01 of 42 • RIASEC'}
                   </span>
                   <span className="text-xs sm:text-sm font-black text-teal flex items-center gap-1">
@@ -224,42 +226,42 @@ export default function HomePage() {
                 </div>
 
                 {/* Question Text */}
-                <div className="space-y-1.5">
-                  <h3 className="text-base sm:text-xl font-display font-black text-ink leading-snug">
+                <div className="space-y-1">
+                  <h3 className="text-sm sm:text-lg font-display font-black text-ink leading-snug">
                     {isArabic
                       ? 'ما هي الأنشطة التي تجد نفسك أكثر شغفاً وإبداعاً عند ممارستها؟'
                       : 'Which activities drive your creative passion and focus?'}
                   </h3>
                 </div>
 
-                {/* Question Options: First option is SELECTED */}
-                <div className="space-y-2.5">
+                {/* Question Options */}
+                <div className="space-y-2">
                   
                   {/* OPTION 1: SELECTED */}
-                  <div className="p-3 sm:p-3.5 rounded-xl border-2 border-ink bg-teal-soft text-ink text-xs sm:text-sm font-extrabold flex items-center justify-between shadow-2xs">
+                  <div className="p-2.5 sm:p-3 rounded-xl border-2 border-ink bg-teal-soft text-ink text-xs sm:text-sm font-extrabold flex items-center justify-between shadow-2xs">
                     <span className="text-teal-deep">{isArabic ? 'تحليل البيانات والبرمجة وحل المشكلات المعقدة' : 'Data analysis, programming & problem solving'}</span>
-                    <span className="w-5 h-5 rounded-full bg-teal text-white flex items-center justify-center shrink-0 border border-ink">
-                      <Check className="w-3.5 h-3.5 stroke-[3]" />
+                    <span className="w-4.5 h-4.5 rounded-full bg-teal text-white flex items-center justify-center shrink-0 border border-ink">
+                      <Check className="w-3 h-3 stroke-[3]" />
                     </span>
                   </div>
 
                   {/* OPTION 2: UNSELECTED */}
-                  <div className="p-3 sm:p-3.5 rounded-xl border border-ink/30 bg-paper text-ink-soft text-xs sm:text-sm font-bold flex items-center justify-between hover:border-ink transition-colors">
+                  <div className="p-2.5 sm:p-3 rounded-xl border border-ink/30 bg-paper text-ink-soft text-xs sm:text-sm font-bold flex items-center justify-between hover:border-ink transition-colors">
                     <span>{isArabic ? 'تصميم الواجهات، الفنون، وصناعة المحتوى التفاعلي' : 'UI/UX Design, creative arts & media'}</span>
-                    <span className="w-5 h-5 rounded-full border border-ink/30 shrink-0" />
+                    <span className="w-4.5 h-4.5 rounded-full border border-ink/30 shrink-0" />
                   </div>
 
                   {/* OPTION 3: UNSELECTED */}
-                  <div className="p-3 sm:p-3.5 rounded-xl border border-ink/30 bg-paper text-ink-soft text-xs sm:text-sm font-bold flex items-center justify-between hover:border-ink transition-colors">
+                  <div className="p-2.5 sm:p-3 rounded-xl border border-ink/30 bg-paper text-ink-soft text-xs sm:text-sm font-bold flex items-center justify-between hover:border-ink transition-colors">
                     <span>{isArabic ? 'إدارة المشاريع، القيادة، والريادة في الأعمال' : 'Project management, leadership & venture growth'}</span>
-                    <span className="w-5 h-5 rounded-full border border-ink/30 shrink-0" />
+                    <span className="w-4.5 h-4.5 rounded-full border border-ink/30 shrink-0" />
                   </div>
 
                 </div>
 
                 {/* AI Recommendation Box */}
-                <div className="p-3 rounded-xl border border-dashed border-purple/60 bg-purple-soft text-purple-deep text-xs font-extrabold flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-purple shrink-0" />
+                <div className="p-2.5 rounded-xl border border-dashed border-purple/60 bg-purple-soft text-purple-deep text-[11px] sm:text-xs font-extrabold flex items-center gap-2">
+                  <Sparkles className="w-3.5 h-3.5 text-purple shrink-0" />
                   <span>
                     {isArabic
                       ? 'الذكاء الاصطناعي يوصي بـ: الأمن السيبراني والذكاء الاصطناعي'
@@ -268,8 +270,8 @@ export default function HomePage() {
                 </div>
 
                 {/* Taped Sticky Note Preview on Bottom Corner */}
-                <div className="absolute -bottom-4 -right-2 sm:-right-4 bg-yellow border border-ink p-2.5 rounded-xl shadow-2xs rotate-3 text-xs font-black text-ink flex items-center gap-1.5 z-20">
-                  <Zap className="w-3.5 h-3.5 text-orange fill-orange" />
+                <div className="mt-2 bg-yellow border border-ink p-2 rounded-xl shadow-2xs text-[11px] font-black text-ink flex items-center gap-1.5 justify-center sm:justify-start">
+                  <Zap className="w-3.5 h-3.5 text-amber-700 fill-amber-700 shrink-0" />
                   <span>{isArabic ? 'تذكير: كودك الثلاثي المتوقع I-A-E ⚡' : 'Expected Code: I-A-E ⚡'}</span>
                 </div>
 
