@@ -121,15 +121,9 @@ export default function HomePage() {
               {/* Calligraphic Headline */}
               <h1 className="text-4xl sm:text-6xl lg:text-7xl font-display font-black text-[#3a2f21] leading-[1.3] tracking-tight">
                 {isArabic ? (
-                  <>
-                    لا تدرس أكثر.. <br />
-                    <span className="hl-y">اكتشف تخصصك الأنسب</span>
-                  </>
+                  <span className="hl-y inline-block">اكتشف تخصصك الأنسب</span>
                 ) : (
-                  <>
-                    Don't Choose Randomly.. <br />
-                    <span className="hl-y">Find Your Ideal Major</span>
-                  </>
+                  <span className="hl-y inline-block">Find Your Ideal Major</span>
                 )}
               </h1>
 
