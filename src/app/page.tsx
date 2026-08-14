@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import {
   Compass,
   Sparkles,
@@ -120,21 +119,15 @@ export default function HomePage() {
             <div className="lg:col-span-7 space-y-5 text-right">
               
               {/* Dashed Pill Badge */}
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
+              <div
                 className="inline-flex items-center gap-2 bg-paper-card border border-dashed border-teal px-4 py-1.5 rounded-full text-xs sm:text-sm font-extrabold text-teal shadow-2xs"
               >
                 <Sparkles className="w-4 h-4 text-teal" />
                 <span>{isArabic ? 'أحدث المعايير النفسية (RIASEC) • مدعوم بالذكاء الاصطناعي' : 'Holland RIASEC Framework • AI Powered'}</span>
-              </motion.div>
+              </div>
 
               {/* Calligraphic Headline */}
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
+              <h1
                 className="text-4xl sm:text-6xl lg:text-7xl font-display font-black tracking-tight leading-[1.15] text-ink"
               >
                 {isArabic ? (
@@ -148,25 +141,19 @@ export default function HomePage() {
                     <span className="hl-yellow inline-block mt-1">Find Your Ideal Major</span>
                   </>
                 )}
-              </motion.h1>
+              </h1>
 
               {/* Description Body */}
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
+              <p
                 className="text-sm sm:text-lg text-ink-soft font-prose leading-relaxed max-w-2xl"
               >
                 {isArabic
                   ? 'طريقك نحو التخصص الجامعي الأنسب يبدأ من هنا: حلل مهاراتك وميولك باختبار هولاند المعتمد (RIASEC)، وخلّ الذكاء الاصطناعي يطابقك مع التخصصات السعودية ورؤية 2030 — كأن معك موجه أكاديمي في دفترك.'
                   : 'Your journey to the ideal university major starts here: assess your personality with the validated Holland Code (RIASEC), and let AI align your strengths with Saudi market demand.'}
-              </motion.p>
+              </p>
 
               {/* CTAs Side by Side */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
+              <div
                 className="pt-2 flex flex-col sm:flex-row items-center gap-4"
               >
                 <Link
@@ -183,7 +170,7 @@ export default function HomePage() {
                 >
                   <span>{isArabic ? 'شاهد التخصصات المتاحة' : 'Explore Available Majors'}</span>
                 </Link>
-              </motion.div>
+              </div>
 
               {/* Stats Row */}
               <div className="pt-5 grid grid-cols-2 sm:grid-cols-4 gap-4 border-t border-dashed border-ink/20 mt-6">
@@ -208,10 +195,7 @@ export default function HomePage() {
             </div>
 
             {/* --- LEFT COLUMN (NOTEBOOK INTERACTIVE PREVIEW CARD & MASCOT) --- */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+            <div
               className="lg:col-span-5 relative"
             >
               
@@ -291,7 +275,7 @@ export default function HomePage() {
 
               </div>
 
-            </motion.div>
+            </div>
 
           </div>
         </div>
@@ -316,15 +300,11 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-            {vision2030Highlights.map((item, idx) => {
+            {vision2030Highlights.map((item) => {
               const IconComp = item.icon;
               return (
-                <motion.div
+                <div
                   key={item.titleEn}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: idx * 0.08 }}
                   className="bg-paper border border-ink/80 rounded-2xl p-5 shadow-2xs hover:shadow-notebook-xs hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between group"
                 >
                   <div className="space-y-3">
@@ -355,7 +335,7 @@ export default function HomePage() {
                       <ArrowRight className={`w-3.5 h-3.5 ${isArabic ? 'rotate-180' : ''}`} />
                     </Link>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>
@@ -377,13 +357,9 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
-            {steps.map((item, idx) => (
-              <motion.div
+            {steps.map((item) => (
+              <div
                 key={item.step}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.12 }}
                 className="bg-paper-card border border-ink/80 rounded-2xl p-6 shadow-2xs relative flex flex-col justify-between space-y-4"
               >
                 <div className="space-y-3">
@@ -399,7 +375,7 @@ export default function HomePage() {
                     {isArabic ? item.descAr : item.descEn}
                   </p>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
 
