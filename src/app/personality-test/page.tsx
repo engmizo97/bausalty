@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
 import {
   Compass,
   Sparkles,
@@ -403,100 +402,88 @@ export default function PersonalityTestPage() {
                 </div>
               </div>
               <div className="w-full h-3 bg-paper-inset rounded-full overflow-hidden p-0.5 border border-ink">
-                <motion.div
-                  className="h-full bg-teal rounded-full"
-                  animate={{ width: `${progressPercent}%` }}
-                  transition={{ duration: 0.3 }}
+                <div
+                  className="h-full bg-teal rounded-full transition-all duration-300"
+                  style={{ width: `${progressPercent}%` }}
                 />
               </div>
             </div>
 
             {/* Question Card */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentIndex}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.25 }}
-                className="bg-paper-card rounded-notebook p-6 sm:p-10 border-2 border-ink shadow-notebook-md space-y-8"
-              >
-                <div className="space-y-2">
-                  <span className="text-xs font-black uppercase bg-yellow border border-ink px-3 py-1 rounded-full shadow-2xs inline-block">
-                    Item #{currentIndex + 1} ({currentQuestion.dimension})
-                  </span>
+            <div
+              className="bg-paper-card rounded-notebook p-6 sm:p-10 border-2 border-ink shadow-notebook-md space-y-8"
+            >
+              <div className="space-y-2">
+                <span className="text-xs font-black uppercase bg-yellow border border-ink px-3 py-1 rounded-full shadow-2xs inline-block">
+                  Item #{currentIndex + 1} ({currentQuestion.dimension})
+                </span>
 
-                  <h2 className={`font-display font-bold text-ink leading-snug ${isArabic ? 'text-xl sm:text-2xl font-prose text-right' : 'text-xl sm:text-2xl text-left'}`}>
-                    {isArabic ? currentQuestion.textAr : currentQuestion.textEn}
-                  </h2>
-                </div>
+                <h2 className={`font-display font-bold text-ink leading-snug ${isArabic ? 'text-xl sm:text-2xl font-prose text-right' : 'text-xl sm:text-2xl text-left'}`}>
+                  {isArabic ? currentQuestion.textAr : currentQuestion.textEn}
+                </h2>
+              </div>
 
-                {/* Option A vs Option B Selection Cards — Unselected By Default */}
-                <div className="space-y-3 pt-2">
-                  <p className="text-xs font-bold text-ink-soft uppercase tracking-wider flex items-center gap-1.5">
-                    <HelpCircle className="w-4 h-4 text-teal" />
-                    <span>{isArabic ? 'اختر الخيار الذي يمثلك بشكل أفضل:' : 'Choose the option that best describes you:'}</span>
-                  </p>
+              {/* Option A vs Option B Selection Cards — Unselected By Default */}
+              <div className="space-y-3 pt-2">
+                <p className="text-xs font-bold text-ink-soft uppercase tracking-wider flex items-center gap-1.5">
+                  <HelpCircle className="w-4 h-4 text-teal" />
+                  <span>{isArabic ? 'اختر الخيار الذي يمثلك بشكل أفضل:' : 'Choose the option that best describes you:'}</span>
+                </p>
 
-                  <div className="grid grid-cols-1 gap-4">
-                    {/* Option A */}
-                    <motion.button
-                      whileHover={{ scale: 1.01, translateY: -1 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => handleSelectOption(currentQuestion.optionA.trait)}
-                      className={`p-5 rounded-2xl border-2 text-left flex items-center justify-between transition-all ${
-                        answers[currentQuestion.id] === currentQuestion.optionA.trait
-                          ? 'bg-teal-tint border-ink shadow-notebook-xs ring-2 ring-teal'
-                          : 'bg-paper-card border-ink/20 hover:border-ink hover:bg-paper-inset'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-teal text-white border-2 border-ink flex items-center justify-center font-display font-black text-sm shrink-0">
-                          A
-                        </div>
-                        <div>
-                          <p className="font-bold text-sm sm:text-base text-ink">
-                            {isArabic ? currentQuestion.optionA.labelAr : currentQuestion.optionA.labelEn}
-                          </p>
-                        </div>
+                <div className="grid grid-cols-1 gap-4">
+                  {/* Option A */}
+                  <button
+                    onClick={() => handleSelectOption(currentQuestion.optionA.trait)}
+                    className={`p-5 rounded-2xl border-2 text-left flex items-center justify-between transition-all active:scale-98 ${
+                      answers[currentQuestion.id] === currentQuestion.optionA.trait
+                        ? 'bg-teal-tint border-ink shadow-notebook-xs ring-2 ring-teal'
+                        : 'bg-paper-card border-ink/20 hover:border-ink hover:bg-paper-inset'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-teal text-white border-2 border-ink flex items-center justify-center font-display font-black text-sm shrink-0">
+                        A
                       </div>
-
-                      {answers[currentQuestion.id] === currentQuestion.optionA.trait && (
-                        <CheckCircle2 className="w-6 h-6 text-teal fill-yellow shrink-0 ml-2" />
-                      )}
-                    </motion.button>
-
-                    {/* Option B */}
-                    <motion.button
-                      whileHover={{ scale: 1.01, translateY: -1 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => handleSelectOption(currentQuestion.optionB.trait)}
-                      className={`p-5 rounded-2xl border-2 text-left flex items-center justify-between transition-all ${
-                        answers[currentQuestion.id] === currentQuestion.optionB.trait
-                          ? 'bg-teal-tint border-ink shadow-notebook-xs ring-2 ring-teal'
-                          : 'bg-paper-card border-ink/20 hover:border-ink hover:bg-paper-inset'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-purple text-white border-2 border-ink flex items-center justify-center font-display font-black text-sm shrink-0">
-                          B
-                        </div>
-                        <div>
-                          <p className="font-bold text-sm sm:text-base text-ink">
-                            {isArabic ? currentQuestion.optionB.labelAr : currentQuestion.optionB.labelEn}
-                          </p>
-                        </div>
+                      <div>
+                        <p className="font-bold text-sm sm:text-base text-ink">
+                          {isArabic ? currentQuestion.optionA.labelAr : currentQuestion.optionA.labelEn}
+                        </p>
                       </div>
+                    </div>
 
-                      {answers[currentQuestion.id] === currentQuestion.optionB.trait && (
-                        <CheckCircle2 className="w-6 h-6 text-teal fill-yellow shrink-0 ml-2" />
-                      )}
-                    </motion.button>
-                  </div>
+                    {answers[currentQuestion.id] === currentQuestion.optionA.trait && (
+                      <CheckCircle2 className="w-6 h-6 text-teal fill-yellow shrink-0 ml-2" />
+                    )}
+                  </button>
+
+                  {/* Option B */}
+                  <button
+                    onClick={() => handleSelectOption(currentQuestion.optionB.trait)}
+                    className={`p-5 rounded-2xl border-2 text-left flex items-center justify-between transition-all active:scale-98 ${
+                      answers[currentQuestion.id] === currentQuestion.optionB.trait
+                        ? 'bg-teal-tint border-ink shadow-notebook-xs ring-2 ring-teal'
+                        : 'bg-paper-card border-ink/20 hover:border-ink hover:bg-paper-inset'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-purple text-white border-2 border-ink flex items-center justify-center font-display font-black text-sm shrink-0">
+                        B
+                      </div>
+                      <div>
+                        <p className="font-bold text-sm sm:text-base text-ink">
+                          {isArabic ? currentQuestion.optionB.labelAr : currentQuestion.optionB.labelEn}
+                        </p>
+                      </div>
+                    </div>
+
+                    {answers[currentQuestion.id] === currentQuestion.optionB.trait && (
+                      <CheckCircle2 className="w-6 h-6 text-teal fill-yellow shrink-0 ml-2" />
+                    )}
+                  </button>
                 </div>
+              </div>
 
-              </motion.div>
-            </AnimatePresence>
+            </div>
 
             {/* Navigation Controls */}
             <div className="flex items-center justify-between pt-2">

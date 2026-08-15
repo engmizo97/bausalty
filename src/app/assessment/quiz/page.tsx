@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowLeft,
   ArrowRight,
@@ -230,11 +229,9 @@ export default function RiasecQuizPage() {
 
           {/* Progress Bar Track */}
           <div className="w-full h-3 bg-paper-inset rounded-full overflow-hidden p-0.5 border border-ink">
-            <motion.div
-              className="h-full bg-teal rounded-full"
-              initial={{ width: 0 }}
-              animate={{ width: `${progressPercent}%` }}
-              transition={{ duration: 0.3 }}
+            <div
+              className="h-full bg-teal rounded-full transition-all duration-300"
+              style={{ width: `${progressPercent}%` }}
             />
           </div>
         </div>
@@ -260,82 +257,72 @@ export default function RiasecQuizPage() {
           </button>
         </div>
 
-        {/* Animated Question Box */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentIndex}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.25 }}
-            className="bg-paper-card rounded-notebook p-6 sm:p-10 border-2 border-ink shadow-notebook-md space-y-6 sm:space-y-8"
-          >
-            {/* Question Text (Single-Language Clean Display) */}
-            <div className="space-y-3">
-              <span className="text-xs font-black uppercase tracking-widest text-ink bg-yellow border border-ink px-3 py-1 rounded-full shadow-notebook-xs inline-block">
-                Item #{currentIndex + 1}
-              </span>
+        {/* Question Box */}
+        <div
+          className="bg-paper-card rounded-notebook p-6 sm:p-10 border-2 border-ink shadow-notebook-md space-y-6 sm:space-y-8"
+        >
+          {/* Question Text (Single-Language Clean Display) */}
+          <div className="space-y-3">
+            <span className="text-xs font-black uppercase tracking-widest text-ink bg-yellow border border-ink px-3 py-1 rounded-full shadow-notebook-xs inline-block">
+              Item #{currentIndex + 1}
+            </span>
 
-              <h2 className={`font-display font-bold text-[#3a2f21] leading-snug ${isArabic ? 'text-2xl sm:text-3xl font-prose text-right' : 'text-xl sm:text-2xl text-left'}`}>
-                {isArabic ? currentQuestion.textAr : currentQuestion.textEn}
-              </h2>
-            </div>
+            <h2 className={`font-display font-bold text-[#3a2f21] leading-snug ${isArabic ? 'text-2xl sm:text-3xl font-prose text-right' : 'text-xl sm:text-2xl text-left'}`}>
+              {isArabic ? currentQuestion.textAr : currentQuestion.textEn}
+            </h2>
+          </div>
 
-            {/* CARD-SELECTION LAYOUT — Unselected By Default */}
-            <div className="space-y-3 pt-2">
-              <p className="text-xs font-bold text-ink-soft uppercase tracking-wider flex items-center gap-1.5">
-                <HelpCircle className="w-4 h-4 text-teal" />
-                <span>{isArabic ? 'اختر مستوى التوافق الذي يمثلك:' : 'Select how much this statement describes you:'}</span>
-              </p>
+          {/* CARD-SELECTION LAYOUT — Unselected By Default */}
+          <div className="space-y-3 pt-2">
+            <p className="text-xs font-bold text-ink-soft uppercase tracking-wider flex items-center gap-1.5">
+              <HelpCircle className="w-4 h-4 text-teal" />
+              <span>{isArabic ? 'اختر مستوى التوافق الذي يمثلك:' : 'Select how much this statement describes you:'}</span>
+            </p>
 
-              <div className="grid grid-cols-1 gap-3">
-                {LIKERT_OPTIONS.map((opt) => {
-                  // UNSELECTED BY DEFAULT: answers[currentQuestion.id] is undefined until user clicks
-                  const isSelected = answers[currentQuestion.id] === opt.value;
+            <div className="grid grid-cols-1 gap-3">
+              {LIKERT_OPTIONS.map((opt) => {
+                const isSelected = answers[currentQuestion.id] === opt.value;
 
-                  return (
-                    <motion.button
-                      key={opt.value}
-                      whileHover={{ scale: 1.01, translateY: -1 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => handleSelectOption(opt.value)}
-                      className={`w-full min-h-[48px] p-3.5 sm:p-4 rounded-xl border-2 text-left flex items-center justify-between transition-all duration-150 ${
-                        isSelected
-                          ? 'bg-teal-tint border-ink shadow-notebook-xs text-ink font-extrabold ring-2 ring-teal'
-                          : 'bg-paper-card border-ink/20 hover:border-ink hover:bg-paper-inset text-ink-soft'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div
-                          className={`w-8 h-8 rounded-lg border-2 border-ink flex items-center justify-center font-display font-black text-sm transition-colors ${
-                            isSelected
-                              ? 'bg-teal text-white'
-                              : 'bg-paper-inset text-ink'
-                          }`}
-                        >
-                          {opt.badge}
-                        </div>
-
-                        <div>
-                          <p className="font-bold text-base text-ink">
-                            {isArabic ? opt.labelAr : opt.labelEn}
-                          </p>
-                        </div>
+                return (
+                  <button
+                    key={opt.value}
+                    onClick={() => handleSelectOption(opt.value)}
+                    className={`w-full min-h-[48px] p-3.5 sm:p-4 rounded-xl border-2 text-left flex items-center justify-between transition-all duration-150 active:scale-98 ${
+                      isSelected
+                        ? 'bg-teal-tint border-ink shadow-notebook-xs text-ink font-extrabold ring-2 ring-teal'
+                        : 'bg-paper-card border-ink/20 hover:border-ink hover:bg-paper-inset text-ink-soft'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`w-8 h-8 rounded-lg border-2 border-ink flex items-center justify-center font-display font-black text-sm transition-colors ${
+                          isSelected
+                            ? 'bg-teal text-white'
+                            : 'bg-paper-inset text-ink'
+                        }`}
+                      >
+                        {opt.badge}
                       </div>
 
-                      {isSelected ? (
-                        <CheckCircle2 className="w-6 h-6 text-teal fill-yellow shrink-0" />
-                      ) : (
-                        <div className="w-5 h-5 rounded-full border-2 border-ink/30 shrink-0" />
-                      )}
-                    </motion.button>
-                  );
-                })}
-              </div>
-            </div>
+                      <div>
+                        <p className="font-bold text-base text-ink">
+                          {isArabic ? opt.labelAr : opt.labelEn}
+                        </p>
+                      </div>
+                    </div>
 
-          </motion.div>
-        </AnimatePresence>
+                    {isSelected ? (
+                      <CheckCircle2 className="w-6 h-6 text-teal fill-yellow shrink-0" />
+                    ) : (
+                      <div className="w-5 h-5 rounded-full border-2 border-ink/30 shrink-0" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+        </div>
 
         {/* --- NAVIGATION FOOTER BUTTONS with 48px touch targets --- */}
         <div className="mt-8 flex items-center justify-between gap-4">
