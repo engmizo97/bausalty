@@ -41,23 +41,6 @@ export default function PersonalityTestPage() {
   const isArabic = language === 'ar';
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  // Lazy auth state initialization
-  const [isAuthenticated] = useState<boolean>(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        return !!localStorage.getItem('bausalty_user_session');
-      } catch {
-        return false;
-      }
-    }
-    return false;
-  });
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.push('/login?callbackUrl=/personality-test');
-    }
-  }, [isAuthenticated, router]);
 
   // UNSELECTED BY DEFAULT: answers initializes as empty object {}
   const [answers, setAnswers] = useState<Record<number, MbtiTrait>>(() => {
@@ -207,17 +190,6 @@ export default function PersonalityTestPage() {
       // Ignore
     }
   };
-
-  if (!isAuthenticated) {
-    return (
-      <div className="flex-1 bg-paper flex items-center justify-center p-12">
-        <div className="text-center space-y-4">
-          <Lock className="w-10 h-10 text-teal mx-auto animate-bounce" />
-          <p className="text-ink font-bold font-display">{isArabic ? 'جاري التحقق من تسجيل الدخول...' : 'Checking Student Authentication...'}</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="flex-1 bg-paper min-h-screen py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
