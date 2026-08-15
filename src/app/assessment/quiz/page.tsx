@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   ArrowLeft,
@@ -55,42 +55,38 @@ export default function RiasecQuizPage() {
   const isArabic = language === 'ar';
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-
-  // UNSELECTED QUIZ INPUTS: Default to empty object {}
-  const [answers, setAnswers] = useState<Record<number, number>>(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const savedAnswers = localStorage.getItem('bausalty_quiz_answers');
-        if (savedAnswers) {
-          return JSON.parse(savedAnswers);
-        }
-      } catch {
-        // Ignore read error
-      }
-    }
-    return {};
-  });
-
+  const [answers, setAnswers] = useState<Record<number, number>>({});
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
+  // Load saved answers on client mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('bausalty_quiz_answers');
+      if (saved) {
+        setAnswers(JSON.parse(saved));
+      }
+    } catch {
+      // Ignore
+    }
+  }, []);
+
   const totalQuestions = QUESTIONS.length;
-  const currentQuestion = QUESTIONS[currentIndex];
-  const currentCategory = RIASEC_CATEGORIES[currentQuestion.category];
+  const currentQuestion = QUESTIONS[currentIndex] || QUESTIONS[0];
+  const currentCategory = RIASEC_CATEGORIES[currentQuestion.category] || RIASEC_CATEGORIES['R'];
   const progressPercent = Math.round(((currentIndex + 1) / totalQuestions) * 100);
   const answeredCount = Object.keys(answers).length;
 
   const handleSelectOption = (value: number) => {
-    setAnswers((prev) => {
-      const next = { ...prev, [currentQuestion.id]: value };
-      try {
-        localStorage.setItem('bausalty_quiz_answers', JSON.stringify(next));
-      } catch {
-        // Ignore write error
-      }
-      return next;
-    });
+    const qId = currentQuestion.id;
+    const nextAnswers = { ...answers, [qId]: value };
+    setAnswers(nextAnswers);
 
-    // Advance immediately to next question
+    try {
+      localStorage.setItem('bausalty_quiz_answers', JSON.stringify(nextAnswers));
+    } catch {
+      // Ignore
+    }
+
     if (currentIndex < totalQuestions - 1) {
       setCurrentIndex((prev) => prev + 1);
     }
@@ -115,7 +111,7 @@ export default function RiasecQuizPage() {
       try {
         localStorage.removeItem('bausalty_quiz_answers');
       } catch {
-        // Ignore write error
+        // Ignore
       }
     }
   };
@@ -154,7 +150,7 @@ export default function RiasecQuizPage() {
     try {
       localStorage.setItem('bausalty_assessment_result', JSON.stringify(result));
     } catch {
-      // Ignore write error
+      // Ignore
     }
 
     router.push('/results');
@@ -201,8 +197,9 @@ export default function RiasecQuizPage() {
           </div>
 
           <button
+            type="button"
             onClick={handleReset}
-            className="text-xs font-bold text-ink-soft hover:text-rose-600 flex items-center gap-1 transition-colors py-1 px-2.5 rounded-lg border border-transparent hover:border-rose-300"
+            className="text-xs font-bold text-ink-soft hover:text-rose-600 flex items-center gap-1 transition-colors py-1 px-2.5 rounded-lg border border-transparent hover:border-rose-300 cursor-pointer"
             title="Reset Quiz"
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -225,7 +222,7 @@ export default function RiasecQuizPage() {
             </h2>
           </div>
 
-          {/* CARD-SELECTION LAYOUT — Unselected By Default */}
+          {/* CARD-SELECTION LAYOUT */}
           <div className="space-y-3 pt-2">
             <p className="text-xs font-bold text-ink-soft uppercase tracking-wider flex items-center gap-1.5">
               <HelpCircle className="w-4 h-4 text-teal" />
@@ -239,10 +236,11 @@ export default function RiasecQuizPage() {
                 return (
                   <button
                     key={opt.value}
+                    type="button"
                     onClick={() => handleSelectOption(opt.value)}
-                    className={`w-full min-h-[48px] p-3.5 sm:p-4 rounded-xl border-2 text-left flex items-center justify-between transition-all duration-150 active:scale-98 cursor-pointer ${
+                    className={`w-full min-h-[50px] p-3.5 sm:p-4 rounded-xl border-2 text-left flex items-center justify-between transition-all duration-150 active:scale-98 cursor-pointer select-none ${
                       isSelected
-                        ? 'bg-teal-tint border-ink shadow-notebook-xs text-ink font-extrabold ring-2 ring-teal'
+                        ? 'bg-teal-soft border-ink shadow-notebook-xs text-ink font-extrabold ring-2 ring-teal'
                         : 'bg-paper-card border-ink/20 hover:border-ink hover:bg-paper-inset text-ink-soft'
                     }`}
                   >
@@ -277,9 +275,10 @@ export default function RiasecQuizPage() {
 
         </div>
 
-        {/* --- NAVIGATION FOOTER BUTTONS with 48px touch targets --- */}
+        {/* --- NAVIGATION FOOTER BUTTONS --- */}
         <div className="mt-8 flex items-center justify-between gap-4">
           <button
+            type="button"
             onClick={handlePrev}
             disabled={currentIndex === 0}
             className={`h-12 min-h-[48px] inline-flex items-center gap-2 px-5 rounded-xl font-bold text-sm border-2 transition-all ${
@@ -294,6 +293,7 @@ export default function RiasecQuizPage() {
 
           {currentIndex < totalQuestions - 1 ? (
             <button
+              type="button"
               onClick={handleNext}
               className="h-12 min-h-[48px] inline-flex items-center gap-2 bg-teal hover:bg-teal-deep text-white px-6 rounded-xl font-extrabold text-sm border-2 border-ink shadow-notebook-xs transition-all hover:scale-102 active:scale-98 cursor-pointer"
             >
@@ -302,6 +302,7 @@ export default function RiasecQuizPage() {
             </button>
           ) : (
             <button
+              type="button"
               onClick={handleSubmit}
               disabled={isSubmitting}
               className="h-12 min-h-[48px] inline-flex items-center gap-2 bg-yellow hover:bg-amber-300 text-ink px-7 rounded-xl font-display font-black text-base border-2 border-ink shadow-notebook-md hover:scale-102 active:scale-98 transition-all cursor-pointer"
