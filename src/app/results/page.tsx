@@ -105,9 +105,21 @@ export default function ResultsPage() {
             </h1>
 
             <p className="text-ink-soft text-base sm:text-lg font-prose leading-relaxed">
-              {isArabic
-                ? `بناءً على إجاباتك الـ 42، فإن سماتك الشخصية المهيمنة هي: **${RIASEC_CATEGORIES[result.primaryType]?.nameAr} (${RIASEC_CATEGORIES[result.primaryType]?.nameEn})**.`
-                : `Based on your 42 items, your dominant profile is **${RIASEC_CATEGORIES[result.primaryType]?.nameEn} (${RIASEC_CATEGORIES[result.primaryType]?.nameAr})**.`}
+              {isArabic ? (
+                <>
+                  بناءً على إجاباتك الـ 42، فإن سماتك الشخصية المهيمنة هي:{' '}
+                  <strong className="font-black text-ink">
+                    {RIASEC_CATEGORIES[result.primaryType]?.nameAr} ({RIASEC_CATEGORIES[result.primaryType]?.nameEn})
+                  </strong>.
+                </>
+              ) : (
+                <>
+                  Based on your 42 items, your dominant profile is:{' '}
+                  <strong className="font-black text-ink">
+                    {RIASEC_CATEGORIES[result.primaryType]?.nameEn} ({RIASEC_CATEGORIES[result.primaryType]?.nameAr})
+                  </strong>.
+                </>
+              )}
             </p>
 
             <div className="pt-2 flex flex-wrap gap-4">
