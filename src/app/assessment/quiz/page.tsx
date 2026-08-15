@@ -10,44 +10,42 @@ import {
   RotateCcw,
   HelpCircle,
   Award,
-  Lock,
 } from 'lucide-react';
 import { QUESTIONS, RIASEC_CATEGORIES } from '@/data/questions';
 import { calculateScores, generateHollandCode, getMajorRecommendations } from '@/lib/scoring';
 import { AssessmentResult, RiasecType } from '@/types';
 import { useLanguage } from '@/context/LanguageContext';
-import UpgradeModal from '@/components/UpgradeModal';
 
 const LIKERT_OPTIONS = [
   {
     value: 1,
     labelEn: 'Strongly Disagree',
     labelAr: 'لا أتفق بشدة',
-    badge: '1',
+    badge: '١',
   },
   {
     value: 2,
     labelEn: 'Disagree',
     labelAr: 'لا أتفق',
-    badge: '2',
+    badge: '٢',
   },
   {
     value: 3,
     labelEn: 'Neutral',
     labelAr: 'محايد',
-    badge: '3',
+    badge: '٣',
   },
   {
     value: 4,
     labelEn: 'Agree',
     labelAr: 'أتفق',
-    badge: '4',
+    badge: '٤',
   },
   {
     value: 5,
     labelEn: 'Strongly Agree',
     labelAr: 'أتفق بشدة',
-    badge: '5',
+    badge: '٥',
   },
 ];
 
@@ -57,9 +55,8 @@ export default function RiasecQuizPage() {
   const isArabic = language === 'ar';
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [showUpgradeModal, setShowUpgradeModal] = useState<boolean>(false);
 
-  // UNSELECTED QUIZ INPUTS: Default to empty object {} so no answers are preselected
+  // UNSELECTED QUIZ INPUTS: Default to empty object {}
   const [answers, setAnswers] = useState<Record<number, number>>(() => {
     if (typeof window !== 'undefined') {
       try {
@@ -74,19 +71,6 @@ export default function RiasecQuizPage() {
     return {};
   });
 
-  const [isPaid] = useState<boolean>(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        if (localStorage.getItem('bausalty_is_paid') === 'true') return true;
-        const savedSession = localStorage.getItem('bausalty_user_session');
-        if (savedSession && JSON.parse(savedSession).plan === 'PAID') return true;
-      } catch {
-        // Ignore read error
-      }
-    }
-    return false;
-  });
-
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const totalQuestions = QUESTIONS.length;
@@ -96,41 +80,23 @@ export default function RiasecQuizPage() {
   const answeredCount = Object.keys(answers).length;
 
   const handleSelectOption = (value: number) => {
-    const updatedAnswers = {
-      ...answers,
-      [currentQuestion.id]: value,
-    };
-    setAnswers(updatedAnswers);
+    setAnswers((prev) => {
+      const next = { ...prev, [currentQuestion.id]: value };
+      try {
+        localStorage.setItem('bausalty_quiz_answers', JSON.stringify(next));
+      } catch {
+        // Ignore write error
+      }
+      return next;
+    });
 
-    try {
-      localStorage.setItem('bausalty_quiz_answers', JSON.stringify(updatedAnswers));
-    } catch {
-      // Ignore write error
-    }
-
-    // Free Tier Paywall Check: Question 12 max (index 11)
-    if (!isPaid && currentIndex === 11) {
-      setTimeout(() => {
-        setShowUpgradeModal(true);
-      }, 200);
-      return;
-    }
-
-    // Auto advance after 250ms delay for smooth UX if not on last question
+    // Advance immediately to next question
     if (currentIndex < totalQuestions - 1) {
-      setTimeout(() => {
-        setCurrentIndex((prev) => Math.min(prev + 1, totalQuestions - 1));
-      }, 250);
+      setCurrentIndex((prev) => prev + 1);
     }
   };
 
   const handleNext = () => {
-    // Free Tier Paywall Check
-    if (!isPaid && currentIndex === 11) {
-      setShowUpgradeModal(true);
-      return;
-    }
-
     if (currentIndex < totalQuestions - 1) {
       setCurrentIndex((prev) => prev + 1);
     }
@@ -155,17 +121,12 @@ export default function RiasecQuizPage() {
   };
 
   const handleSubmit = () => {
-    if (!isPaid && answeredCount < totalQuestions) {
-      setShowUpgradeModal(true);
-      return;
-    }
-
     if (answeredCount < totalQuestions) {
       const missingCount = totalQuestions - answeredCount;
       if (
         !confirm(
           isArabic
-            ? `لديك ${missingCount} أسئلة غير مجاب عليها. هل ترغب بالمتابعة؟`
+            ? `لديك ${missingCount} أسئلة غير مجاب عليها. هل ترغب بعرض التقرير على أي حال؟`
             : `You have ${missingCount} unanswered questions. Proceed?`
         )
       ) {
@@ -202,28 +163,20 @@ export default function RiasecQuizPage() {
   return (
     <div className="flex-1 flex flex-col bg-paper min-h-screen relative">
       
-      {/* --- PAYWALL UPGRADE MODAL --- */}
-      <UpgradeModal
-        isOpen={showUpgradeModal}
-        onClose={() => setShowUpgradeModal(false)}
-        questionsCompleted={12}
-      />
-
       {/* --- STICKY PROGRESS BAR --- */}
-      <div className="sticky top-20 z-40 bg-paper-card border-b-2 border-ink shadow-notebook-xs">
+      <div className="sticky top-16 z-40 bg-paper-card border-b-2 border-ink shadow-notebook-xs">
         <div className="max-w-4xl mx-auto px-4 py-3 sm:px-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs sm:text-sm font-bold text-ink gap-1 mb-2">
-            
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-teal animate-ping" />
               <span>{isArabic ? `السؤال ${currentIndex + 1} من ${totalQuestions}` : `Question ${currentIndex + 1} of ${totalQuestions}`}</span>
             </div>
 
-            <div className="flex items-center justify-between sm:justify-end gap-3">
-              <span className="text-ink font-extrabold bg-teal-soft px-2.5 py-0.5 rounded-full border border-teal text-xs">
-                {isArabic ? currentCategory.nameAr : currentCategory.nameEn}
+            <div className="flex items-center gap-3">
+              <span className="text-xs font-black bg-yellow border border-ink px-2.5 py-0.5 rounded-full">
+                {answeredCount} / {totalQuestions} {isArabic ? 'مجاب' : 'Answered'}
               </span>
-              <span className="text-ink-soft font-semibold">{progressPercent}%</span>
+              <span className="text-teal font-extrabold">{progressPercent}%</span>
             </div>
           </div>
 
@@ -287,7 +240,7 @@ export default function RiasecQuizPage() {
                   <button
                     key={opt.value}
                     onClick={() => handleSelectOption(opt.value)}
-                    className={`w-full min-h-[48px] p-3.5 sm:p-4 rounded-xl border-2 text-left flex items-center justify-between transition-all duration-150 active:scale-98 ${
+                    className={`w-full min-h-[48px] p-3.5 sm:p-4 rounded-xl border-2 text-left flex items-center justify-between transition-all duration-150 active:scale-98 cursor-pointer ${
                       isSelected
                         ? 'bg-teal-tint border-ink shadow-notebook-xs text-ink font-extrabold ring-2 ring-teal'
                         : 'bg-paper-card border-ink/20 hover:border-ink hover:bg-paper-inset text-ink-soft'
@@ -332,7 +285,7 @@ export default function RiasecQuizPage() {
             className={`h-12 min-h-[48px] inline-flex items-center gap-2 px-5 rounded-xl font-bold text-sm border-2 transition-all ${
               currentIndex === 0
                 ? 'opacity-40 cursor-not-allowed text-muted border-ink/20 bg-paper-inset'
-                : 'text-ink bg-paper-card border-ink hover:bg-paper-inset shadow-notebook-xs'
+                : 'text-ink bg-paper-card border-ink hover:bg-paper-inset shadow-notebook-xs cursor-pointer'
             }`}
           >
             <ArrowLeft className={`w-4 h-4 ${isArabic ? 'rotate-180' : ''}`} />
@@ -342,7 +295,7 @@ export default function RiasecQuizPage() {
           {currentIndex < totalQuestions - 1 ? (
             <button
               onClick={handleNext}
-              className="h-12 min-h-[48px] inline-flex items-center gap-2 bg-teal hover:bg-teal-deep text-white px-6 rounded-xl font-extrabold text-sm border-2 border-ink shadow-notebook-xs transition-all hover:scale-102 active:scale-98"
+              className="h-12 min-h-[48px] inline-flex items-center gap-2 bg-teal hover:bg-teal-deep text-white px-6 rounded-xl font-extrabold text-sm border-2 border-ink shadow-notebook-xs transition-all hover:scale-102 active:scale-98 cursor-pointer"
             >
               <span>{isArabic ? 'التالي' : 'Next'}</span>
               <ArrowRight className={`w-4 h-4 ${isArabic ? 'rotate-180' : ''}`} />
@@ -351,10 +304,10 @@ export default function RiasecQuizPage() {
             <button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="h-12 min-h-[48px] inline-flex items-center gap-2 bg-yellow hover:bg-amber-300 text-ink px-7 rounded-xl font-display font-black text-base border-2 border-ink shadow-notebook-md hover:scale-102 active:scale-98 transition-all"
+              className="h-12 min-h-[48px] inline-flex items-center gap-2 bg-yellow hover:bg-amber-300 text-ink px-7 rounded-xl font-display font-black text-base border-2 border-ink shadow-notebook-md hover:scale-102 active:scale-98 transition-all cursor-pointer"
             >
               <Sparkles className="w-5 h-5 text-purple" />
-              <span>{isSubmitting ? (isArabic ? 'جاري التحليل...' : 'Calculating...') : (isArabic ? 'عرض النتائج' : 'View Results')}</span>
+              <span>{isSubmitting ? (isArabic ? 'جاري التحليل...' : 'Calculating...') : (isArabic ? 'عرض التقرير النهائي' : 'View Final Report')}</span>
             </button>
           )}
         </div>

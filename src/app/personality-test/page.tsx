@@ -138,21 +138,17 @@ export default function PersonalityTestPage() {
     }
 
     if (currentIndex < totalQuestions - 1) {
-      setTimeout(() => {
-        setCurrentIndex((prev) => Math.min(prev + 1, totalQuestions - 1));
-      }, 200);
+      setCurrentIndex((prev) => prev + 1);
     } else {
-      // Completed all 70 questions -> compute final MBTI profile
-      setTimeout(() => {
-        const computed = calculateMbtiResult(updatedAnswers);
-        setResult(computed);
-        try {
-          localStorage.setItem('bausalty_mbti_result', JSON.stringify(computed));
-          localStorage.setItem('bausalty_personality_result', JSON.stringify(computed));
-        } catch {
-          // Ignore
-        }
-      }, 300);
+      // Completed all questions -> compute final MBTI profile
+      const computed = calculateMbtiResult(updatedAnswers);
+      setResult(computed);
+      try {
+        localStorage.setItem('bausalty_mbti_result', JSON.stringify(computed));
+        localStorage.setItem('bausalty_personality_result', JSON.stringify(computed));
+      } catch {
+        // Ignore
+      }
     }
   };
 
