@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Compass, Sparkles, ArrowRight, ShieldCheck, Mail, User } from 'lucide-react';
+import { Compass, Sparkles, ArrowRight, ShieldCheck, Mail, User, UserPlus } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
 export default function LoginPage() {
@@ -35,7 +35,7 @@ export default function LoginPage() {
       id: 'student-demo-101',
       name: name || (isArabic ? 'فهد السعدي' : 'Fahad Al-Saudi'),
       email: email || 'fahad.saudi@kaust.edu.sa',
-      plan: 'FREE', // 'FREE' or 'PAID'
+      plan: 'FREE' as const,
       image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
       signedInAt: new Date().toISOString(),
     };
@@ -67,7 +67,7 @@ export default function LoginPage() {
       id: 'google-student-202',
       name: isArabic ? 'سارة العتيبي' : 'Sarah Al-Otaibi',
       email: 'sarah.otaibi@ksu.edu.sa',
-      plan: 'FREE',
+      plan: 'FREE' as const,
       image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80',
       signedInAt: new Date().toISOString(),
     };
@@ -126,6 +126,7 @@ export default function LoginPage() {
           <button
             onClick={handleGoogleSignIn}
             disabled={isLoading}
+            type="button"
             className="w-full h-12 min-h-[48px] bg-paper hover:bg-paper-inset text-ink border-2 border-ink rounded-xl font-bold text-sm shadow-notebook-xs flex items-center justify-center gap-3 transition-all hover:scale-102 active:scale-98"
           >
             <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">
@@ -202,6 +203,21 @@ export default function LoginPage() {
             </button>
           </form>
 
+        </div>
+
+        {/* DON'T HAVE AN ACCOUNT? SIGN UP BUTTON / CARD */}
+        <div className="bg-yellow rounded-2xl p-5 border-2 border-ink shadow-notebook-xs text-center space-y-2">
+          <p className="text-xs sm:text-sm font-black text-ink">
+            {isArabic ? 'ليس لديك حساب طالب حتى الآن؟' : "Don't have a student account yet?"}
+          </p>
+          <Link
+            href="/register"
+            className="w-full h-11 min-h-[44px] inline-flex items-center justify-center gap-2 bg-paper-card text-ink hover:bg-paper-inset border-2 border-ink rounded-xl font-display font-black text-xs sm:text-sm shadow-notebook-xs transition-all hover:scale-102"
+          >
+            <UserPlus className="w-4 h-4 text-purple" />
+            <span>{isArabic ? 'إنشاء حساب طالب جديد مجاناً' : 'Create New Student Account Free'}</span>
+            <ArrowRight className={`w-4 h-4 ${isArabic ? 'rotate-180' : ''}`} />
+          </Link>
         </div>
 
         {/* Footer Note */}
