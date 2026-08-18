@@ -138,10 +138,10 @@ export default function StudentDashboardPage() {
 
   if (!isLoaded || !student) {
     return (
-      <div className="flex-1 bg-paper flex items-center justify-center p-12">
+      <div className="flex-1 bg-[#fbf6ea] flex items-center justify-center p-12">
         <div className="text-center space-y-4">
-          <Lock className="w-10 h-10 text-teal mx-auto animate-bounce" />
-          <p className="text-ink font-bold font-display">{isArabic ? 'جاري تحميل لوحة التحكم...' : 'Loading Student Dashboard...'}</p>
+          <Lock className="w-10 h-10 text-[#0d9488] mx-auto animate-bounce" />
+          <p className="text-[#3a2f21] font-bold font-display">{isArabic ? 'جاري تحميل لوحة التحكم...' : 'Loading Student Dashboard...'}</p>
         </div>
       </div>
     );
@@ -152,16 +152,16 @@ export default function StudentDashboardPage() {
     : new Date().toLocaleDateString();
 
   return (
-    <div className="flex-1 bg-paper py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
+    <div className="flex-1 bg-[#fbf6ea] py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto space-y-8 sm:space-y-10">
         
         {/* --- STUDENT PROFILE HEADER CARD --- */}
-        <div className="bg-paper-card rounded-3xl p-6 sm:p-10 border-2 border-ink shadow-notebook-md flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+        <div className="bg-[#fffdf6] rounded-[18px] p-6 sm:p-10 border-2 border-[#3a2f21] shadow-[5px_5px_0_#3a2f21] flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
           <div className="flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left dir-ltr">
             
             {/* Student Avatar */}
             <div className="relative shrink-0">
-              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-2 border-ink overflow-hidden shadow-notebook-xs relative bg-paper-inset">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-2 border-[#3a2f21] overflow-hidden shadow-2xs relative bg-[#f3ead9]">
                 {student.image ? (
                   <Image
                     src={student.image}
@@ -171,12 +171,12 @@ export default function StudentDashboardPage() {
                     className="object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full bg-teal text-white flex items-center justify-center font-display font-black text-2xl">
+                  <div className="w-full h-full bg-[#0d9488] text-white flex items-center justify-center font-display font-black text-2xl">
                     {student.name?.[0] || 'S'}
                   </div>
                 )}
               </div>
-              <span className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-emerald-500 border-2 border-ink flex items-center justify-center text-white text-[10px]">
+              <span className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-emerald-500 border-2 border-[#3a2f21] flex items-center justify-center text-white text-[10px]">
                 ✓
               </span>
             </div>
@@ -184,30 +184,30 @@ export default function StudentDashboardPage() {
             {/* Name, Email, Account Badge, Signup Date */}
             <div className="space-y-1.5 text-left">
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-                <h1 className="text-2xl sm:text-3xl font-display font-black text-ink">
+                <h1 className="text-2xl sm:text-3xl font-display font-black text-[#3a2f21]">
                   {student.name}
                 </h1>
 
                 {/* Account Status Badge */}
                 {student.plan === 'PAID' ? (
-                  <span className="inline-flex items-center gap-1 bg-yellow text-ink border border-ink px-3 py-0.5 rounded-full text-xs font-black shadow-2xs">
-                    <Crown className="w-3.5 h-3.5 text-purple" />
+                  <span className="inline-flex items-center gap-1 bg-[#ffd66e] text-[#3a2f21] border border-[#3a2f21] px-3 py-0.5 rounded-full text-xs font-black shadow-2xs">
+                    <Crown className="w-3.5 h-3.5 text-[#7c3aed]" />
                     <span>Premium Student</span>
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1 bg-teal-soft text-teal-deep border border-teal px-3 py-0.5 rounded-full text-xs font-black">
-                    <UserCheck className="w-3.5 h-3.5 text-teal" />
-                    <span>Free Plan / خطة مجانية</span>
+                  <span className="inline-flex items-center gap-1 bg-[#c9f2e8] text-[#0f766e] border border-[#0d9488] px-3 py-0.5 rounded-full text-xs font-black">
+                    <UserCheck className="w-3.5 h-3.5 text-[#0d9488]" />
+                    <span>{isArabic ? 'خطة مجانية' : 'Free Plan'}</span>
                   </span>
                 )}
               </div>
 
-              <p className="text-xs sm:text-sm text-ink-soft font-bold font-mono">
+              <p className="text-xs sm:text-sm text-[#5c4f3a] font-bold font-mono">
                 {student.email}
               </p>
 
-              <div className="flex items-center gap-2 text-xs text-muted font-bold pt-1">
-                <Calendar className="w-3.5 h-3.5 text-teal" />
+              <div className="flex items-center gap-2 text-xs text-[#8a7a5f] font-bold pt-1">
+                <Calendar className="w-3.5 h-3.5 text-[#0d9488]" />
                 <span>{isArabic ? `تاريخ التسجيل: ${signupDateFormatted}` : `Signed Up: ${signupDateFormatted}`}</span>
               </div>
             </div>
@@ -219,16 +219,16 @@ export default function StudentDashboardPage() {
             {student.plan === 'FREE' && (
               <button
                 onClick={handleUpgradePlan}
-                className="h-12 min-h-[48px] px-5 rounded-2xl bg-yellow hover:bg-amber-300 text-ink border-2 border-ink font-display font-black text-xs sm:text-sm shadow-notebook-xs flex items-center gap-2 hover:scale-102 transition-all"
+                className="h-12 min-h-[48px] px-5 rounded-2xl bg-[#ffd66e] hover:bg-amber-300 text-[#3a2f21] border-2 border-[#3a2f21] font-display font-black text-xs sm:text-sm shadow-[3px_3px_0_#3a2f21] flex items-center gap-2 hover:scale-102 transition-all"
               >
-                <Crown className="w-4 h-4 text-purple" />
+                <Crown className="w-4 h-4 text-[#7c3aed]" />
                 <span>{isArabic ? 'ترقية التقرير الشامل' : 'Upgrade to Premium'}</span>
               </button>
             )}
 
             <button
               onClick={handleSignOut}
-              className="h-12 min-h-[48px] px-4 rounded-2xl bg-paper hover:bg-paper-inset text-ink border-2 border-ink font-bold text-xs sm:text-sm shadow-notebook-xs flex items-center gap-1.5 transition-all"
+              className="h-12 min-h-[48px] px-4 rounded-2xl bg-[#fbf6ea] hover:bg-[#f3ead9] text-[#3a2f21] border-2 border-[#3a2f21] font-bold text-xs sm:text-sm shadow-[3px_3px_0_#3a2f21] flex items-center gap-1.5 transition-all"
             >
               <LogOut className="w-4 h-4 text-rose-600" />
               <span>{isArabic ? 'خروج' : 'Sign Out'}</span>
@@ -238,18 +238,18 @@ export default function StudentDashboardPage() {
 
         {/* --- FREE TIER UPGRADE CTA BANNER --- */}
         {student.plan === 'FREE' && (
-          <div className="bg-yellow rounded-3xl p-6 sm:p-8 text-ink border-2 border-ink shadow-notebook-md flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="bg-[#ffd66e] rounded-3xl p-6 sm:p-8 text-[#3a2f21] border-2 border-[#3a2f21] shadow-[5px_5px_0_#3a2f21] flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="space-y-2 text-center md:text-left">
-              <div className="inline-flex items-center gap-2 bg-paper-card px-3 py-1 rounded-full border border-ink text-xs font-extrabold shadow-2xs">
-                <Crown className="w-4 h-4 text-purple" />
-                <span>Bausalty Premium Report / التقرير الممتاز الشامل</span>
+              <div className="inline-flex items-center gap-2 bg-[#fffdf6] px-3 py-1 rounded-full border border-[#3a2f21] text-xs font-extrabold shadow-2xs">
+                <Crown className="w-4 h-4 text-[#7c3aed]" />
+                <span>{isArabic ? 'التقرير الممتاز الشامل' : 'Bausalty Premium Report'}</span>
               </div>
 
-              <h3 className="text-xl sm:text-2xl font-display font-black text-ink">
+              <h3 className="text-xl sm:text-2xl font-display font-black text-[#3a2f21]">
                 {isArabic ? 'احصل على الخريطة الأكاديمية الشاملة لقبولك الجامعي!' : 'Unlock Your Full Academic Admission Roadmap!'}
               </h3>
 
-              <p className="text-xs sm:text-sm text-ink-soft font-prose max-w-2xl">
+              <p className="text-xs sm:text-sm text-[#5c4f3a] font-prose max-w-2xl">
                 {isArabic
                   ? 'احصل على تحليل موسع لـ 16Personalities، وخارطة طريق للقبول في أفضل 5 جامعات سعودية، مع نسب الموزونة والحد الأدنى لدرجات القدرات والتحصيلي.'
                   : 'Get extended 16Personalities analysis, 5 top Saudi university admission roadmaps, weighted GPA requirements, and target Qudurat & Tahsili scores.'}
@@ -258,9 +258,9 @@ export default function StudentDashboardPage() {
 
             <button
               onClick={handleUpgradePlan}
-              className="h-12 min-h-[48px] bg-teal hover:bg-teal-deep text-white border-2 border-ink px-6 rounded-2xl font-display font-black text-sm shadow-notebook-xs shrink-0 inline-flex items-center gap-2 hover:scale-105 transition-all"
+              className="h-12 min-h-[48px] bg-[#0d9488] hover:bg-[#0f766e] text-white border-2 border-[#3a2f21] px-6 rounded-2xl font-display font-black text-sm shadow-[3px_3px_0_#3a2f21] shrink-0 inline-flex items-center gap-2 hover:scale-105 transition-all"
             >
-              <Zap className="w-4 h-4 text-yellow" />
+              <Zap className="w-4 h-4 text-[#ffd66e]" />
               <span>{isArabic ? 'ترقية الحساب الآن' : 'Upgrade Account Now'}</span>
             </button>
           </div>
@@ -270,60 +270,60 @@ export default function StudentDashboardPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           
           {/* Saved Assessment History List */}
-          <div className="lg:col-span-1 bg-paper-card rounded-notebook p-6 border-2 border-ink shadow-notebook-md space-y-6">
-            <div className="flex items-center justify-between border-b-2 border-ink/10 pb-4">
-              <h2 className="text-lg font-display font-black text-ink">
+          <div className="lg:col-span-1 bg-[#fffdf6] rounded-[18px] p-6 border-2 border-[#3a2f21] shadow-[5px_5px_0_#3a2f21] space-y-6">
+            <div className="flex items-center justify-between border-b-2 border-[#3a2f21]/10 pb-4">
+              <h2 className="text-lg font-display font-black text-[#3a2f21]">
                 {isArabic ? 'سجل الاختبارات المحفوظة' : 'Completed Assessment History'}
               </h2>
-              <Award className="w-5 h-5 text-teal" />
+              <Award className="w-5 h-5 text-[#0d9488]" />
             </div>
 
             {/* 1. Holland Code (RIASEC) Card */}
-            <div className="bg-paper p-4 rounded-2xl border-2 border-ink space-y-3">
+            <div className="bg-[#fbf6ea] p-4 rounded-2xl border-2 border-[#3a2f21] space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-black uppercase text-ink flex items-center gap-1">
-                  <Compass className="w-4 h-4 text-teal" />
+                <span className="text-xs font-black uppercase text-[#3a2f21] flex items-center gap-1">
+                  <Compass className="w-4 h-4 text-[#0d9488]" />
                   <span>Holland Code (RIASEC)</span>
                 </span>
-                <span className="text-[10px] font-black text-teal bg-teal-soft px-2 py-0.5 rounded border border-teal">Active</span>
+                <span className="text-[10px] font-black text-[#0d9488] bg-[#c9f2e8] px-2 py-0.5 rounded border border-[#0d9488]">Active</span>
               </div>
 
               {riasecResult ? (
                 <div className="space-y-2">
                   <div className="flex items-baseline justify-between">
-                    <span className="text-3xl font-display font-black text-ink tracking-widest">{riasecResult.topCode}</span>
-                    <span className="text-[11px] font-bold text-muted">
+                    <span className="text-3xl font-display font-black text-[#3a2f21] tracking-widest">{riasecResult.topCode}</span>
+                    <span className="text-[11px] font-bold text-[#8a7a5f]">
                       {new Date(riasecResult.completedAt).toLocaleDateString()}
                     </span>
                   </div>
 
-                  <p className="text-xs font-bold text-ink-soft">
-                    Dominant: {RIASEC_CATEGORIES[riasecResult.primaryType]?.nameEn} ({RIASEC_CATEGORIES[riasecResult.primaryType]?.nameAr})
+                  <p className="text-xs font-bold text-[#5c4f3a]">
+                    Dominant: {isArabic ? RIASEC_CATEGORIES[riasecResult.primaryType]?.nameAr : RIASEC_CATEGORIES[riasecResult.primaryType]?.nameEn}
                   </p>
 
                   <div className="pt-2 flex flex-col gap-2">
                     <Link
                       href="/results"
-                      className="w-full h-9 inline-flex items-center justify-center gap-1.5 bg-teal text-white border border-ink rounded-xl font-bold text-xs shadow-2xs"
+                      className="w-full h-9 inline-flex items-center justify-center gap-1.5 bg-[#0d9488] text-white border border-[#3a2f21] rounded-xl font-bold text-xs shadow-2xs"
                     >
-                      <BookOpen className="w-3.5 h-3.5 text-yellow" />
+                      <BookOpen className="w-3.5 h-3.5 text-[#ffd66e]" />
                       <span>{isArabic ? 'عرض النتائج التفصيلية' : 'View Detailed Results'}</span>
                     </Link>
 
                     <button
                       onClick={() => handleDownloadPdfReport('RIASEC')}
                       disabled={isDownloadingPdf}
-                      className="w-full h-9 inline-flex items-center justify-center gap-1.5 bg-yellow text-ink border border-ink rounded-xl font-bold text-xs shadow-2xs"
+                      className="w-full h-9 inline-flex items-center justify-center gap-1.5 bg-[#ffd66e] text-[#3a2f21] border border-[#3a2f21] rounded-xl font-bold text-xs shadow-2xs"
                     >
-                      <Download className="w-3.5 h-3.5 text-purple" />
+                      <Download className="w-3.5 h-3.5 text-[#7c3aed]" />
                       <span>{isDownloadingPdf ? 'جاري الإرسال...' : (isArabic ? 'تحميل التقرير (PDF)' : 'Download PDF Report')}</span>
                     </button>
                   </div>
                 </div>
               ) : (
                 <div className="py-2">
-                  <p className="text-xs text-muted font-bold">No saved Holland test result yet.</p>
-                  <Link href="/assessment/quiz" className="text-xs font-extrabold text-teal hover:underline mt-1 inline-block">
+                  <p className="text-xs text-[#8a7a5f] font-bold">No saved Holland test result yet.</p>
+                  <Link href="/assessment/quiz" className="text-xs font-extrabold text-[#0d9488] hover:underline mt-1 inline-block">
                     Take 42-item RIASEC Test →
                   </Link>
                 </div>
@@ -331,51 +331,51 @@ export default function StudentDashboardPage() {
             </div>
 
             {/* 2. 16Personalities MBTI Card */}
-            <div className="bg-paper p-4 rounded-2xl border-2 border-ink space-y-3">
+            <div className="bg-[#fbf6ea] p-4 rounded-2xl border-2 border-[#3a2f21] space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-black uppercase text-ink flex items-center gap-1">
-                  <Brain className="w-4 h-4 text-purple" />
+                <span className="text-xs font-black uppercase text-[#3a2f21] flex items-center gap-1">
+                  <Brain className="w-4 h-4 text-[#7c3aed]" />
                   <span>16Personalities Test</span>
                 </span>
-                <span className="text-[10px] font-black text-purple bg-purple-soft px-2 py-0.5 rounded border border-purple">Matched</span>
+                <span className="text-[10px] font-black text-[#7c3aed] bg-[#f5efff] px-2 py-0.5 rounded border border-[#7c3aed]">Matched</span>
               </div>
 
               {mbtiResult ? (
                 <div className="space-y-2">
                   <div className="flex items-baseline justify-between">
-                    <span className="text-2xl font-display font-black text-ink">{mbtiResult.code}</span>
-                    <span className="text-[11px] font-bold text-muted">
+                    <span className="text-2xl font-display font-black text-[#3a2f21]">{mbtiResult.code}</span>
+                    <span className="text-[11px] font-bold text-[#8a7a5f]">
                       {new Date(mbtiResult.completedAt).toLocaleDateString()}
                     </span>
                   </div>
 
-                  <p className="text-xs font-bold text-ink-soft">
+                  <p className="text-xs font-bold text-[#5c4f3a]">
                     {isArabic ? mbtiResult.archetype.titleAr : mbtiResult.archetype.titleEn}
                   </p>
 
                   <div className="pt-2 flex flex-col gap-2">
                     <Link
                       href="/personality-test"
-                      className="w-full h-9 inline-flex items-center justify-center gap-1.5 bg-paper-card text-ink border border-ink rounded-xl font-bold text-xs shadow-2xs"
+                      className="w-full h-9 inline-flex items-center justify-center gap-1.5 bg-[#fffdf6] text-[#3a2f21] border border-[#3a2f21] rounded-xl font-bold text-xs shadow-2xs"
                     >
-                      <ExternalLink className="w-3.5 h-3.5 text-teal" />
-                      <span>{isArabic ? 'عرض تحليل الشحصة' : 'View Profile Details'}</span>
+                      <ExternalLink className="w-3.5 h-3.5 text-[#0d9488]" />
+                      <span>{isArabic ? 'عرض تحليل الشخصية' : 'View Profile Details'}</span>
                     </Link>
 
                     <button
                       onClick={() => handleDownloadPdfReport('16PERSONALITIES')}
                       disabled={isDownloadingPdf}
-                      className="w-full h-9 inline-flex items-center justify-center gap-1.5 bg-yellow text-ink border border-ink rounded-xl font-bold text-xs shadow-2xs"
+                      className="w-full h-9 inline-flex items-center justify-center gap-1.5 bg-[#ffd66e] text-[#3a2f21] border border-[#3a2f21] rounded-xl font-bold text-xs shadow-2xs"
                     >
-                      <Download className="w-3.5 h-3.5 text-purple" />
+                      <Download className="w-3.5 h-3.5 text-[#7c3aed]" />
                       <span>{isDownloadingPdf ? 'جاري الإرسال...' : (isArabic ? 'تحميل التقرير (PDF)' : 'Download PDF Report')}</span>
                     </button>
                   </div>
                 </div>
               ) : (
                 <div className="py-2">
-                  <p className="text-xs text-muted font-bold">No saved 16Personalities test result yet.</p>
-                  <Link href="/personality-test" className="text-xs font-extrabold text-teal hover:underline mt-1 inline-block">
+                  <p className="text-xs text-[#8a7a5f] font-bold">No saved 16Personalities test result yet.</p>
+                  <Link href="/personality-test" className="text-xs font-extrabold text-[#0d9488] hover:underline mt-1 inline-block">
                     Take Free 16Personalities Test →
                   </Link>
                 </div>
@@ -386,9 +386,9 @@ export default function StudentDashboardPage() {
             <div className="pt-2">
               <Link
                 href="/assessment/quiz"
-                className="w-full h-11 min-h-[44px] inline-flex items-center justify-center gap-2 bg-paper hover:bg-paper-inset text-ink border-2 border-ink rounded-xl font-bold text-xs shadow-notebook-xs transition-all"
+                className="w-full h-11 min-h-[44px] inline-flex items-center justify-center gap-2 bg-[#fbf6ea] hover:bg-[#f3ead9] text-[#3a2f21] border-2 border-[#3a2f21] rounded-xl font-bold text-xs shadow-[3px_3px_0_#3a2f21] transition-all"
               >
-                <RotateCcw className="w-4 h-4 text-teal" />
+                <RotateCcw className="w-4 h-4 text-[#0d9488]" />
                 <span>{isArabic ? 'إعادة إجراء الاختبار' : 'Retake Assessment'}</span>
               </Link>
             </div>
@@ -397,19 +397,19 @@ export default function StudentDashboardPage() {
 
           {/* Personality Card Display Column */}
           <div className="lg:col-span-2 space-y-6">
-            <div className="bg-paper-card rounded-notebook p-6 sm:p-8 border-2 border-ink shadow-notebook-md space-y-6">
-              <div className="flex items-center justify-between border-b-2 border-ink/10 pb-4">
+            <div className="bg-[#fffdf6] rounded-[18px] p-6 sm:p-8 border-2 border-[#3a2f21] shadow-[5px_5px_0_#3a2f21] space-y-6">
+              <div className="flex items-center justify-between border-b-2 border-[#3a2f21]/10 pb-4">
                 <div>
-                  <h2 className="text-xl font-display font-black text-ink">
+                  <h2 className="text-xl font-display font-black text-[#3a2f21]">
                     {isArabic ? 'بطاقة شخصية بوصالتي الرسمية' : 'Official Bausalty Personality Card'}
                   </h2>
-                  <p className="text-xs font-semibold text-muted">
+                  <p className="text-xs font-semibold text-[#8a7a5f]">
                     {isArabic ? 'بطاقة التقرير المعتمدة لمشاركتها مع التوجيه الأكاديمي' : 'Official shareable profile card'}
                   </p>
                 </div>
 
                 {riasecResult && (
-                  <span className="text-xs font-extrabold bg-yellow border border-ink px-3 py-1 rounded-full shadow-2xs">
+                  <span className="text-xs font-extrabold bg-[#ffd66e] border border-[#3a2f21] px-3 py-1 rounded-full shadow-2xs">
                     {riasecResult.topCode}
                   </span>
                 )}
@@ -419,11 +419,11 @@ export default function StudentDashboardPage() {
                 <PersonalityCard result={riasecResult} />
               ) : (
                 <div className="text-center py-12 space-y-4">
-                  <Compass className="w-12 h-12 text-teal mx-auto animate-pulse" />
-                  <p className="text-ink-soft text-sm font-bold">Please complete the test first to generate your personality card.</p>
+                  <Compass className="w-12 h-12 text-[#0d9488] mx-auto animate-pulse" />
+                  <p className="text-[#5c4f3a] text-sm font-bold">Please complete the test first to generate your personality card.</p>
                   <Link
                     href="/assessment/quiz"
-                    className="inline-flex items-center gap-2 bg-teal text-white border-2 border-ink px-6 py-3 rounded-xl font-black text-sm shadow-notebook-xs"
+                    className="inline-flex items-center gap-2 bg-[#0d9488] text-white border-2 border-[#3a2f21] px-6 py-3 rounded-xl font-black text-sm shadow-[3px_3px_0_#3a2f21]"
                   >
                     <span>Start Test Now</span>
                   </Link>
