@@ -5,6 +5,14 @@ import { Download, Compass, Award, CheckCircle2, QrCode } from 'lucide-react';
 import { AssessmentResult, RiasecType } from '@/types';
 import { RIASEC_CATEGORIES } from '@/data/questions';
 import { toPng } from 'html-to-image';
+import {
+  ResponsiveContainer,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  Radar,
+} from 'recharts';
 
 interface PersonalityCardProps {
   result: AssessmentResult;
@@ -37,6 +45,14 @@ export default function PersonalityCard({ result }: PersonalityCardProps) {
     })
   );
 
+  // Radar data for mini chart inside the card
+  const categoriesList: RiasecType[] = ['R', 'I', 'A', 'S', 'E', 'C'];
+  const radarData = categoriesList.map((cat) => ({
+    category: cat,
+    score: result.normalizedScores[cat] || 0,
+    fullMark: 100,
+  }));
+
   const handleDownloadImage = async () => {
     if (!cardRef.current) return;
     setIsDownloading(true);
@@ -44,7 +60,7 @@ export default function PersonalityCard({ result }: PersonalityCardProps) {
     try {
       const dataUrl = await toPng(cardRef.current, {
         cacheBust: true,
-        quality: 0.95,
+        quality: 0.98,
         pixelRatio: 2,
       });
 
@@ -63,111 +79,134 @@ export default function PersonalityCard({ result }: PersonalityCardProps) {
   return (
     <div className="flex flex-col items-center space-y-6">
       
-      {/* --- SHAREABLE DOWLOADABLE CARD CONTAINER --- */}
+      {/* --- SHAREABLE DOWNLOADABLE CARD CONTAINER WITH NOTEBOOK DESIGN SYSTEM --- */}
       <div
         ref={cardRef}
-        className="w-full max-w-lg bg-gradient-to-br from-[#1E3A8A] via-[#1D4ED8] to-[#0284C7] rounded-3xl p-6 sm:p-8 text-white shadow-2xl relative overflow-hidden border border-sky-300/30"
+        className="w-full max-w-lg bg-[#fffdf6] rounded-[18px] p-6 sm:p-8 text-[#3a2f21] border-2 border-[#3a2f21] shadow-[5px_5px_0_#3a2f21] relative overflow-hidden space-y-5"
       >
-        {/* Background Accent Grids */}
-        <div className="absolute top-0 right-0 -mt-10 -mr-10 w-48 h-48 bg-sky-400/20 rounded-full blur-2xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-48 h-48 bg-blue-900/40 rounded-full blur-2xl pointer-events-none" />
-
         {/* Card Header & Brand */}
-        <div className="flex items-center justify-between border-b border-white/15 pb-5 relative z-10">
+        <div className="flex items-center justify-between border-b-2 border-[#3a2f21]/15 pb-4 relative z-10">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-2xl bg-white text-[#1E3A8A] flex items-center justify-center shadow-lg">
-              <Compass className="w-6 h-6 text-[#0284C7]" />
+            <div className="w-11 h-11 rounded-2xl bg-[#0d9488] text-white border-2 border-[#3a2f21] flex items-center justify-center shadow-2xs">
+              <Compass className="w-6 h-6 text-[#ffd66e]" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-xl font-black text-white tracking-tight">Bausalty</span>
-                <span className="text-lg font-bold text-sky-200">بوصلتي</span>
+                <span className="text-xl font-display font-black text-[#3a2f21] tracking-tight">Bausalty</span>
+                <span className="text-lg font-display font-bold text-[#0d9488]">بوصلتي</span>
               </div>
-              <p className="text-[11px] font-semibold text-sky-200">
+              <p className="text-[11px] font-bold text-[#8a7a5f]">
                 Tahseen AI Group | مجموعة تحسين
               </p>
             </div>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/20 text-center">
-            <span className="block text-[10px] text-sky-200 font-bold uppercase tracking-wider">Holland Code</span>
-            <span className="text-xl font-black tracking-widest text-white">{result.topCode}</span>
+          <div className="bg-[#ffd66e] px-3 py-1.5 rounded-xl border-2 border-[#3a2f21] text-center shadow-2xs">
+            <span className="block text-[10px] text-[#3a2f21] font-black uppercase tracking-wider">Holland Code</span>
+            <span className="text-xl font-display font-black tracking-widest text-[#3a2f21]">{result.topCode}</span>
           </div>
         </div>
 
         {/* Archetype Title */}
-        <div className="py-6 text-center space-y-2 relative z-10">
-          <div className="inline-flex items-center gap-1.5 bg-amber-400/20 text-amber-200 border border-amber-300/30 px-3 py-1 rounded-full text-xs font-extrabold">
-            <Award className="w-3.5 h-3.5 text-amber-300" />
+        <div className="py-2 text-center space-y-1.5 relative z-10">
+          <div className="inline-flex items-center gap-1.5 bg-[#c9f2e8] text-[#0f766e] border border-[#0d9488] px-3 py-0.5 rounded-full text-xs font-black">
+            <Award className="w-3.5 h-3.5 text-[#0d9488]" />
             <span>Personality Archetype</span>
           </div>
 
-          <h3 className="text-2xl sm:text-3xl font-black text-white leading-tight">
+          <h3 className="text-2xl sm:text-3xl font-display font-black text-[#3a2f21] leading-tight">
             {archetype.en}
           </h3>
-          <p className="text-lg font-bold text-sky-200 font-sans dir-rtl">
+          <p className="text-base sm:text-lg font-display font-bold text-[#0d9488]">
             {archetype.ar}
           </p>
         </div>
 
+        {/* EMBEDDED MINI RECHARTS RADAR CHART */}
+        <div className="bg-[#fbf6ea] rounded-2xl p-3 border-2 border-[#3a2f21] space-y-1 relative z-10">
+          <div className="flex items-center justify-between px-1">
+            <span className="text-xs font-display font-black text-[#3a2f21]">RIASEC Trait Polygon</span>
+            <span className="text-[10px] font-bold text-[#8a7a5f]">6-Axis Profile</span>
+          </div>
+
+          <div className="w-full h-44 sm:h-48">
+            <ResponsiveContainer width="100%" height="100%">
+              <RadarChart cx="50%" cy="50%" outerRadius="75%" data={radarData}>
+                <PolarGrid stroke="#3a2f21" strokeDasharray="2 2" opacity={0.3} />
+                <PolarAngleAxis
+                  dataKey="category"
+                  tick={{ fill: '#3a2f21', fontSize: 11, fontWeight: 800, fontFamily: 'Baloo Bhaijaan 2' }}
+                />
+                <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="#8a7a5f" tick={false} />
+                <Radar
+                  name="Score"
+                  dataKey="score"
+                  stroke="#0d9488"
+                  fill="#ffd66e"
+                  fillOpacity={0.75}
+                />
+              </RadarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
         {/* Top 3 Strengths Breakdown */}
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15 space-y-3 relative z-10 my-2">
-          <p className="text-xs font-bold text-sky-200 uppercase tracking-wider">
-            Top 3 RIASEC Traits / أبرز السمات الشخصية
+        <div className="bg-[#fbf6ea] rounded-2xl p-3.5 border-2 border-[#3a2f21] space-y-2 relative z-10">
+          <p className="text-xs font-display font-black text-[#3a2f21] uppercase tracking-wider">
+            Top 3 RIASEC Traits
           </p>
 
           <div className="grid grid-cols-3 gap-2 text-center">
             {topStrengths.map((item) => (
-              <div key={item.code} className="bg-white/10 rounded-xl p-2.5 border border-white/10">
-                <span className="text-xl font-black text-amber-300 block">{item.score}%</span>
-                <span className="text-xs font-bold text-white block truncate">{item.info.nameEn}</span>
-                <span className="text-[10px] font-semibold text-sky-200 block font-sans truncate">{item.info.nameAr}</span>
+              <div key={item.code} className="bg-[#fffdf6] rounded-xl p-2 border border-[#3a2f21]">
+                <span className="text-lg font-display font-black text-[#0d9488] block">{item.score}%</span>
+                <span className="text-[11px] font-bold text-[#3a2f21] block truncate">{item.info.nameEn}</span>
               </div>
             ))}
           </div>
         </div>
 
         {/* Top 2 Major Recommendations */}
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15 space-y-2.5 relative z-10">
-          <p className="text-xs font-bold text-sky-200 uppercase tracking-wider flex items-center justify-between">
-            <span>Top Major Matches / أفضل التخصصات</span>
-            <span className="text-amber-300 text-[11px] font-black">{topMajor?.matchScore}% Match</span>
+        <div className="bg-[#fbf6ea] rounded-2xl p-3.5 border-2 border-[#3a2f21] space-y-2 relative z-10">
+          <p className="text-xs font-display font-black text-[#3a2f21] uppercase tracking-wider flex items-center justify-between">
+            <span>Top Major Matches</span>
+            <span className="text-[#0d9488] font-black">{topMajor?.matchScore}% Match</span>
           </p>
 
           {topMajor && (
-            <div className="flex items-start gap-2 text-xs font-bold text-white bg-white/10 p-2.5 rounded-xl border border-white/10">
-              <CheckCircle2 className="w-4 h-4 text-emerald-300 shrink-0 mt-0.5" />
+            <div className="flex items-start gap-2 text-xs font-bold text-[#3a2f21] bg-[#fffdf6] p-2.5 rounded-xl border border-[#3a2f21]">
+              <CheckCircle2 className="w-4 h-4 text-[#0d9488] shrink-0 mt-0.5" />
               <div>
-                <p className="text-white font-extrabold">{topMajor.nameEn}</p>
-                <p className="text-sky-200 font-sans font-semibold text-[11px]">{topMajor.nameAr}</p>
+                <p className="text-[#3a2f21] font-extrabold">{topMajor.nameEn}</p>
+                <p className="text-[#5c4f3a] font-bold text-[11px]">{topMajor.nameAr}</p>
               </div>
             </div>
           )}
 
           {secondMajor && (
-            <div className="flex items-start gap-2 text-xs font-bold text-white bg-white/5 p-2.5 rounded-xl border border-white/5">
-              <CheckCircle2 className="w-4 h-4 text-sky-300 shrink-0 mt-0.5" />
+            <div className="flex items-start gap-2 text-xs font-bold text-[#3a2f21] bg-[#fffdf6] p-2.5 rounded-xl border border-[#3a2f21]">
+              <CheckCircle2 className="w-4 h-4 text-[#7c3aed] shrink-0 mt-0.5" />
               <div>
-                <p className="text-white font-extrabold">{secondMajor.nameEn}</p>
-                <p className="text-sky-200 font-sans font-semibold text-[11px]">{secondMajor.nameAr}</p>
+                <p className="text-[#3a2f21] font-extrabold">{secondMajor.nameEn}</p>
+                <p className="text-[#5c4f3a] font-bold text-[11px]">{secondMajor.nameAr}</p>
               </div>
             </div>
           )}
         </div>
 
         {/* Footer & QR Link */}
-        <div className="mt-6 pt-4 border-t border-white/15 flex items-center justify-between text-xs text-sky-200 relative z-10">
+        <div className="pt-3 border-t-2 border-[#3a2f21]/15 flex items-center justify-between text-xs text-[#5c4f3a] relative z-10">
           <div className="flex items-center gap-2">
-            <QrCode className="w-8 h-8 text-white/80" />
+            <QrCode className="w-7 h-7 text-[#3a2f21]" />
             <div>
-              <p className="font-extrabold text-white text-[11px]">Bausalty.com</p>
-              <p className="text-[10px] text-sky-200">Tahseen AI Major Engine</p>
+              <p className="font-extrabold text-[#3a2f21] text-[11px]">Bausalty.com</p>
+              <p className="text-[10px] text-[#8a7a5f]">Tahseen AI Major Engine</p>
             </div>
           </div>
 
           <div className="text-right">
-            <p className="text-[10px] font-semibold text-sky-200">Validated for Saudi Students</p>
-            <p className="text-[10px] font-bold text-amber-300">Saudi Vision 2030</p>
+            <p className="text-[10px] font-bold text-[#5c4f3a]">Saudi Arabia Higher Ed</p>
+            <p className="text-[10px] font-black text-[#0d9488]">Saudi Vision 2030</p>
           </div>
         </div>
 
@@ -177,13 +216,13 @@ export default function PersonalityCard({ result }: PersonalityCardProps) {
       <button
         onClick={handleDownloadImage}
         disabled={isDownloading}
-        className="inline-flex items-center gap-2 bg-[#1E3A8A] hover:bg-[#1D4ED8] text-white px-6 py-3.5 rounded-2xl font-black text-sm shadow-xl hover:scale-102 active:scale-98 transition-all"
+        className="h-12 min-h-[48px] inline-flex items-center gap-2 bg-[#0d9488] hover:bg-[#0f766e] text-white px-6 rounded-2xl font-display font-black text-sm border-2 border-[#3a2f21] shadow-[3px_3px_0_#3a2f21] hover:scale-102 active:scale-98 transition-all"
       >
-        <Download className="w-4 h-4 text-sky-300" />
+        <Download className="w-4 h-4 text-[#ffd66e]" />
         <span>
           {isDownloading
             ? 'Generating Image... / جاري التحميل'
-            : 'Download Personality Card / تحميل بطاقة الشخصية'}
+            : 'Download Personality Card (PNG) / تحميل بطاقة الشخصية'}
         </span>
       </button>
 
