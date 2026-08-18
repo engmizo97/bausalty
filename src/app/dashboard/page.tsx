@@ -14,6 +14,10 @@ import {
   Zap,
   LogOut,
   Lock,
+  Download,
+  Brain,
+  Calendar,
+  ExternalLink,
 } from 'lucide-react';
 import { AssessmentResult } from '@/types';
 import { RIASEC_CATEGORIES } from '@/data/questions';
@@ -26,6 +30,18 @@ interface StudentProfile {
   email: string;
   plan: 'FREE' | 'PAID';
   image: string;
+  signedInAt?: string;
+}
+
+interface MbtiResultSaved {
+  code: string;
+  archetype: {
+    titleEn: string;
+    titleAr: string;
+    groupEn: string;
+    groupAr: string;
+  };
+  completedAt: string;
 }
 
 export default function StudentDashboardPage() {
@@ -34,24 +50,30 @@ export default function StudentDashboardPage() {
   const isArabic = language === 'ar';
 
   const [student, setStudent] = useState<StudentProfile | null>(null);
-  const [result, setResult] = useState<AssessmentResult | null>(null);
+  const [riasecResult, setRiasecResult] = useState<AssessmentResult | null>(null);
+  const [mbtiResult, setMbtiResult] = useState<MbtiResultSaved | null>(null);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [isDownloadingPdf, setIsDownloadingPdf] = useState<boolean>(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       try {
         const savedSession = localStorage.getItem('bausalty_user_session');
         if (!savedSession) {
-          // Redirect unauthenticated user to login
           router.push('/login?callbackUrl=/dashboard');
           return;
         }
 
         setStudent(JSON.parse(savedSession));
 
-        const savedResult = localStorage.getItem('bausalty_assessment_result');
-        if (savedResult) {
-          setResult(JSON.parse(savedResult));
+        const savedRiasec = localStorage.getItem('bausalty_assessment_result');
+        if (savedRiasec) {
+          setRiasecResult(JSON.parse(savedRiasec));
+        }
+
+        const savedMbti = localStorage.getItem('bausalty_mbti_result');
+        if (savedMbti) {
+          setMbtiResult(JSON.parse(savedMbti));
         }
       } catch {
         // Ignore
@@ -65,7 +87,6 @@ export default function StudentDashboardPage() {
   const handleSignOut = () => {
     try {
       localStorage.removeItem('bausalty_user_session');
-      // Trigger storage event so Header updates its state instantly
       window.dispatchEvent(new Event('storage'));
     } catch {
       // Ignore
@@ -85,6 +106,36 @@ export default function StudentDashboardPage() {
     alert(isArabic ? 'تم ترقية حسابك بنجاح إلى الفئة الممتازة!' : 'Your account has been upgraded to Premium!');
   };
 
+  const handleDownloadPdfReport = async (testType: 'RIASEC' | '16PERSONALITIES') => {
+    if (!student) return;
+    setIsDownloadingPdf(true);
+
+    try {
+      const res = await fetch('/api/email/results', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: student.email,
+          name: student.name,
+          testType,
+          riasecResult,
+          personalityResult: mbtiResult,
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert(isArabic ? `تم إرسال تقرير PDF إلى بريدك الإلكتروني: ${student.email}` : `PDF report sent to your email: ${student.email}`);
+      } else {
+        alert(data?.error || 'Failed to trigger PDF report.');
+      }
+    } catch (err) {
+      console.error('PDF download error:', err);
+    } finally {
+      setIsDownloadingPdf(false);
+    }
+  };
+
   if (!isLoaded || !student) {
     return (
       <div className="flex-1 bg-paper flex items-center justify-center p-12">
@@ -95,6 +146,10 @@ export default function StudentDashboardPage() {
       </div>
     );
   }
+
+  const signupDateFormatted = student.signedInAt
+    ? new Date(student.signedInAt).toLocaleDateString()
+    : new Date().toLocaleDateString();
 
   return (
     <div className="flex-1 bg-paper py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
@@ -126,7 +181,7 @@ export default function StudentDashboardPage() {
               </span>
             </div>
 
-            {/* Name, Email, Account Badge */}
+            {/* Name, Email, Account Badge, Signup Date */}
             <div className="space-y-1.5 text-left">
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
                 <h1 className="text-2xl sm:text-3xl font-display font-black text-ink">
@@ -151,11 +206,10 @@ export default function StudentDashboardPage() {
                 {student.email}
               </p>
 
-              <p className="text-xs text-muted font-prose">
-                {isArabic
-                  ? 'طالب مسجل في منصة بوصلتي لتقييم التخصصات ومسارات المستقبل'
-                  : 'Registered student on Bausalty Major & Career Alignment Engine'}
-              </p>
+              <div className="flex items-center gap-2 text-xs text-muted font-bold pt-1">
+                <Calendar className="w-3.5 h-3.5 text-teal" />
+                <span>{isArabic ? `تاريخ التسجيل: ${signupDateFormatted}` : `Signed Up: ${signupDateFormatted}`}</span>
+              </div>
             </div>
 
           </div>
@@ -212,31 +266,59 @@ export default function StudentDashboardPage() {
           </div>
         )}
 
-        {/* --- SAVED HOLLAND CODE & TEST RESULTS SUMMARY --- */}
+        {/* --- SAVED ASSESSMENTS HISTORY LIST --- */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           
-          {/* Saved Test Status Card */}
+          {/* Saved Assessment History List */}
           <div className="lg:col-span-1 bg-paper-card rounded-notebook p-6 border-2 border-ink shadow-notebook-md space-y-6">
             <div className="flex items-center justify-between border-b-2 border-ink/10 pb-4">
               <h2 className="text-lg font-display font-black text-ink">
-                {isArabic ? 'نتائج الاختبارات المحفوظة' : 'Saved Test Results'}
+                {isArabic ? 'سجل الاختبارات المحفوظة' : 'Completed Assessment History'}
               </h2>
               <Award className="w-5 h-5 text-teal" />
             </div>
 
-            {/* Holland Code Badge */}
-            <div className="bg-paper p-4 rounded-2xl border-2 border-ink space-y-2">
+            {/* 1. Holland Code (RIASEC) Card */}
+            <div className="bg-paper p-4 rounded-2xl border-2 border-ink space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-extrabold uppercase text-muted">Holland Code (RIASEC)</span>
-                <span className="text-xs font-black text-teal bg-teal-soft px-2 py-0.5 rounded border border-teal">Active</span>
+                <span className="text-xs font-black uppercase text-ink flex items-center gap-1">
+                  <Compass className="w-4 h-4 text-teal" />
+                  <span>Holland Code (RIASEC)</span>
+                </span>
+                <span className="text-[10px] font-black text-teal bg-teal-soft px-2 py-0.5 rounded border border-teal">Active</span>
               </div>
 
-              {result ? (
-                <div>
-                  <span className="text-3xl font-display font-black text-ink tracking-widest">{result.topCode}</span>
-                  <p className="text-xs font-bold text-ink-soft mt-1">
-                    Dominant: {RIASEC_CATEGORIES[result.primaryType]?.nameEn} ({RIASEC_CATEGORIES[result.primaryType]?.nameAr})
+              {riasecResult ? (
+                <div className="space-y-2">
+                  <div className="flex items-baseline justify-between">
+                    <span className="text-3xl font-display font-black text-ink tracking-widest">{riasecResult.topCode}</span>
+                    <span className="text-[11px] font-bold text-muted">
+                      {new Date(riasecResult.completedAt).toLocaleDateString()}
+                    </span>
+                  </div>
+
+                  <p className="text-xs font-bold text-ink-soft">
+                    Dominant: {RIASEC_CATEGORIES[riasecResult.primaryType]?.nameEn} ({RIASEC_CATEGORIES[riasecResult.primaryType]?.nameAr})
                   </p>
+
+                  <div className="pt-2 flex flex-col gap-2">
+                    <Link
+                      href="/results"
+                      className="w-full h-9 inline-flex items-center justify-center gap-1.5 bg-teal text-white border border-ink rounded-xl font-bold text-xs shadow-2xs"
+                    >
+                      <BookOpen className="w-3.5 h-3.5 text-yellow" />
+                      <span>{isArabic ? 'عرض النتائج التفصيلية' : 'View Detailed Results'}</span>
+                    </Link>
+
+                    <button
+                      onClick={() => handleDownloadPdfReport('RIASEC')}
+                      disabled={isDownloadingPdf}
+                      className="w-full h-9 inline-flex items-center justify-center gap-1.5 bg-yellow text-ink border border-ink rounded-xl font-bold text-xs shadow-2xs"
+                    >
+                      <Download className="w-3.5 h-3.5 text-purple" />
+                      <span>{isDownloadingPdf ? 'جاري الإرسال...' : (isArabic ? 'تحميل التقرير (PDF)' : 'Download PDF Report')}</span>
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <div className="py-2">
@@ -248,39 +330,66 @@ export default function StudentDashboardPage() {
               )}
             </div>
 
-            {/* 16Personalities Card */}
-            <div className="bg-paper p-4 rounded-2xl border-2 border-ink space-y-2">
+            {/* 2. 16Personalities MBTI Card */}
+            <div className="bg-paper p-4 rounded-2xl border-2 border-ink space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-extrabold uppercase text-muted">16Personalities Profile</span>
-                <span className="text-xs font-black text-purple bg-purple-soft px-2 py-0.5 rounded border border-purple">Matched</span>
+                <span className="text-xs font-black uppercase text-ink flex items-center gap-1">
+                  <Brain className="w-4 h-4 text-purple" />
+                  <span>16Personalities Test</span>
+                </span>
+                <span className="text-[10px] font-black text-purple bg-purple-soft px-2 py-0.5 rounded border border-purple">Matched</span>
               </div>
 
-              <div>
-                <span className="text-2xl font-display font-black text-ink">INTJ / Analyst (المحلل)</span>
-                <p className="text-xs text-ink-soft font-prose mt-1">
-                  {isArabic
-                    ? 'توافق عالٍ مع تخصصات الذكاء الاصطناعي، الأمن السيبراني، والفينتك.'
-                    : 'High correlation with AI, Cybersecurity, and FinTech majors.'}
-                </p>
-              </div>
+              {mbtiResult ? (
+                <div className="space-y-2">
+                  <div className="flex items-baseline justify-between">
+                    <span className="text-2xl font-display font-black text-ink">{mbtiResult.code}</span>
+                    <span className="text-[11px] font-bold text-muted">
+                      {new Date(mbtiResult.completedAt).toLocaleDateString()}
+                    </span>
+                  </div>
+
+                  <p className="text-xs font-bold text-ink-soft">
+                    {isArabic ? mbtiResult.archetype.titleAr : mbtiResult.archetype.titleEn}
+                  </p>
+
+                  <div className="pt-2 flex flex-col gap-2">
+                    <Link
+                      href="/personality-test"
+                      className="w-full h-9 inline-flex items-center justify-center gap-1.5 bg-paper-card text-ink border border-ink rounded-xl font-bold text-xs shadow-2xs"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5 text-teal" />
+                      <span>{isArabic ? 'عرض تحليل الشحصة' : 'View Profile Details'}</span>
+                    </Link>
+
+                    <button
+                      onClick={() => handleDownloadPdfReport('16PERSONALITIES')}
+                      disabled={isDownloadingPdf}
+                      className="w-full h-9 inline-flex items-center justify-center gap-1.5 bg-yellow text-ink border border-ink rounded-xl font-bold text-xs shadow-2xs"
+                    >
+                      <Download className="w-3.5 h-3.5 text-purple" />
+                      <span>{isDownloadingPdf ? 'جاري الإرسال...' : (isArabic ? 'تحميل التقرير (PDF)' : 'Download PDF Report')}</span>
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="py-2">
+                  <p className="text-xs text-muted font-bold">No saved 16Personalities test result yet.</p>
+                  <Link href="/personality-test" className="text-xs font-extrabold text-teal hover:underline mt-1 inline-block">
+                    Take Free 16Personalities Test →
+                  </Link>
+                </div>
+              )}
             </div>
 
-            {/* Action Buttons */}
-            <div className="pt-2 space-y-2">
+            {/* Action Button */}
+            <div className="pt-2">
               <Link
                 href="/assessment/quiz"
                 className="w-full h-11 min-h-[44px] inline-flex items-center justify-center gap-2 bg-paper hover:bg-paper-inset text-ink border-2 border-ink rounded-xl font-bold text-xs shadow-notebook-xs transition-all"
               >
                 <RotateCcw className="w-4 h-4 text-teal" />
                 <span>{isArabic ? 'إعادة إجراء الاختبار' : 'Retake Assessment'}</span>
-              </Link>
-
-              <Link
-                href="/results"
-                className="w-full h-11 min-h-[44px] inline-flex items-center justify-center gap-2 bg-teal hover:bg-teal-deep text-white border-2 border-ink rounded-xl font-bold text-xs shadow-notebook-xs transition-all"
-              >
-                <BookOpen className="w-4 h-4 text-yellow" />
-                <span>{isArabic ? 'عرض تقرير النتائج الكامل' : 'View Full Results Report'}</span>
               </Link>
             </div>
 
@@ -292,22 +401,22 @@ export default function StudentDashboardPage() {
               <div className="flex items-center justify-between border-b-2 border-ink/10 pb-4">
                 <div>
                   <h2 className="text-xl font-display font-black text-ink">
-                    {isArabic ? 'بطاقة شخصية بوصلتي الرسمية' : 'Official Bausalty Personality Card'}
+                    {isArabic ? 'بطاقة شخصية بوصالتي الرسمية' : 'Official Bausalty Personality Card'}
                   </h2>
                   <p className="text-xs font-semibold text-muted">
                     {isArabic ? 'بطاقة التقرير المعتمدة لمشاركتها مع التوجيه الأكاديمي' : 'Official shareable profile card'}
                   </p>
                 </div>
 
-                {result && (
+                {riasecResult && (
                   <span className="text-xs font-extrabold bg-yellow border border-ink px-3 py-1 rounded-full shadow-2xs">
-                    {result.topCode}
+                    {riasecResult.topCode}
                   </span>
                 )}
               </div>
 
-              {result ? (
-                <PersonalityCard result={result} />
+              {riasecResult ? (
+                <PersonalityCard result={riasecResult} />
               ) : (
                 <div className="text-center py-12 space-y-4">
                   <Compass className="w-12 h-12 text-teal mx-auto animate-pulse" />

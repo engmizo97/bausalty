@@ -27,7 +27,7 @@ export default function LoginPage() {
     return '/dashboard';
   };
 
-  const handleDemoSignIn = (e: React.FormEvent) => {
+  const handleDemoSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
@@ -44,6 +44,13 @@ export default function LoginPage() {
       localStorage.setItem('bausalty_user_session', JSON.stringify(userProfile));
       // Notify other components of authentication state change
       window.dispatchEvent(new Event('storage'));
+
+      // Automatically trigger SendGrid Welcome Email
+      fetch('/api/email/welcome', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: userProfile.email, name: userProfile.name }),
+      }).catch(() => {});
     } catch {
       // Ignore write error
     }
@@ -54,7 +61,7 @@ export default function LoginPage() {
     }, 400);
   };
 
-  const handleGoogleSignIn = () => {
+  const handleGoogleSignIn = async () => {
     setIsLoading(true);
     const userProfile = {
       id: 'google-student-202',
@@ -69,6 +76,13 @@ export default function LoginPage() {
       localStorage.setItem('bausalty_user_session', JSON.stringify(userProfile));
       // Notify other components of authentication state change
       window.dispatchEvent(new Event('storage'));
+
+      // Automatically trigger SendGrid Welcome Email for Google OAuth user
+      fetch('/api/email/welcome', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: userProfile.email, name: userProfile.name }),
+      }).catch(() => {});
     } catch {
       // Ignore write error
     }
@@ -90,8 +104,8 @@ export default function LoginPage() {
               <Compass className="w-7 h-7 text-yellow" />
             </div>
             <div className="text-right">
-              <span className="text-3xl font-display font-black text-ink block">بوصلتي</span>
-              <span className="text-xs font-bold text-teal block">مجموعة تحسين للذكاء الاصطناعي</span>
+              <span className="text-3xl font-display font-black text-ink block">Bausalty</span>
+              <span className="text-xs font-bold text-teal block">Tahseen AI Group</span>
             </div>
           </Link>
 
