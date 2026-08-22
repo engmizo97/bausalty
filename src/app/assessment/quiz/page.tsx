@@ -318,7 +318,7 @@ export default function RiasecQuizPage() {
             {/* Question Text (Single-Language Clean Display) */}
             <div className="space-y-3">
               <span className="text-xs font-black uppercase tracking-widest text-ink bg-yellow border border-ink px-3 py-1 rounded-full shadow-notebook-xs inline-block">
-                Item #{currentIndex + 1}
+                {isArabic ? `الفقرة رقم ${currentIndex + 1}` : `Item #${currentIndex + 1}`}
               </span>
 
               <h2 className={`font-display font-bold text-[#3a2f21] leading-snug ${isArabic ? 'text-2xl sm:text-3xl font-prose text-right' : 'text-xl sm:text-2xl text-left'}`}>

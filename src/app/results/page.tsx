@@ -33,7 +33,6 @@ export default function ResultsPage() {
   const { language } = useLanguage();
   const isArabic = language === 'ar';
 
-  // Lazy state initialization from localStorage
   const [result] = useState<AssessmentResult | null>(() => {
     if (typeof window !== 'undefined') {
       try {
@@ -64,7 +63,7 @@ export default function ResultsPage() {
           <div className="w-12 h-12 rounded-2xl bg-teal text-white border-2 border-ink flex items-center justify-center mx-auto animate-spin shadow-notebook-xs">
             <Compass className="w-6 h-6 text-yellow" />
           </div>
-          <p className="text-ink font-bold font-display">{isArabic ? 'جاري تحليل نتيجتك...' : 'Calculating Your Bausalty Profile...'}</p>
+          <p className="text-ink font-bold font-display">{isArabic ? 'جاري تحليل نتيجتك...' : 'Calculating Your Profile...'}</p>
         </div>
       </div>
     );
@@ -76,7 +75,7 @@ export default function ResultsPage() {
   const radarData = categoriesList.map((catKey) => {
     const catInfo = RIASEC_CATEGORIES[catKey];
     return {
-      category: isArabic ? `${catInfo.nameAr} (${catKey})` : `${catInfo.nameEn} (${catKey})`,
+      category: isArabic ? catInfo.nameAr : catInfo.nameEn,
       score: result.normalizedScores[catKey] || 0,
       fullMark: 100,
     };
@@ -96,27 +95,27 @@ export default function ResultsPage() {
         <div className="bg-yellow rounded-3xl p-6 sm:p-12 text-ink border-2 border-ink shadow-notebook-md relative overflow-hidden">
           <div className="relative z-10 space-y-4 max-w-3xl">
             <div className="inline-flex items-center gap-2 bg-paper-card px-3.5 py-1.5 rounded-full border-2 border-ink text-xs font-bold shadow-notebook-xs">
-              <Sparkles className="w-4 h-4 text-purple" />
+              <Sparkles className="w-4 h-4 text-teal" />
               <span>{isArabic ? 'تم تحليل النتيجة بنجاح' : 'Assessment Completed'}</span>
             </div>
 
             <h1 className="text-3xl sm:text-5xl font-display font-black tracking-tight leading-tight">
-              {isArabic ? 'رمز هولاند الخاص بك:' : 'Your Holland Code:'} <span className="hl-teal">{result.topCode}</span>
+              {isArabic ? 'رمز نمطك المهني:' : 'Your Holland Code:'} <span className="hl-teal">{result.topCode}</span>
             </h1>
 
             <p className="text-ink-soft text-base sm:text-lg font-prose leading-relaxed">
               {isArabic ? (
                 <>
-                  بناءً على إجاباتك الـ 42، فإن سماتك الشخصية المهيمنة هي:{' '}
+                  بناءً على إجاباتك، فإن السمات الأكثر توافقاً مع شخصيتك هي:{' '}
                   <strong className="font-black text-ink">
-                    {RIASEC_CATEGORIES[result.primaryType]?.nameAr} ({RIASEC_CATEGORIES[result.primaryType]?.nameEn})
+                    {RIASEC_CATEGORIES[result.primaryType]?.nameAr}
                   </strong>.
                 </>
               ) : (
                 <>
-                  Based on your 42 items, your dominant profile is:{' '}
+                  Based on your responses, your dominant personality dimension is:{' '}
                   <strong className="font-black text-ink">
-                    {RIASEC_CATEGORIES[result.primaryType]?.nameEn} ({RIASEC_CATEGORIES[result.primaryType]?.nameAr})
+                    {RIASEC_CATEGORIES[result.primaryType]?.nameEn}
                   </strong>.
                 </>
               )}
@@ -124,105 +123,105 @@ export default function ResultsPage() {
 
             <div className="pt-2 flex flex-wrap gap-4">
               <Link
-                href="/assessment"
-                className="h-11 inline-flex items-center gap-2 bg-teal hover:bg-teal-deep text-white px-5 rounded-xl font-bold text-sm border-2 border-ink shadow-notebook-xs transition-colors"
+                href="/dashboard"
+                className="h-12 min-h-[48px] inline-flex items-center gap-2 bg-teal hover:bg-teal-deep text-white px-6 rounded-2xl font-display font-black text-sm border-2 border-ink shadow-notebook-xs hover:scale-102 transition-transform"
               >
-                <RotateCcw className="w-4 h-4 text-yellow" />
-                <span>{isArabic ? 'إعادة الاختبار' : 'Retake Test'}</span>
+                <span>{isArabic ? 'الانتقال إلى لوحة التحكم' : 'Go to Dashboard'}</span>
+              </Link>
+
+              <Link
+                href="/assessment"
+                className="h-12 min-h-[48px] inline-flex items-center gap-2 bg-paper-card text-ink hover:bg-paper-inset px-5 rounded-2xl font-bold text-sm border-2 border-ink shadow-notebook-xs transition-colors"
+              >
+                <RotateCcw className="w-4 h-4" />
+                <span>{isArabic ? 'إعادة الاختبار' : 'Retake Assessment'}</span>
               </Link>
             </div>
           </div>
         </div>
 
-        {/* --- SECTION 1: RIASEC BREAKDOWN & RECHARTS RADAR CHART --- */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        {/* --- SECTION 1: RADAR CHART + TRAIT BREAKDOWN --- */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
-          {/* Radar Chart Card */}
-          <div className="bg-paper-card rounded-notebook p-6 sm:p-8 border-2 border-ink shadow-notebook-md space-y-4">
+          {/* Radar Chart */}
+          <div className="lg:col-span-6 notebook-paper-lined rounded-notebook p-6 sm:p-8 border-2 border-ink shadow-notebook-md space-y-4">
             <div className="flex items-center justify-between border-b-2 border-ink/10 pb-4">
               <div>
                 <h2 className="text-xl font-display font-black text-ink">
-                  {isArabic ? 'رسم هولاند الخماسي (Radar Chart)' : 'RIASEC Radar Profile'}
+                  {isArabic ? 'مخطط أبعاد الميول المهنية' : 'Career Dimensions Radar Chart'}
                 </h2>
-                <p className="text-xs font-semibold text-muted">
-                  {isArabic ? 'التوزيع البصري لسماتك الشخصية الست' : 'Visual mapping across 6 Holland dimensions'}
+                <p className="text-xs font-bold text-muted">
+                  {isArabic ? 'توزيع نسب التوافق عبر الأبعاد الستة' : 'Normalized vector scores across 6 categories'}
                 </p>
               </div>
-              <span className="text-xs font-black bg-teal-soft text-teal-deep px-3 py-1 rounded-full border border-teal">
-                0 - 100%
-              </span>
+              <Compass className="w-6 h-6 text-teal" />
             </div>
 
-            <div className="w-full h-80 sm:h-96">
+            <div className="h-72 sm:h-80 w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
-                  <PolarGrid stroke="#3a2f21" strokeDasharray="3 3" opacity={0.2} />
+                <RadarChart cx="50%" cy="50%" outerRadius="75%" data={radarData}>
+                  <PolarGrid stroke="#3a2f21" strokeDasharray="3 3" strokeOpacity={0.25} />
                   <PolarAngleAxis
                     dataKey="category"
-                    tick={{ fill: '#3a2f21', fontSize: 12, fontWeight: 700, fontFamily: 'Baloo Bhaijaan 2' }}
+                    tick={{ fill: '#3a2f21', fontSize: 11, fontWeight: 700 }}
                   />
-                  <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="#8a7a5f" />
+                  <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="#8a7a5f" strokeOpacity={0.4} />
                   <Radar
-                    name="Score"
+                    name={isArabic ? 'درجة التوافق' : 'Score'}
                     dataKey="score"
                     stroke="#0d9488"
-                    fill="#ffd66e"
-                    fillOpacity={0.6}
+                    strokeWidth={2.5}
+                    fill="#0d9488"
+                    fillOpacity={0.4}
                   />
                   <Tooltip
-                    formatter={(val) => [`${val}%`, 'Score']}
-                    contentStyle={{ borderRadius: '12px', border: '2px solid #3a2f21', backgroundColor: '#ffffff', boxShadow: '3px 3px 0px #3a2f21' }}
+                    contentStyle={{
+                      backgroundColor: '#fffdf6',
+                      borderColor: '#3a2f21',
+                      borderWidth: '2px',
+                      borderRadius: '12px',
+                      fontFamily: 'Noto Naskh Arabic, serif',
+                    }}
                   />
                 </RadarChart>
               </ResponsiveContainer>
             </div>
           </div>
 
-          {/* Percentage Progress Bars */}
-          <div className="bg-paper-card rounded-notebook p-6 sm:p-8 border-2 border-ink shadow-notebook-md space-y-5">
-            <div className="border-b-2 border-ink/10 pb-4">
+          {/* Detailed Scores List */}
+          <div className="lg:col-span-6 space-y-3">
+            <div className="border-b-2 border-ink/10 pb-2">
               <h2 className="text-xl font-display font-black text-ink">
-                {isArabic ? 'تفاصيل الدرجات النسبية' : 'Category Breakdown'}
+                {isArabic ? 'تفاصيل الأبعاد والدرجات' : 'Detailed Dimension Breakdown'}
               </h2>
-              <p className="text-xs font-semibold text-muted">
-                {isArabic ? 'النسب المئوية لكل سمة من سمات هولاند' : 'Detailed scores by RIASEC trait'}
-              </p>
             </div>
 
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {categoriesList.map((catKey) => {
-                const catInfo = RIASEC_CATEGORIES[catKey];
-                const scorePct = result.normalizedScores[catKey] || 0;
-                const isTop3 = [result.primaryType, result.secondaryType, result.tertiaryType].includes(catKey);
+                const info = RIASEC_CATEGORIES[catKey];
+                const score = result.normalizedScores[catKey] || 0;
+                const isPrimary = result.primaryType === catKey;
 
                 return (
-                  <div key={catKey} className="space-y-1.5">
-                    <div className="flex items-center justify-between text-sm font-bold">
-                      <div className="flex items-center gap-2">
-                        <span className="w-7 h-7 rounded-lg bg-teal text-white border-2 border-ink font-black text-xs flex items-center justify-center shadow-notebook-xs">
-                          {catKey}
-                        </span>
-                        <span className="text-ink font-display font-bold">
-                          {isArabic ? catInfo.nameAr : catInfo.nameEn}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        {isTop3 && (
-                          <span className="text-[10px] font-black uppercase bg-yellow text-ink border border-ink px-2 py-0.5 rounded shadow-2xs">
-                            Top Trait
-                          </span>
-                        )}
-                        <span className="text-teal-deep font-black">{scorePct}%</span>
-                      </div>
+                  <div
+                    key={catKey}
+                    className={`p-4 rounded-2xl border-2 transition-all ${
+                      isPrimary
+                        ? 'bg-yellow border-ink shadow-notebook-sm'
+                        : 'notebook-paper-lined border-ink/20'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-display font-black text-sm text-ink">
+                        {isArabic ? info.nameAr : info.nameEn}
+                      </span>
+                      <span className="font-mono font-black text-base text-teal-deep">
+                        {score}%
+                      </span>
                     </div>
-
-                    <div className="w-full h-3 bg-paper-inset rounded-full overflow-hidden p-0.5 border border-ink">
-                      <div
-                        className="h-full rounded-full transition-all duration-500 bg-teal"
-                        style={{ width: `${scorePct}%` }}
-                      />
-                    </div>
+                    <p className="text-xs text-ink-soft font-prose mt-1">
+                      {isArabic ? info.descriptionAr : info.descriptionEn}
+                    </p>
                   </div>
                 );
               })}
@@ -231,38 +230,35 @@ export default function ResultsPage() {
 
         </div>
 
-        {/* --- SECTION 2: BAUSALTY PERSONALITY CARD --- */}
-        <div className="bg-paper-card rounded-notebook p-6 sm:p-10 border-2 border-ink shadow-notebook-md space-y-6">
+        {/* --- SECTION 2: PERSONALITY CARD FOR DOWNLOAD --- */}
+        <div className="space-y-6">
           <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="text-xs font-black uppercase tracking-widest text-ink bg-teal-soft border-2 border-ink px-3 py-1 rounded-full shadow-notebook-xs">
-              {isArabic ? 'بطاقة شخصيتك القابلة للمشاركة' : 'Shareable Profile'}
-            </span>
             <h2 className="text-3xl font-display font-black text-ink">
-              {isArabic ? 'بطاقة شخصية بوصلتي' : 'Your Bausalty Personality Card'}
+              {isArabic ? 'بطاقة شخصية بوصلتي' : 'Your Personality Card'}
             </h2>
             <p className="text-ink-soft text-sm font-prose">
               {isArabic
                 ? 'حمل بطاقة شخصيتك بتصميم الدفتر الأنيق لمشاركتها مع أولياء الأمور والمرشدين الأكاديميين.'
-                : 'Download your customized Holland Code profile card styled with Bausalty notebook colors.'}
+                : 'Download your customized profile card styled with Bausalty notebook colors.'}
             </p>
           </div>
 
           <PersonalityCard result={result} />
         </div>
 
-        {/* --- SECTION 3: TAHSEEN AI ECOSYSTEM CTA BANNER --- */}
+        {/* --- SECTION 3: TAHSEEN ECOSYSTEM CTA BANNER --- */}
         <div className="bg-teal rounded-3xl p-6 sm:p-10 text-white border-2 border-ink shadow-notebook-lg relative overflow-hidden">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8 relative z-10">
             <div className="space-y-3 text-center lg:text-left max-w-2xl">
               <div className="inline-flex items-center gap-2 bg-yellow text-ink border-2 border-ink px-3 py-1 rounded-full text-xs font-black shadow-notebook-xs">
-                <Target className="w-4 h-4 text-purple" />
-                <span>{isArabic ? 'القبول الجامعي | منظومة تحسين' : 'Admission Targets'}</span>
+                <Target className="w-4 h-4 text-teal" />
+                <span>{isArabic ? 'تحقيق القبول الجامعي' : 'Admission Targets'}</span>
               </div>
 
               <h2 className="text-2xl sm:text-3xl font-display font-black text-white leading-tight">
                 {isArabic ? (
                   <>
-                    ضمان القبول في تخصصك المستهدف: <span className="text-yellow">{topMajor?.nameAr || topMajor?.nameEn}</span>
+                    ضمان القبول في تخصصك المستهدف: <span className="text-yellow">{topMajor?.nameAr}</span>
                   </>
                 ) : (
                   <>
@@ -273,20 +269,20 @@ export default function ResultsPage() {
 
               <p className="text-teal-tint text-sm sm:text-base font-prose leading-relaxed">
                 {isArabic
-                  ? 'لضمان القبول في تخصصك المستهدف بالجامعات السعودية الكبرى (مثل جامعة الملك سعود، KFUPM، كاوست)، احرص على تحقيق درجة قدرات +88 ودرجة تحصيلي +85. ابدأ الاستعداد الآن مع منصات تحسين الذكية.'
-                  : 'To secure admission into your top match at your choice of Saudi University (e.g. KFUPM, KSU), aim for a Qudurat score of 88+ and Tahsili score of 85+. Start prep with Qudurat AI & Tahsili AI.'}
+                  ? 'لضمان القبول في تخصصك المستهدف بالجامعات السعودية الكبرى، احرص على تحقيق درجة قدرات مرتفعة وتحصيلي ممتاز مع منصات تحسين التعليمية.'
+                  : 'To secure admission into your top match at Saudi Universities, achieve top scores in your national admission exams.'}
               </p>
             </div>
 
             <div className="flex flex-col sm:flex-row items-center gap-4 shrink-0 w-full lg:w-auto">
               <a
-                href="https://qudurat.ai"
+                href="https://quduratai.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto h-12 min-h-[48px] inline-flex items-center justify-center gap-2 bg-yellow hover:bg-amber-300 text-ink border-2 border-ink px-6 rounded-2xl font-display font-black text-sm shadow-notebook-xs hover:scale-105 transition-transform"
               >
                 <GraduationCap className="w-5 h-5 text-ink" />
-                <span>Start Qudurat AI</span>
+                <span>{isArabic ? 'منصة قدرات' : 'Qudurat Prep'}</span>
                 <ExternalLink className="w-4 h-4 text-ink" />
               </a>
 
@@ -296,7 +292,7 @@ export default function ResultsPage() {
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto h-12 min-h-[48px] inline-flex items-center justify-center gap-2 bg-paper-card text-ink hover:bg-paper-inset border-2 border-ink px-6 rounded-2xl font-bold text-sm shadow-notebook-xs transition-all"
               >
-                <span>Tahsili AI Prep</span>
+                <span>{isArabic ? 'منصة تحصيلي' : 'Tahsili Prep'}</span>
                 <ExternalLink className="w-4 h-4 text-teal" />
               </a>
             </div>
@@ -308,35 +304,28 @@ export default function ResultsPage() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b-2 border-ink/10 pb-4">
             <div>
               <h2 className="text-2xl font-display font-black text-ink">
-                {isArabic ? 'التخصصات الجامعية الموصى بها' : 'Recommended Saudi College Majors'}
+                {isArabic ? 'التخصصات الجامعية الموصى بها' : 'Recommended College Majors'}
               </h2>
               <p className="text-xs font-semibold text-muted">
-                {isArabic ? 'مرتبة حسب نسبة التوافق مع كودك الشخصي' : 'Ranked by vector match score against your RIASEC profile'}
+                {isArabic ? 'مرتبة حسب نسبة التوافق مع نمطك الشخصي' : 'Ranked by vector match score'}
               </p>
             </div>
 
-            {/* Saudi Vision 2030 Filter */}
-            <div className="flex items-center gap-2 bg-paper-card p-1.5 rounded-2xl border-2 border-ink shadow-notebook-xs">
-              <button
-                onClick={() => setFilterVision2030(false)}
-                className={`px-4 py-2 rounded-xl text-xs font-extrabold transition-colors ${
-                  !filterVision2030 ? 'bg-teal text-white border-2 border-ink' : 'text-ink-soft hover:text-ink'
-                }`}
-              >
-                {isArabic ? `جميع التخصصات (${result.matchingMajors.length})` : `All Majors (${result.matchingMajors.length})`}
-              </button>
-              <button
-                onClick={() => setFilterVision2030(true)}
-                className={`px-4 py-2 rounded-xl text-xs font-extrabold transition-colors inline-flex items-center gap-1.5 ${
-                  filterVision2030 ? 'bg-yellow text-ink border-2 border-ink' : 'text-ink-soft hover:text-ink'
-                }`}
-              >
-                <Sparkles className="w-3.5 h-3.5 text-purple" />
-                <span>{isArabic ? `رؤية 2030 فقط (${result.matchingMajors.filter((m) => m.isVision2030).length})` : `Vision 2030 Only (${result.matchingMajors.filter((m) => m.isVision2030).length})`}</span>
-              </button>
-            </div>
+            {/* Vision 2030 Filter */}
+            <button
+              onClick={() => setFilterVision2030(!filterVision2030)}
+              className={`h-11 px-4 rounded-xl text-xs font-black border-2 inline-flex items-center gap-2 transition-all shadow-notebook-xs ${
+                filterVision2030
+                  ? 'bg-yellow text-ink border-ink'
+                  : 'bg-paper-card text-ink-soft border-ink/20 hover:border-ink'
+              }`}
+            >
+              <Sparkles className="w-4 h-4 text-teal" />
+              <span>{isArabic ? 'رؤية السعودية ٢٠٣٠ فقط' : 'Saudi Vision 2030 Only'}</span>
+            </button>
           </div>
 
+          {/* Grid of Majors */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredMajors.map((major) => {
               const isExpanded = expandedMajorId === major.id;
@@ -344,19 +333,21 @@ export default function ResultsPage() {
               return (
                 <div
                   key={major.id}
-                  className="bg-paper-card rounded-notebook p-6 border-2 border-ink shadow-notebook-sm hover:shadow-notebook-md transition-all duration-200 flex flex-col justify-between"
+                  className="notebook-paper-lined rounded-notebook p-6 border-2 border-ink shadow-notebook-sm hover:shadow-notebook-md transition-all flex flex-col justify-between"
                 >
                   <div className="space-y-4">
-                    
-                    {/* Card Top Badges */}
+                    {/* Header badges */}
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-black bg-paper-inset text-ink border border-ink px-2.5 py-1 rounded-lg">
-                        Holland: {major.riasecCode}
+                        {isArabic ? `توافق: ${major.matchScore}%` : `Match: ${major.matchScore}%`}
                       </span>
 
-                      <div className="bg-yellow text-ink border border-ink px-3 py-1 rounded-full text-xs font-black shadow-2xs">
-                        {major.matchScore}% {isArabic ? 'توافق' : 'Match'}
-                      </div>
+                      {major.isVision2030 && (
+                        <span className="text-[10px] font-black bg-yellow text-ink border border-ink px-2.5 py-1 rounded-full flex items-center gap-1 shadow-2xs">
+                          <Sparkles className="w-3 h-3 text-teal" />
+                          <span>{isArabic ? 'رؤية ٢٠٣٠' : 'Vision 2030'}</span>
+                        </span>
+                      )}
                     </div>
 
                     {/* Major Title */}
@@ -364,24 +355,13 @@ export default function ResultsPage() {
                       <h3 className="text-xl font-display font-extrabold text-ink leading-snug">
                         {isArabic ? major.nameAr : major.nameEn}
                       </h3>
-                      <p className="text-xs font-bold text-muted">
-                        {isArabic ? major.nameEn : major.nameAr}
-                      </p>
                     </div>
 
                     <p className="text-ink-soft text-xs font-prose leading-relaxed line-clamp-3">
                       {isArabic ? major.descriptionAr : major.descriptionEn}
                     </p>
 
-                    {major.isVision2030 && (
-                      <div className="bg-teal-soft/80 border border-teal rounded-xl p-2.5 text-xs text-teal-deep font-bold space-y-0.5">
-                        <span className="font-black text-teal-deep block">
-                          Vision 2030: {isArabic ? major.vision2030SectorAr : major.vision2030SectorEn}
-                        </span>
-                      </div>
-                    )}
-
-                    {/* Expandable Details */}
+                    {/* Expandable Info */}
                     {isExpanded && (
                       <div className="pt-3 border-t-2 border-ink/10 space-y-3 text-xs">
                         <div>
@@ -399,7 +379,7 @@ export default function ResultsPage() {
                         <div>
                           <p className="font-bold text-ink flex items-center gap-1 mb-1">
                             <Building className="w-3.5 h-3.5 text-teal" />
-                            <span>{isArabic ? 'أبرز الجامعات:' : 'Top Saudi Universities:'}</span>
+                            <span>{isArabic ? 'أبرز الجامعات السعودية:' : 'Top Saudi Universities:'}</span>
                           </p>
                           <div className="flex flex-wrap gap-1.5">
                             {(isArabic ? major.saudiUniversitiesAr : major.saudiUniversitiesEn).map((uni) => (
@@ -414,14 +394,17 @@ export default function ResultsPage() {
                         </div>
                       </div>
                     )}
-
                   </div>
 
                   <button
                     onClick={() => setExpandedMajorId(isExpanded ? null : major.id)}
                     className="mt-4 pt-3 border-t border-ink/10 w-full text-xs font-bold text-teal hover:text-teal-deep flex items-center justify-between min-h-[44px]"
                   >
-                    <span>{isExpanded ? (isArabic ? 'إخفاء التفاصيل' : 'Hide Details') : (isArabic ? 'عرض الفرص والجامعات' : 'View Careers & Universities')}</span>
+                    <span>
+                      {isExpanded
+                        ? (isArabic ? 'إخفاء التفاصيل' : 'Hide Details')
+                        : (isArabic ? 'عرض الفرص والجامعات' : 'View Careers & Universities')}
+                    </span>
                     <ChevronRight className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-90' : ''}`} />
                   </button>
                 </div>

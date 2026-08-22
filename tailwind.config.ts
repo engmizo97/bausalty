@@ -10,9 +10,9 @@ const config: Config = {
     extend: {
       colors: {
         paper: {
-          DEFAULT: "#faf9f5",
+          DEFAULT: "#f4eefb",
           card: "#ffffff",
-          inset: "#f2efe8",
+          inset: "#ede5f7",
         },
         ink: {
           DEFAULT: "#3a2f21",

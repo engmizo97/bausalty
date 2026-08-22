@@ -260,11 +260,11 @@ export default function PersonalityTestPage() {
         <div className="text-center space-y-3">
           <div className="inline-flex items-center gap-2 bg-yellow text-ink border-2 border-ink px-4 py-1.5 rounded-full text-xs sm:text-sm font-extrabold shadow-notebook-xs">
             <Sparkles className="w-4 h-4 text-purple" />
-            <span>{isArabic ? 'اختبار الشخصية المجاني الشامل (70 سؤالاً MBTI)' : 'Full Free 16Personalities Assessment (70 Items)'}</span>
+            <span>{isArabic ? 'اختبار الشخصية الشامل (٧٠ سؤالاً)' : 'Full Free Personality Assessment (70 Items)'}</span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl font-display font-black text-ink">
-            {isArabic ? 'اختبار نمط الشخصية 16Personalities الكامل' : 'Discover Your 16Personalities Archetype'}
+            {isArabic ? 'اختبار الأنماط الستة عشر للشخصية' : 'Discover Your 16Personalities Archetype'}
           </h1>
           <p className="text-xs sm:text-sm text-ink-soft font-prose max-w-2xl mx-auto">
             {isArabic
@@ -313,7 +313,7 @@ export default function PersonalityTestPage() {
                   className="h-11 px-5 bg-teal hover:bg-teal-deep text-white border-2 border-ink rounded-xl font-bold text-xs shadow-notebook-xs inline-flex items-center gap-2"
                 >
                   <Compass className="w-4 h-4 text-yellow" />
-                  <span>{isArabic ? 'إجراء اختبار هولاند (42 سؤالاً)' : 'Take Full RIASEC Test'}</span>
+                  <span>{isArabic ? 'إجراء اختبار الميول والتخصصات' : 'Take Career Assessment'}</span>
                 </Link>
               </div>
             </div>

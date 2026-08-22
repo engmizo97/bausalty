@@ -83,8 +83,12 @@ export default function LoginPage() {
               <Compass className="w-7 h-7 text-yellow" />
             </div>
             <div className="text-right">
-              <span className="text-3xl font-display font-black text-ink block">Bausalty</span>
-              <span className="text-xs font-bold text-teal block">Tahseen AI Group</span>
+              <span className="text-3xl font-display font-black text-ink block">
+                {isArabic ? 'بوصلتي' : 'Bausalty'}
+              </span>
+              <span className="text-xs font-bold text-teal block">
+                {isArabic ? 'تحسين التعليمية' : 'Tahseen Education'}
+              </span>
             </div>
           </Link>
 

@@ -1,4 +1,4 @@
-.admin-notebook-shell,.admin-login-page{--admin-paper:#faf9f5;--admin-paper-2:#ffffff;--admin-paper-3:#f2efe8;--admin-ink:#3a2f21;--admin-ink-soft:#675941;--admin-muted:#8a7a5f;--admin-teal:#0d9488;--admin-teal-soft:#d9f4ee;--admin-yellow:#ffd66e;--admin-orange:#d9480f;color:var(--admin-ink);font-family:'Baloo Bhaijaan 2',system-ui,sans-serif;color-scheme:light}
+.admin-notebook-shell,.admin-login-page{--admin-paper:#f4eefb;--admin-paper-2:#ffffff;--admin-paper-3:#ede5f7;--admin-ink:#3a2f21;--admin-ink-soft:#675941;--admin-muted:#8a7a5f;--admin-teal:#0d9488;--admin-teal-soft:#d9f4ee;--admin-yellow:#ffd66e;--admin-orange:#d9480f;color:var(--admin-ink);font-family:'Baloo Bhaijaan 2',system-ui,sans-serif;color-scheme:light}
 .admin-notebook-shell{background:var(--admin-paper)}
 .admin-notebook-canvas{position:relative;background-color:var(--admin-paper)!important;background-image:repeating-linear-gradient(transparent 0 47px,rgba(34,197,94,.10) 48px)!important;border-radius:0!important;isolation:isolate}
 .admin-notebook-canvas::before{content:"";position:absolute;inset-block:0;inset-inline-end:38px;width:2px;background:rgba(220,38,38,.16);z-index:-1}

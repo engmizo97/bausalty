@@ -31,11 +31,8 @@ export default function MajorsExplorerPage() {
       // Search term filter
       const matchesSearch =
         searchTerm === '' ||
-        major.nameEn.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        major.nameAr.includes(searchTerm) ||
-        major.riasecCode.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        major.sampleCareersEn.some((c) => c.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        major.sampleCareersAr.some((c) => c.includes(searchTerm));
+        (isArabic ? major.nameAr.includes(searchTerm) || major.sampleCareersAr.some((c) => c.includes(searchTerm))
+          : major.nameEn.toLowerCase().includes(searchTerm.toLowerCase()) || major.sampleCareersEn.some((c) => c.toLowerCase().includes(searchTerm.toLowerCase())));
 
       // Category filter
       const matchesCategory =
@@ -46,7 +43,7 @@ export default function MajorsExplorerPage() {
 
       return matchesSearch && matchesCategory && matchesVision2030;
     });
-  }, [searchTerm, selectedCategory, onlyVision2030]);
+  }, [searchTerm, selectedCategory, onlyVision2030, isArabic]);
 
   return (
     <div className="flex-1 bg-paper py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
@@ -57,7 +54,7 @@ export default function MajorsExplorerPage() {
           <div className="relative z-10 space-y-4 max-w-3xl">
             <div className="inline-flex items-center gap-2 bg-paper-card px-3.5 py-1.5 rounded-full border-2 border-ink text-xs font-bold shadow-notebook-xs">
               <Compass className="w-4 h-4 text-teal" />
-              <span>{isArabic ? 'دليل التخصصات والجامعات السعودية' : 'Saudi Universities & Vision 2030 Catalogue'}</span>
+              <span>{isArabic ? 'دليل التخصصات والجامعات السعودية' : 'Saudi Universities Catalogue'}</span>
             </div>
 
             <h1 className="text-3xl sm:text-5xl font-display font-black tracking-tight leading-tight text-ink">
@@ -66,8 +63,8 @@ export default function MajorsExplorerPage() {
 
             <p className="text-ink-soft text-base sm:text-lg font-prose leading-relaxed">
               {isArabic
-                ? 'استكشف التخصصات الأكاديمية المتاحة في الجامعات السعودية، المبوّبة حسب أتياد هولاند (RIASEC) والقطاعات الوطنية المستهدفة في رؤية السعودية 2030.'
-                : 'Explore academic majors offered across Saudi Arabian universities, categorized by Holland Code (RIASEC) traits and tagged with high-demand Saudi Vision 2030 national development sectors.'}
+                ? 'استكشف التخصصات الأكاديمية المتاحة في الجامعات السعودية، والمصنفة حسب الميول المهنية والقطاعات المستهدفة في رؤية المملكة ٢٠٣٠.'
+                : 'Explore academic majors offered across Saudi Arabian universities, categorized by career interest dimensions and aligned with Saudi Vision 2030.'}
             </p>
 
             <div className="pt-2">
@@ -92,7 +89,7 @@ export default function MajorsExplorerPage() {
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder={isArabic ? 'ابحث عن تخصص، مسار وظيفي، أو كود هولاند (مثل الأمن السيبراني، الذكاء الاصطناعي، IRC)...' : 'Search majors, careers, or Holland codes (e.g. Cybersecurity, AI, IRC)...'}
+              placeholder={isArabic ? 'ابحث عن تخصص، مسار وظيفي، أو مجال (مثل الأمن السيبراني، الذكاء الاصطناعي)...' : 'Search majors, careers, or fields (e.g. Cybersecurity, AI)...'}
               className="w-full h-12 min-h-[48px] pl-12 pr-4 py-3 rounded-2xl border-2 border-ink bg-paper text-ink placeholder:text-muted text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-teal"
             />
           </div>
@@ -105,7 +102,7 @@ export default function MajorsExplorerPage() {
               {categoriesList.map((catKey) => {
                 const isSelected = selectedCategory === catKey;
                 const catName = catKey === 'ALL'
-                  ? (isArabic ? 'جميع الفئات' : 'All Categories')
+                  ? (isArabic ? 'جميع المجالات' : 'All Categories')
                   : (isArabic ? RIASEC_CATEGORIES[catKey].nameAr : RIASEC_CATEGORIES[catKey].nameEn);
 
                 return (
@@ -118,7 +115,7 @@ export default function MajorsExplorerPage() {
                         : 'bg-paper border-ink/20 text-ink-soft hover:border-ink'
                     }`}
                   >
-                    {catKey === 'ALL' ? catName : `${catKey} - ${catName}`}
+                    {catName}
                   </button>
                 );
               })}
@@ -134,7 +131,7 @@ export default function MajorsExplorerPage() {
               }`}
             >
               <Sparkles className="w-4 h-4 text-purple" />
-              <span>{isArabic ? 'رؤية السعودية 2030 فقط' : 'Saudi Vision 2030 Only'}</span>
+              <span>{isArabic ? 'رؤية السعودية ٢٠٣٠ فقط' : 'Saudi Vision 2030 Only'}</span>
             </button>
 
           </div>
@@ -144,7 +141,7 @@ export default function MajorsExplorerPage() {
         {/* Results Counter */}
         <div className="flex items-center justify-between text-xs font-bold text-ink-soft px-2">
           <span>{isArabic ? `عرض ${filteredMajors.length} من أصل ${MAJORS.length} تخصصاً` : `Showing ${filteredMajors.length} of ${MAJORS.length} Majors`}</span>
-          {onlyVision2030 && <span className="text-teal-deep font-extrabold">{isArabic ? 'تصفية مفعلة: رؤية السعودية 2030' : 'Filter active: Saudi Vision 2030 High Priority'}</span>}
+          {onlyVision2030 && <span className="text-teal-deep font-extrabold">{isArabic ? 'تصفية مفعلة: رؤية السعودية ٢٠٣٠' : 'Filter active: Saudi Vision 2030'}</span>}
         </div>
 
         {/* Majors Grid */}
@@ -155,20 +152,20 @@ export default function MajorsExplorerPage() {
             return (
               <div
                 key={major.id}
-                className="bg-paper-card rounded-notebook p-6 border-2 border-ink shadow-notebook-sm hover:shadow-notebook-md transition-all duration-200 flex flex-col justify-between"
+                className="notebook-paper-lined rounded-notebook p-6 border-2 border-ink shadow-notebook-sm hover:shadow-notebook-md transition-all duration-200 flex flex-col justify-between"
               >
                 <div className="space-y-4">
                   
                   {/* Badges */}
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-black bg-paper-inset text-ink border border-ink px-2.5 py-1 rounded-lg">
-                      Holland Code: {major.riasecCode}
+                      {isArabic ? RIASEC_CATEGORIES[major.primaryType]?.nameAr : major.riasecCode}
                     </span>
 
                     {major.isVision2030 && (
                       <span className="text-[10px] font-black bg-yellow text-ink border border-ink px-2.5 py-1 rounded-full flex items-center gap-1 shadow-2xs">
                         <Sparkles className="w-3 h-3 text-purple" />
-                        <span>Vision 2030</span>
+                        <span>{isArabic ? 'رؤية ٢٠٣٠' : 'Vision 2030'}</span>
                       </span>
                     )}
                   </div>
@@ -178,9 +175,6 @@ export default function MajorsExplorerPage() {
                     <h3 className="text-xl font-display font-extrabold text-ink leading-snug">
                       {isArabic ? major.nameAr : major.nameEn}
                     </h3>
-                    <p className="text-xs font-bold text-muted">
-                      {isArabic ? major.nameEn : major.nameAr}
-                    </p>
                   </div>
 
                   <p className="text-ink-soft text-xs font-prose leading-relaxed line-clamp-3">
@@ -193,7 +187,7 @@ export default function MajorsExplorerPage() {
                       <div>
                         <p className="font-bold text-ink flex items-center gap-1 mb-1">
                           <Briefcase className="w-3.5 h-3.5 text-teal" />
-                          <span>{isArabic ? 'الفرص الوظيفية:' : 'Sample Careers:'}</span>
+                          <span>{isArabic ? 'الفرص والمسارات الوظيفية:' : 'Sample Careers:'}</span>
                         </p>
                         <ul className="list-disc list-inside space-y-0.5 text-ink-soft pl-1 font-prose">
                           {(isArabic ? major.sampleCareersAr : major.sampleCareersEn).map((c) => (
@@ -205,7 +199,7 @@ export default function MajorsExplorerPage() {
                       <div>
                         <p className="font-bold text-ink flex items-center gap-1 mb-1">
                           <Building className="w-3.5 h-3.5 text-teal" />
-                          <span>{isArabic ? 'أبرز الجامعات:' : 'Top Saudi Universities:'}</span>
+                          <span>{isArabic ? 'أبرز الجامعات السعودية:' : 'Top Saudi Universities:'}</span>
                         </p>
                         <div className="flex flex-wrap gap-1.5">
                           {(isArabic ? major.saudiUniversitiesAr : major.saudiUniversitiesEn).map((uni) => (

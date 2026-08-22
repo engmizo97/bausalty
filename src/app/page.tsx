@@ -12,6 +12,8 @@ import {
   Palmtree,
   ArrowRight,
   Pencil,
+  BookOpen,
+  Sparkles,
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -22,99 +24,95 @@ export default function HomePage() {
   const vision2030Highlights = [
     {
       icon: ShieldAlert,
-      titleEn: 'Cybersecurity & Defense',
+      titleEn: 'Cybersecurity & Digital Defense',
       titleAr: 'الأمن السيبراني والدفاع الرقمي',
-      descriptionEn: 'Protects Saudi Arabia’s national digital infrastructure and cloud systems.',
+      descriptionEn: 'Protects national digital infrastructure and cloud systems.',
       descriptionAr: 'حماية البنية التحتية الرقمية والشبكات الوطنية والبيانات السحابية للمملكة.',
       bgAccent: 'bg-[#c9f2e8]',
     },
     {
       icon: Cpu,
-      titleEn: 'AI & Machine Learning',
-      titleAr: 'الذكاء الاصطناعي وتعلم الآلة',
-      descriptionEn: 'Pioneering generative models and smart systems under SDAIA initiatives.',
-      descriptionAr: 'تطوير النماذج التوليدية والأنظمة الذكية ضمن مبادرات سدايا الوطنية.',
+      titleEn: 'Artificial Intelligence & Data',
+      titleAr: 'الذكاء الاصطناعي وعلوم البيانات',
+      descriptionEn: 'Pioneering generative models and smart systems under national initiatives.',
+      descriptionAr: 'تطوير النماذج التوليدية والأنظمة الذكية وعلوم البيانات المتقدمة.',
       bgAccent: 'bg-[#f5efff]',
     },
     {
       icon: Coins,
-      titleEn: 'Financial Technology (FinTech)',
-      titleAr: 'التقنية المالية (الفينتك)',
-      descriptionEn: 'Transforming digital banking and algorithmic finance in Saudi Arabia.',
-      descriptionAr: 'تحول المصرفية الرقمية والتمويل الخوارزمي في المملكة العربية السعودية.',
+      titleEn: 'Financial Technology',
+      titleAr: 'التقنية المالية والمصرفية الرقمية',
+      descriptionEn: 'Transforming digital banking and algorithmic finance.',
+      descriptionAr: 'تحول المصرفية الرقمية والتمويل وحلول المدفوعات الحديثة.',
       bgAccent: 'bg-[#fff3d1]',
     },
     {
       icon: Building2,
-      titleEn: 'Sustainable Architecture',
+      titleEn: 'Sustainable Architecture & Smart Cities',
       titleAr: 'العمارة المستدامة والمدن الذكية',
-      descriptionEn: 'Designing zero-carbon cities for NEOM, THE LINE, and Red Sea Global.',
-      descriptionAr: 'تصميم المدن الذكية الخالية من الكربون في نيوم وذا لاين والبحر الأحمر.',
+      descriptionEn: 'Designing zero-carbon cities for mega projects.',
+      descriptionAr: 'تصميم المدن الذكية الخالية من الكربون في المشاريع الكبرى بالمملكة.',
       bgAccent: 'bg-[#e8f7f3]',
     },
     {
       icon: SunMedium,
       titleEn: 'Renewable Energy',
       titleAr: 'الطاقة المتجددة والنظيفة',
-      descriptionEn: 'Advancing solar, wind, and green hydrogen power under the Saudi Green Initiative.',
+      descriptionEn: 'Advancing solar, wind, and green hydrogen power.',
       descriptionAr: 'تطوير تقنيات الطاقة الشمسية والهيدروجين الأخضر ضمن مبادرة السعودية الخضراء.',
       bgAccent: 'bg-emerald-100',
     },
     {
       icon: Palmtree,
-      titleEn: 'Tourism & Hospitality',
+      titleEn: 'Tourism & Global Hospitality',
       titleAr: 'السياحة والضيافة العالمية',
-      descriptionEn: 'Managing heritage and luxury destinations across Diriyah, AlUla, and Red Sea.',
-      descriptionAr: 'إدارة الوجهات السياحية العالمية والتراثية في الدرعية والعلا والبحر الأحمر.',
+      descriptionEn: 'Managing heritage and luxury destinations across the Kingdom.',
+      descriptionAr: 'إدارة الوجهات السياحية العالمية والتراثية واستقبال زوار المملكة.',
       bgAccent: 'bg-orange-100',
     },
   ];
 
   const steps = [
     {
-      step: '٠١',
-      titleEn: 'Answer RIASEC Questions',
-      titleAr: 'أجب على أسئلة اختبار هولاند',
-      descEn: 'Evaluate your interests across Realistic, Investigative, Artistic, Social, Enterprising, and Conventional categories.',
-      descAr: 'تقييم ميولك في المهارات العملية، والبحثية، والإبداعية، والاجتماعية، والقيادية، والتنظيمية.',
+      step: isArabic ? '١' : '1',
+      titleEn: 'Answer Assessment Questions',
+      titleAr: 'الإجابة على أسئلة التقييم',
+      descEn: 'Evaluate your interests across practical, analytical, creative, social, leadership, and organizational fields.',
+      descAr: 'تقييم ميولك في المجالات العملية، والتحليلية، والإبداعية، والاجتماعية، والقيادية، والتنظيمية.',
     },
     {
-      step: '٠٢',
-      titleEn: 'Generate Your Holland Profile',
-      titleAr: 'تحليل رمز هولاند الخاص بك',
-      descEn: 'Our engine calculates your 3-letter Holland Code (e.g., IRC, IAS) with precision percentage vectors.',
-      descAr: 'يحسب المحرك كودك الثلاثي (مثل IRC أو IAS) ونسب التوافقيات الشخصية بدقة.',
+      step: isArabic ? '٢' : '2',
+      titleEn: 'Analyze Your Personal Profile',
+      titleAr: 'تحليل نمطك وميولك المهنية',
+      descEn: 'Our system calculates your unique personality profile and compatibility dimensions.',
+      descAr: 'يقوم المحرك بحساب أبعاد شخصيتك وتحديد الميول المهنية المتوافقة معك بدقة.',
     },
     {
-      step: '٠٣',
-      titleEn: 'Discover Saudi Major Recommendations',
-      titleAr: 'اكتشف التخصصات المناسبة',
-      descEn: 'Get matched with top Saudi university majors explicitly tagged with Saudi Vision 2030 sectors.',
-      descAr: 'احصل على توصيات دقيقة للتخصصات في الجامعات السعودية مع مراعاة متطلبات سوق العمل ورؤية 2030.',
+      step: isArabic ? '٣' : '3',
+      titleEn: 'Discover Matching Saudi Majors',
+      titleAr: 'استكشاف التخصصات الجامعية المناسبة',
+      descEn: 'Get matched with top university majors aligned with Saudi Vision 2030 priorities.',
+      descAr: 'الحصول على توصيات للتخصصات في الجامعات السعودية المتوافقة مع طموحك ورؤية المملكة.',
     },
   ];
 
   return (
-    <div className="flex-1 flex flex-col bg-[#fbf6ea] overflow-x-hidden">
+    <div className="flex-1 flex flex-col bg-paper overflow-x-hidden notebook-margin-line">
       
-      {/* ================= HERO SECTION ================= */}
-      <section className="relative min-h-[calc(100vh-64px)] flex flex-col justify-center py-10 sm:py-16 bg-[#fbf6ea] border-b-2 border-dashed border-[#3a2f21]/20 overflow-hidden">
+      {/* ================= HERO SECTION (NOTEBOOK AESTHETIC) ================= */}
+      <section className="relative min-h-[calc(100vh-64px)] flex flex-col justify-center py-10 sm:py-16 bg-paper border-b-2 border-dashed border-[#3a2f21]/20 overflow-hidden">
         
-        {/* Soft Purple Plus Doodle */}
-        <div className="absolute top-24 left-4 sm:left-12 text-[#7c3aed]/30 text-5xl font-display font-black select-none pointer-events-none">
-          +
-        </div>
-
+        {/* Notebook Spiral Accent Lines on Background */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             
-            {/* --- RIGHT COLUMN (HERO COPY & CTAS) --- */}
+            {/* --- HERO COPY & CTAS --- */}
             <div className="lg:col-span-7 flex flex-col items-start gap-5 text-right">
               
-              {/* Dashed Tag Pill */}
+              {/* Notebook Dashed Tag Pill */}
               <div className="inline-flex items-center gap-2 bg-[#c9f2e8] border-[1.5px] border-dashed border-[#0d9488] rounded-full px-4 py-1.5 text-xs sm:text-sm font-bold text-[#0f766e] -rotate-1 shadow-2xs">
                 <Pencil className="w-3.5 h-3.5 text-[#0d9488] shrink-0" />
-                <span>{isArabic ? 'أحدث المعايير النفسية (RIASEC) · مدعوم بالذكاء الاصطناعي' : 'Holland RIASEC Framework · AI Powered'}</span>
+                <span>{isArabic ? 'دليلك لاختيار التخصص الجامعي المناسب' : 'Your Guide to the Ideal College Major'}</span>
               </div>
 
               {/* Calligraphic Headline */}
@@ -127,10 +125,10 @@ export default function HomePage() {
               </h1>
 
               {/* Description Body */}
-              <p className="font-prose text-base sm:text-lg text-[#5c4f3a] leading-[2] max-w-xl">
+              <p className="font-prose text-base sm:text-lg text-[#5c4f3a] leading-[2.1] max-w-xl">
                 {isArabic
-                  ? 'طريقك نحو التخصص الجامعي الأنسب يبدأ من هنا: حلل مهاراتك وميولك باختبار هولاند المعتمد (RIASEC)، وخلّ الذكاء الاصطناعي يطابقك مع التخصصات السعودية ورؤية 2030 — كأن معك موجه أكاديمي في دفترك.'
-                  : 'Your journey to the ideal university major starts here: assess your personality with the validated Holland Code (RIASEC), and let AI align your strengths with Saudi market demand.'}
+                  ? 'طريقك نحو التخصص الجامعي الأنسب يبدأ من هنا: حلل مهاراتك وميولك باختبارات علمية معتمدة، وتعرف على التخصصات المتوافقة مع قدراتك في الجامعات السعودية وسوق العمل.'
+                  : 'Your journey to the ideal university major starts here: assess your personality with validated scientific frameworks, and align your strengths with Saudi market demand.'}
               </p>
 
               {/* Hero CTAs */}
@@ -139,7 +137,7 @@ export default function HomePage() {
                   href="/assessment"
                   className="w-full sm:w-auto text-center font-display font-bold text-lg text-white bg-[#0d9488] hover:bg-[#0f766e] border-2 border-[#3a2f21] rounded-[14px] px-8 py-3.5 shadow-[3px_3px_0_#3a2f21] hover:translate-x-[-1px] hover:translate-y-[1px] hover:shadow-[1.5px_1.5px_0_#3a2f21] transition-all"
                 >
-                  {isArabic ? 'أنشئ حسابك مجاناً ←' : 'Start Assessment Free ←'}
+                  {isArabic ? 'ابدأ التقييم مجاناً ←' : 'Start Assessment Free ←'}
                 </Link>
 
                 <Link
@@ -153,20 +151,20 @@ export default function HomePage() {
               {/* Stats Row */}
               <div className="pt-4 flex items-center justify-between gap-4 sm:gap-8 w-full max-w-lg border-t border-dashed border-[#3a2f21]/20 mt-2">
                 <div className="text-center sm:text-right">
-                  <b className="font-display font-black text-2xl sm:text-3xl text-[#3a2f21] block">٤٢</b>
+                  <b className="font-display font-black text-2xl sm:text-3xl text-[#3a2f21] block">{isArabic ? '٤٢' : '42'}</b>
                   <span className="text-xs text-[#8a7a5f] font-bold">{isArabic ? 'سؤالاً تقييمياً' : 'Questions'}</span>
                 </div>
                 <div className="text-center sm:text-right">
-                  <b className="font-display font-black text-2xl sm:text-3xl text-[#3a2f21] block">٦</b>
-                  <span className="text-xs text-[#8a7a5f] font-bold">{isArabic ? 'مجالات RIASEC' : 'Domains'}</span>
+                  <b className="font-display font-black text-2xl sm:text-3xl text-[#3a2f21] block">{isArabic ? '٦' : '6'}</b>
+                  <span className="text-xs text-[#8a7a5f] font-bold">{isArabic ? 'أبعاد للميول' : 'Dimensions'}</span>
                 </div>
                 <div className="text-center sm:text-right">
-                  <b className="font-display font-black text-2xl sm:text-3xl text-[#3a2f21] block">+٥٠</b>
-                  <span className="text-xs text-[#8a7a5f] font-bold">{isArabic ? 'تخصصاً موصى به' : 'Majors'}</span>
+                  <b className="font-display font-black text-2xl sm:text-3xl text-[#3a2f21] block">{isArabic ? '+٥٠' : '+50'}</b>
+                  <span className="text-xs text-[#8a7a5f] font-bold">{isArabic ? 'تخصصاً سعودياً' : 'Saudi Majors'}</span>
                 </div>
                 <div className="text-center sm:text-right">
-                  <b className="font-display font-black text-2xl sm:text-3xl text-[#0d9488] block">١٠٠٪</b>
-                  <span className="text-xs text-[#8a7a5f] font-bold">{isArabic ? 'مجاني ومتاح' : 'Instant'}</span>
+                  <b className="font-display font-black text-2xl sm:text-3xl text-[#0d9488] block">{isArabic ? '١٠٠٪' : '100%'}</b>
+                  <span className="text-xs text-[#8a7a5f] font-bold">{isArabic ? 'تقرير فوري' : 'Instant Report'}</span>
                 </div>
               </div>
 
@@ -175,21 +173,21 @@ export default function HomePage() {
             {/* --- LEFT COLUMN (NOTEBOOK INTERACTIVE QUESTION CARD) --- */}
             <div className="lg:col-span-5 relative mt-6 lg:mt-0">
               
-              {/* Question Preview Card */}
-              <div className="bg-[#fffdf6] border-2 border-[#3a2f21] rounded-[18px] shadow-[5px_5px_0_#3a2f21] p-6 relative rotate-0 sm:rotate-1 space-y-3.5">
+              {/* Question Preview Card with lined paper inside */}
+              <div className="notebook-paper-lined border-2 border-[#3a2f21] rounded-[18px] shadow-[5px_5px_0_#3a2f21] p-6 relative rotate-0 sm:rotate-1 space-y-3.5 notebook-spiral-edge">
                 
                 {/* Washi Tape Strip */}
-                <div className="absolute -top-3.5 right-12 w-28 h-6 bg-[#ffd66e]/90 -rotate-2 rounded-xs border border-[#3a2f21]/25 flex items-center justify-center text-[10px] font-black text-[#3a2f21] uppercase tracking-wider">
-                  {isArabic ? 'معاينة الاختبار' : 'Quiz Preview'}
+                <div className="absolute -top-3.5 right-12 w-28 h-6 bg-[#ffd66e]/95 -rotate-2 rounded-xs border border-[#3a2f21]/25 flex items-center justify-center text-[10px] font-black text-[#3a2f21] uppercase tracking-wider">
+                  {isArabic ? 'نموذج من الدفتر' : 'Notebook Sample'}
                 </div>
 
                 {/* Card Header & Timer */}
                 <div className="flex items-center justify-between border-b border-dashed border-[#3a2f21]/20 pb-2.5 pt-1">
                   <span className="text-xs font-bold text-[#8a7a5f]">
-                    {isArabic ? 'سؤال ٠١ من ٤٢ · RIASEC' : 'Question 01 of 42 · RIASEC'}
+                    {isArabic ? 'السؤال رقم ١ من ٤٢ · مقياس الميول' : 'Question 01 of 42 · Interest Scale'}
                   </span>
                   <span className="text-xs sm:text-sm font-black text-[#0d9488] flex items-center gap-1">
-                    <span>⏱️ ٠٤:٣٢</span>
+                    <span>⏱️ {isArabic ? '٠٤:٣٢' : '04:32'}</span>
                   </span>
                 </div>
 
@@ -205,30 +203,30 @@ export default function HomePage() {
                   
                   {/* OPTION 1: SELECTED */}
                   <div className="border-2 border-[#0d9488] bg-[#e8f7f3] text-[#0d9488] font-bold rounded-[10px] p-3 text-xs sm:text-sm flex items-center justify-between shadow-2xs">
-                    <span>{isArabic ? 'تحليل البيانات والبرمجة وحل المشكلات المعقدة' : 'Data analysis & programming'}</span>
+                    <span>{isArabic ? 'تحليل البيانات والبرمجة وحل المسائل' : 'Data analysis, programming & problem solving'}</span>
                     <span className="w-5 h-5 rounded-full bg-[#0d9488] text-white flex items-center justify-center text-xs">✓</span>
                   </div>
 
                   {/* OPTION 2 */}
-                  <div className="border border-[#e4dbc8] rounded-[10px] p-3 text-[#5c4f3a] text-xs sm:text-sm font-medium">
-                    {isArabic ? 'تصميم الواجهات، الفنون، وصناعة المحتوى التفاعلي' : 'UI/UX Design, creative arts & media'}
+                  <div className="border border-[#dccfe8] rounded-[10px] p-3 text-[#5c4f3a] text-xs sm:text-sm font-medium bg-white/80">
+                    {isArabic ? 'تصميم الواجهات والفنون والابتكار البصري' : 'UI/UX Design, creative arts & media'}
                   </div>
 
                   {/* OPTION 3 */}
-                  <div className="border border-[#e4dbc8] rounded-[10px] p-3 text-[#5c4f3a] text-xs sm:text-sm font-medium">
-                    {isArabic ? 'إدارة المشاريع، القيادة، والريادة في الأعمال' : 'Project management & leadership'}
+                  <div className="border border-[#dccfe8] rounded-[10px] p-3 text-[#5c4f3a] text-xs sm:text-sm font-medium bg-white/80">
+                    {isArabic ? 'إدارة المشاريع والتخطيط وقيادة الفرق' : 'Project management, planning & leadership'}
                   </div>
 
                 </div>
 
-                {/* AI Recommendation Box */}
+                {/* Recommendation Box */}
                 <div className="mt-3 bg-[#f5efff] border-[1.5px] border-dashed border-[#7c3aed] rounded-xl p-3 text-xs text-[#5b21b6] font-prose leading-relaxed">
-                  <b>{isArabic ? 'توصية AI:' : 'AI Recommendation:'}</b> {isArabic ? 'الأمن السيبراني والذكاء الاصطناعي' : 'Cybersecurity & AI'}
+                  <b>{isArabic ? 'توصية التخصص:' : 'Major Recommendation:'}</b> {isArabic ? 'الأمن السيبراني والذكاء الاصطناعي' : 'Cybersecurity & Artificial Intelligence'}
                 </div>
 
                 {/* Sticky Note Badge */}
                 <div className="mt-2 bg-[#ffd66e] border-2 border-[#3a2f21] rounded px-3 py-1.5 font-display font-bold text-xs shadow-[2.5px_2.5px_0_rgba(58,47,33,0.3)] inline-block">
-                  {isArabic ? 'تذكير: كودك المتوقع I-A-E ⚡' : 'Expected Code: I-A-E ⚡'}
+                  {isArabic ? 'ملاحظة: تظهر النتائج والتوصيات فور إتمام التقييم ⚡' : 'Note: Instant recommendations upon quiz completion ⚡'}
                 </div>
 
               </div>
@@ -240,24 +238,24 @@ export default function HomePage() {
       </section>
 
       {/* ================= VISION 2030 SECTORS ================= */}
-      <section className="py-12 md:py-16 bg-[#fffdf6] border-b-2 border-dashed border-[#3a2f21]/20">
+      <section className="py-12 md:py-16 bg-white border-b-2 border-dashed border-[#3a2f21]/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
             <span className="text-xs font-bold text-[#c2410c] tracking-wider uppercase">
-              {isArabic ? 'الصفحة ٢ من الدفتر · تخصصات المستقبل' : 'Page 2 · Future Majors'}
+              {isArabic ? 'الصفحة الثانية من الدفتر · تخصصات المستقبل' : 'Page 2 · Future Majors'}
             </span>
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-[#3a2f21]">
               {isArabic ? (
-                <>قطاعات واعدة متوافقة مع <span className="hl-y">رؤية السعودية 2030</span></>
+                <>قطاعات واعدة متوافقة مع <span className="hl-y">رؤية السعودية ٢٠٣٠</span></>
               ) : (
                 <>High-Demand <span className="hl-y">Saudi Vision 2030</span> Sectors</>
               )}
             </h2>
             <p className="text-[#5c4f3a] text-sm font-prose leading-relaxed">
               {isArabic
-                ? 'يربط محرك بوصلتي نتائج كودك الشخصي مباشرة مع القطاعات الاستراتيجية الوطنية ضمن برنامج تنمية القدرات البشرية.'
-                : 'Bausalty maps your Holland Code profile directly to strategic national sectors.'}
+                ? 'يربط محرك بوصلتي نتائج تقييمك مباشرة مع القطاعات الاستراتيجية الوطنية ضمن برنامج تنمية القدرات البشرية.'
+                : 'Bausalty maps your profile directly to strategic national sectors under the Human Capability Development Program.'}
             </p>
           </div>
 
@@ -267,7 +265,7 @@ export default function HomePage() {
               return (
                 <div
                   key={item.titleEn}
-                  className="bg-[#fbf6ea] border-2 border-[#3a2f21] rounded-[18px] p-6 shadow-[3px_3px_0_#3a2f21] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[5px_5px_0_#3a2f21] transition-all flex flex-col justify-between"
+                  className="notebook-paper-lined border-2 border-[#3a2f21] rounded-[18px] p-6 shadow-[3px_3px_0_#3a2f21] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[5px_5px_0_#3a2f21] transition-all flex flex-col justify-between"
                 >
                   <div className="space-y-3">
                     <div className={`w-12 h-12 rounded-xl ${item.bgAccent} border-2 border-[#3a2f21] text-[#3a2f21] flex items-center justify-center shadow-2xs`}>
@@ -285,7 +283,7 @@ export default function HomePage() {
 
                   <div className="pt-4 border-t border-[#3a2f21]/15 flex items-center justify-between mt-4">
                     <span className="text-[11px] font-bold text-[#8a7a5f] bg-white border border-[#3a2f21]/30 px-2.5 py-0.5 rounded-full">
-                      Vision 2030
+                      {isArabic ? 'رؤية ٢٠٣٠' : 'Vision 2030'}
                     </span>
                     <Link
                       href="/majors"
@@ -304,16 +302,16 @@ export default function HomePage() {
       </section>
 
       {/* ================= 3 SIMPLE STEPS ================= */}
-      <section className="py-12 md:py-16 bg-[#fbf6ea] border-b-2 border-dashed border-[#3a2f21]/20">
+      <section className="py-12 md:py-16 bg-paper border-b-2 border-dashed border-[#3a2f21]/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
             <span className="text-xs font-bold text-[#c2410c] tracking-wider uppercase">
-              {isArabic ? 'الصفحة ٣ من الدفتر · طريقة العمل' : 'Page 3 · How It Works'}
+              {isArabic ? 'الصفحة الثالثة من الدفتر · خطوات التقييم' : 'Page 3 · Assessment Steps'}
             </span>
             <h2 className="text-2xl sm:text-4xl font-display font-bold text-[#3a2f21]">
               {isArabic ? (
-                <>رحلتك لاكتشاف تخصصك في <span className="hl-y">٣ خطوات</span></>
+                <>رحلتك لاكتشاف تخصصك في <span className="hl-y">٣ خطوات سهلة</span></>
               ) : (
                 <>Discover Your Major in <span className="hl-y">3 Simple Steps</span></>
               )}
@@ -323,8 +321,8 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {steps.map((item) => (
               <div
-                key={item.step}
-                className="bg-[#fffdf6] border-2 border-[#3a2f21] rounded-[18px] p-6 shadow-[3px_3px_0_#3a2f21] space-y-3"
+                key={item.titleEn}
+                className="notebook-paper-lined border-2 border-[#3a2f21] rounded-[18px] p-6 shadow-[3px_3px_0_#3a2f21] space-y-3"
               >
                 <div className="w-10 h-10 rounded-xl bg-[#ffd66e] text-[#3a2f21] border-2 border-[#3a2f21] flex items-center justify-center font-display font-black text-lg shadow-2xs">
                   {item.step}
@@ -350,9 +348,9 @@ export default function HomePage() {
           <h2 className="text-2xl sm:text-4xl font-display font-black text-[#3a2f21]">
             {isArabic ? 'جاهز لاكتشاف تخصصك الجامعي الأنسب؟' : 'Ready to Discover Your Ideal College Major?'}
           </h2>
-          <p className="text-[#3a2f21] font-prose text-sm max-w-lg mx-auto font-medium">
+          <p className="text-[#3a2f21] font-prose text-sm max-w-lg mx-auto font-medium leading-relaxed">
             {isArabic
-              ? 'انضم الآن لآلاف الطلاب وابدأ اختبار هولاند (RIASEC) مجاناً واحصل على توصيات دقيقة فوراً.'
+              ? 'انضم الآن لآلاف الطلاب وابدأ اختبار تحديد الميول مجاناً وتعرّف على التخصصات المناسبة لك فوراً.'
               : 'Join thousands of Saudi students and get your personalized major report now.'}
           </p>
           <div className="pt-2">

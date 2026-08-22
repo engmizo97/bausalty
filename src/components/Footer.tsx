@@ -21,20 +21,20 @@ export default function Footer() {
                 <Compass className="w-6 h-6 text-yellow" />
               </div>
               <div>
-                <span className="text-2xl font-display font-black text-ink">بوصلتي</span>
+                <span className="text-2xl font-display font-black text-ink">
+                  {isArabic ? 'بوصلتي' : 'Bausalty'}
+                </span>
               </div>
             </div>
 
             <p className="text-ink-soft text-sm sm:text-base leading-relaxed max-w-md font-prose">
               {isArabic
-                ? 'بوصلتي هي محرك ذكاء اصطناعي لمطابقة الشخصية والأكواد الهولندية (RIASEC) مع التخصصات الجامعية للطلاب في المملكة العربية السعودية بما يتوافق مع رؤية السعودية 2030.'
-                : 'Bausalty is an AI-powered Holland Code (RIASEC) personality-to-college-major alignment engine built for Saudi high school and university students, empowering decisions aligned with Saudi Vision 2030.'}
+                ? 'بوصلتي هي منصة لتحديد الميول المهنية ومطابقة أنماط الشخصية مع التخصصات الجامعية لطلاب وطالبات المملكة العربية السعودية، بما يتوافق مع متطلبات سوق العمل ورؤية المملكة ٢٠٣٠.'
+                : 'Bausalty is a career guidance and psychometric personality alignment engine designed for Saudi high school and university students, aligned with Saudi Vision 2030.'}
             </p>
 
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-paper-card border-2 border-ink text-xs font-bold text-teal shadow-notebook-xs">
-              <span>{isArabic ? 'مجموعة تحسين للذكاء الاصطناعي' : 'Part of Tahseen AI Group'}</span>
-              <span className="w-2 h-2 rounded-full bg-teal" />
-              <span>Tahseen AI Group</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-paper-card border-2 border-ink text-xs font-bold text-teal shadow-notebook-xs">
+              <span>{isArabic ? 'تحسين التعليمية' : 'Tahseen Education'}</span>
             </div>
           </div>
 
@@ -51,7 +51,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/assessment" className="text-ink-soft hover:text-teal transition-colors">
-                  {isArabic ? 'اختبار هولاند (RIASEC)' : 'RIASEC Assessment'}
+                  {isArabic ? 'الاختبارات الأكاديمية' : 'Assessments'}
                 </Link>
               </li>
               <li>
@@ -65,16 +65,16 @@ export default function Footer() {
           {/* Vision 2030 & Accreditation */}
           <div className="space-y-3">
             <h3 className="text-base font-display font-bold text-ink uppercase tracking-wider">
-              {isArabic ? 'توافق مع رؤية 2030' : 'Saudi Vision 2030'}
+              {isArabic ? 'رؤية السعودية ٢٠٣٠' : 'Saudi Vision 2030'}
             </h3>
             <p className="text-xs sm:text-sm text-ink-soft leading-relaxed font-prose">
               {isArabic
-                ? 'تم تطوير المحرك لدعم برنامج تنمية القدرات البشرية في قطاعات الأمن السيبراني، والذكاء الاصطناعي، والطاقة المتجددة، والسياحة.'
+                ? 'تم تصميم المحرك لدعم برنامج تنمية القدرات البشرية في قطاعات الأمن السيبراني، والذكاء الاصطناعي، والطاقة المتجددة، والسياحة.'
                 : 'Designed to support the Human Capability Development Program across cybersecurity, AI, renewable energy, and tourism sectors.'}
             </p>
             <div className="pt-2 flex items-center gap-2 text-xs font-black text-teal">
               <span className="w-2.5 h-2.5 rounded-full bg-teal animate-pulse" />
-              <span>رؤية السعودية 2030 | Vision 2030</span>
+              <span>{isArabic ? 'متوافق مع برنامج تنمية القدرات البشرية' : 'Aligned with Human Capability Development'}</span>
             </div>
           </div>
 
@@ -82,9 +82,13 @@ export default function Footer() {
 
         {/* Bottom Copyright */}
         <div className="pt-6 border-t-2 border-ink flex flex-col sm:flex-row items-center justify-between text-xs text-ink-soft gap-4">
-          <p>© {new Date().getFullYear()} Bausalty (بوصلتي). All rights reserved. Tahseen AI Group.</p>
+          <p>
+            {isArabic
+              ? `© ${new Date().getFullYear()} بوصلتي. جميع الحقوق محفوظة. تحسين التعليمية.`
+              : `© ${new Date().getFullYear()} Bausalty. All rights reserved. Tahseen Education.`}
+          </p>
           <div className="flex items-center gap-1 font-bold">
-            <span>Engineered with passion for Saudi Youth</span>
+            <span>{isArabic ? 'صُنعت بحب لشباب وبنات الوطن' : 'Engineered with passion for Saudi Youth'}</span>
             <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
           </div>
         </div>

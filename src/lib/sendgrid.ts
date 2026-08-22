@@ -57,8 +57,8 @@ export async function sendWelcomeEmail(toEmail: string, userName: string): Promi
   const subject = 'Welcome to Bausalty (بوصلتي) | Your Career Discovery Journey';
   
   const html = `
-    <div style="font-family: Arial, sans-serif; background-color: #fbf6ea; padding: 24px; color: #3a2f21;">
-      <div style="max-width: 600px; margin: 0 auto; background-color: #fffdf6; border: 2px solid #3a2f21; border-radius: 18px; padding: 32px; box-shadow: 4px 4px 0px #3a2f21;">
+    <div style="font-family: Arial, sans-serif; background-color: #f4eefb; padding: 24px; color: #3a2f21;">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 2px solid #3a2f21; border-radius: 18px; padding: 32px; box-shadow: 4px 4px 0px #3a2f21;">
         <h1 style="color: #0d9488; font-size: 24px; margin-bottom: 8px;">Welcome to Bausalty (بوصلتي)!</h1>
         <p style="font-size: 16px; color: #5c4f3a;">Hello <strong>${userName}</strong>,</p>
         <p style="font-size: 15px; line-height: 1.6; color: #3a2f21;">

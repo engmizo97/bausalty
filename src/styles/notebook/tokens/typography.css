@@ -1,8 +1,8 @@
 /* قدرات AI — typography tokens */
 :root{
-  --font-display:'Marhey',cursive;                    /* headings, numbers, sticky notes */
-  --font-ui:'Baloo Bhaijaan 2',system-ui,sans-serif;  /* UI, buttons, labels, body default */
-  --font-prose:'Noto Naskh Arabic',serif;             /* long-form paragraphs, question text */
+  --font-display:'Noto Naskh Arabic', serif;          /* headings, numbers, sticky notes */
+  --font-ui:'Noto Naskh Arabic', serif;               /* UI, buttons, labels, body default */
+  --font-prose:'Noto Naskh Arabic', serif;            /* long-form paragraphs, question text */
   --text-h-xl:clamp(40px,6vw,72px);  /* hero */
   --text-h-lg:clamp(30px,4vw,46px);  /* section titles */
   --text-h-md:clamp(26px,3vw,34px);  /* sub-sections */

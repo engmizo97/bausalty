@@ -29,12 +29,12 @@ export default function Header() {
 
   const navLinks = [
     { href: '/', labelEn: 'Home', labelAr: 'الرئيسية' },
-    { href: '/assessment', labelEn: 'Quiz Hub', labelAr: 'مركز الاختبارات' },
+    { href: '/assessment', labelEn: 'Assessments', labelAr: 'الاختبارات' },
     { href: '/majors', labelEn: 'Majors Explorer', labelAr: 'مستكشف التخصصات' },
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-[#fbf6ea]/90 backdrop-blur-md border-b-2 border-dashed border-[#3a2f21]/25">
+    <header className="sticky top-0 z-50 bg-[#f4eefb]/95 backdrop-blur-md border-b-2 border-dashed border-[#3a2f21]/25">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           
@@ -45,7 +45,7 @@ export default function Header() {
                 <Compass className="w-5 h-5 text-[#3a2f21]" />
               </div>
               <span className="text-xl sm:text-2xl font-display font-bold text-[#3a2f21]">
-                بوصلتي <span className="text-[#7c3aed]">AI</span>
+                {isArabic ? 'بوصلتي' : 'Bausalty'}
               </span>
             </Link>
 
@@ -73,9 +73,9 @@ export default function Header() {
             <button
               onClick={toggleLanguage}
               className="text-xs font-bold text-[#5c4f3a] hover:text-[#3a2f21] px-2.5 py-1.5 rounded-lg border border-[#3a2f21]/20 hidden sm:inline-block"
-              title="Toggle Language"
+              title={isArabic ? 'تغيير اللغة' : 'Change Language'}
             >
-              {isArabic ? '🇬🇧 English' : '🇸🇦 العربية'}
+              {isArabic ? 'English' : 'العربية'}
             </button>
 
             {isLoggedIn ? (
@@ -83,7 +83,7 @@ export default function Header() {
                 href="/dashboard"
                 className="h-10 px-4 sm:px-5 rounded-xl border-2 border-[#3a2f21] bg-[#ffd66e] text-[#3a2f21] font-display font-bold text-sm shadow-[2.5px_2.5px_0_#3a2f21] hover:translate-x-[-1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0_#3a2f21] transition-all flex items-center gap-1.5"
               >
-                <User className="w-4 h-4 text-[#7c3aed]" />
+                <User className="w-4 h-4 text-[#0d9488]" />
                 <span>{isArabic ? 'لوحة التحكم' : 'Dashboard'}</span>
               </Link>
             ) : (

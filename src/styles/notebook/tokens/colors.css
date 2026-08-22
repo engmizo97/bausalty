@@ -1,9 +1,9 @@
 /* قدرات AI — color tokens. Source of truth: Agent_LP landing page (notebook aesthetic) */
 :root{
   /* paper surfaces */
-  --paper:#faf9f5;        /* page background */
+  --paper:#f4eefb;        /* lavender notebook page background */
   --paper-2:#ffffff;      /* card background */
-  --paper-3:#f2efe8;      /* inset / bar background */
+  --paper-3:#ede5f7;      /* inset / bar background */
   --white:#ffffff;        /* elevated card (question card, chat) */
   /* ink (text) */
   --ink:#3a2f21;          /* headings, borders, primary text */
@@ -38,5 +38,5 @@
   --action-secondary:var(--yellow);
   --accent-ai:var(--purple);
   --border-ink:var(--ink);
-  --rule-line:rgba(34,197,94,.10); /* notebook ruled lines */
+  --rule-line:rgba(147,51,234,.14); /* notebook light purple ruled lines */
 }

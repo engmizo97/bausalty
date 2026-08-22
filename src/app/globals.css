@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Marhey:wght@400;500;600;700&family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 @config "../../tailwind.config.ts";
 
@@ -6,9 +5,9 @@
 @import "../styles/notebook/styles.css";
 
 @theme {
-  --color-paper: #fbf6ea;
-  --color-paper-card: #fffdf6;
-  --color-paper-inset: #f2efe8;
+  --color-paper: #f4eefb;
+  --color-paper-card: #ffffff;
+  --color-paper-inset: #ede5f7;
   
   --color-ink: #3a2f21;
   --color-ink-soft: #5c4f3a;
@@ -20,26 +19,16 @@
   --color-yellow: #ffd66e;
   --color-purple: #7c3aed;
 
-  --color-royal-dark: #1E3A8A;
-  --color-royal-light: #1D4ED8;
-  --color-sky-dark: #0284C7;
-  --color-sky-light: #38BDF8;
-
-  --color-brand-royal: #1E3A8A;
-  --color-brand-royal-light: #1D4ED8;
-  --color-brand-sky: #0284C7;
-  --color-brand-sky-light: #38BDF8;
-  --color-brand-white: #FFFFFF;
-
-  --font-display: 'Marhey', cursive;
-  --font-ui: 'Baloo Bhaijaan 2', system-ui, sans-serif;
-  --font-prose: 'Noto Naskh Arabic', serif;
+  --font-serif: var(--font-naskh), 'Noto Naskh Arabic', serif;
+  --font-display: var(--font-naskh), 'Noto Naskh Arabic', serif;
+  --font-ui: var(--font-naskh), 'Noto Naskh Arabic', serif;
+  --font-prose: var(--font-naskh), 'Noto Naskh Arabic', serif;
 }
 
 :root {
-  --paper: #fbf6ea;
-  --paper-card: #fffdf6;
-  --paper-inset: #f2efe8;
+  --paper: #f4eefb;
+  --paper-card: #ffffff;
+  --paper-inset: #ede5f7;
   --white: #ffffff;
 
   --ink: #3a2f21;
@@ -51,10 +40,10 @@
   --teal-soft: #c9f2e8;
   --yellow: #ffd66e;
   --purple: #7c3aed;
-  --rule-line: rgba(13, 148, 136, 0.09);
+  --rule-line: rgba(124, 58, 237, 0.14); /* Lavender notebook lines */
   --red-margin: rgba(220, 38, 38, 0.18);
 
-  --background: #fbf6ea;
+  --background: #f4eefb;
   --foreground: #3a2f21;
 }
 
@@ -63,12 +52,13 @@
   padding: 0 8px;
 }
 
-.hl-t {
+.hl-t,
+.hl-teal {
   background: linear-gradient(transparent 55%, #c9f2e8 55%, #c9f2e8 92%, transparent 92%);
   padding: 0 8px;
 }
 
-/* Base Anchor Reset to prevent overriding Tailwind utility classes */
+/* Base Anchor Reset */
 a[class*="text-white"],
 .text-white {
   color: #ffffff !important;
@@ -79,30 +69,39 @@ a[class*="text-ink"],
   color: #3a2f21 !important;
 }
 
-/* Notebook Canvas Background & Ruled Lines */
+/* Notebook Canvas Background & Light Purple Ruled Lines */
 body {
-  background-color: var(--paper, #faf9f5);
+  background-color: var(--paper, #f4eefb);
   background-image: repeating-linear-gradient(
     transparent 0px,
-    transparent 35px,
-    var(--rule-line, rgba(34, 197, 94, 0.05)) 36px
+    transparent 31px,
+    var(--rule-line, rgba(124, 58, 237, 0.14)) 32px
   );
   color: var(--ink, #3a2f21);
-  font-family: var(--font-ui, 'Baloo Bhaijaan 2', system-ui, sans-serif);
+  font-family: var(--font-naskh), 'Noto Naskh Arabic', serif !important;
   min-height: 100vh;
 }
 
 .bg-paper,
 .notebook-bg {
-  background-color: var(--paper, #faf9f5);
+  background-color: var(--paper, #f4eefb);
   background-image: repeating-linear-gradient(
     transparent 0px,
-    transparent 35px,
-    var(--rule-line, rgba(34, 197, 94, 0.05)) 36px
+    transparent 31px,
+    var(--rule-line, rgba(124, 58, 237, 0.14)) 32px
   );
 }
 
-/* Red Notebook Margin Line Utility - only on desktop to prevent mobile layout pollution */
+.notebook-paper-lined {
+  background-color: var(--paper-card, #ffffff);
+  background-image: repeating-linear-gradient(
+    transparent 0px,
+    transparent 27px,
+    var(--rule-line, rgba(124, 58, 237, 0.12)) 28px
+  );
+}
+
+/* Red Notebook Margin Line Utility */
 .notebook-margin-line {
   position: relative;
 }
@@ -115,28 +114,25 @@ body {
     bottom: 0;
     right: 48px;
     width: 2px;
-    background: var(--red-margin, rgba(220, 38, 38, 0.15));
+    background: var(--red-margin, rgba(220, 38, 38, 0.18));
     pointer-events: none;
   }
 }
 
-/* Notebook Hand-drawn Hard Shadow Card Utility */
-.notebook-card {
-  background-color: var(--paper-card, #ffffff);
-  border: 2px solid var(--ink, #3a2f21);
-  box-shadow: 3px 3px 0px var(--ink, #3a2f21);
-  border-radius: 18px;
+/* Notebook Spiral Binding Holes */
+.notebook-spiral-edge {
+  position: relative;
 }
 
-/* Highlight utilities */
-.hl-yellow {
-  background: linear-gradient(180deg, transparent 55%, rgba(255, 214, 110, 0.85) 55%, rgba(255, 214, 110, 0.85) 94%, transparent 94%);
-  padding: 0 4px;
-  border-radius: 4px;
-}
-
-.hl-teal {
-  background: linear-gradient(180deg, transparent 55%, rgba(201, 242, 232, 0.85) 55%, rgba(201, 242, 232, 0.85) 94%, transparent 94%);
-  padding: 0 4px;
-  border-radius: 4px;
+.notebook-spiral-edge::before {
+  content: "";
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  right: 8px;
+  width: 10px;
+  background-image: radial-gradient(circle, #3a2f21 3px, transparent 3.5px);
+  background-size: 10px 24px;
+  opacity: 0.25;
+  pointer-events: none;
 }

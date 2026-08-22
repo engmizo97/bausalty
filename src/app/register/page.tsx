@@ -126,8 +126,12 @@ export default function RegisterPage() {
               <Compass className="w-7 h-7 text-[#ffd66e]" />
             </div>
             <div className="text-right">
-              <span className="text-3xl font-display font-black text-[#3a2f21] block">Bausalty</span>
-              <span className="text-xs font-bold text-[#0d9488] block">Tahseen AI Group</span>
+              <span className="text-3xl font-display font-black text-[#3a2f21] block">
+                {isArabic ? 'بوصلتي' : 'Bausalty'}
+              </span>
+              <span className="text-xs font-bold text-[#0d9488] block">
+                {isArabic ? 'تحسين التعليمية' : 'Tahseen Education'}
+              </span>
             </div>
           </Link>
 
@@ -149,7 +153,7 @@ export default function RegisterPage() {
             onClick={handleGoogleSignUp}
             disabled={isLoading}
             type="button"
-            className="w-full h-12 min-h-[48px] bg-[#fbf6ea] hover:bg-[#f3ead9] text-[#3a2f21] border-2 border-[#3a2f21] rounded-xl font-bold text-sm shadow-[3px_3px_0_#3a2f21] flex items-center justify-center gap-3 transition-all hover:scale-102 active:scale-98"
+            className="w-full h-12 min-h-[48px] bg-[#f4eefb] hover:bg-[#ede5f7] text-[#3a2f21] border-2 border-[#3a2f21] rounded-xl font-bold text-sm shadow-[3px_3px_0_#3a2f21] flex items-center justify-center gap-3 transition-all hover:scale-102 active:scale-98"
           >
             <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">
               <path
@@ -204,7 +208,7 @@ export default function RegisterPage() {
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                     placeholder={isArabic ? 'فهد' : 'Fahad'}
-                    className="w-full h-11 min-h-[44px] pl-9 pr-3 rounded-xl border-2 border-[#3a2f21] bg-[#fbf6ea] text-[#3a2f21] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#0d9488]"
+                    className="w-full h-11 min-h-[44px] pl-9 pr-3 rounded-xl border-2 border-[#3a2f21] bg-[#f4eefb] text-[#3a2f21] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#0d9488]"
                   />
                 </div>
               </div>
@@ -221,7 +225,7 @@ export default function RegisterPage() {
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                     placeholder={isArabic ? 'السعدي' : 'Al-Saudi'}
-                    className="w-full h-11 min-h-[44px] pl-9 pr-3 rounded-xl border-2 border-[#3a2f21] bg-[#fbf6ea] text-[#3a2f21] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#0d9488]"
+                    className="w-full h-11 min-h-[44px] pl-9 pr-3 rounded-xl border-2 border-[#3a2f21] bg-[#f4eefb] text-[#3a2f21] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#0d9488]"
                   />
                 </div>
               </div>
@@ -240,7 +244,7 @@ export default function RegisterPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="student@ksu.edu.sa"
-                  className="w-full h-11 min-h-[44px] pl-10 pr-3 rounded-xl border-2 border-[#3a2f21] bg-[#fbf6ea] text-[#3a2f21] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#0d9488]"
+                  className="w-full h-11 min-h-[44px] pl-10 pr-3 rounded-xl border-2 border-[#3a2f21] bg-[#f4eefb] text-[#3a2f21] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#0d9488]"
                 />
               </div>
             </div>
@@ -258,7 +262,7 @@ export default function RegisterPage() {
                   value={confirmEmail}
                   onChange={(e) => setConfirmEmail(e.target.value)}
                   placeholder="student@ksu.edu.sa"
-                  className="w-full h-11 min-h-[44px] pl-10 pr-3 rounded-xl border-2 border-[#3a2f21] bg-[#fbf6ea] text-[#3a2f21] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#0d9488]"
+                  className="w-full h-11 min-h-[44px] pl-10 pr-3 rounded-xl border-2 border-[#3a2f21] bg-[#f4eefb] text-[#3a2f21] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#0d9488]"
                 />
               </div>
             </div>
@@ -278,7 +282,7 @@ export default function RegisterPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full h-11 min-h-[44px] pl-9 pr-3 rounded-xl border-2 border-[#3a2f21] bg-[#fbf6ea] text-[#3a2f21] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#0d9488]"
+                    className="w-full h-11 min-h-[44px] pl-9 pr-3 rounded-xl border-2 border-[#3a2f21] bg-[#f4eefb] text-[#3a2f21] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#0d9488]"
                   />
                 </div>
               </div>
@@ -296,7 +300,7 @@ export default function RegisterPage() {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full h-11 min-h-[44px] pl-9 pr-3 rounded-xl border-2 border-[#3a2f21] bg-[#fbf6ea] text-[#3a2f21] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#0d9488]"
+                    className="w-full h-11 min-h-[44px] pl-9 pr-3 rounded-xl border-2 border-[#3a2f21] bg-[#f4eefb] text-[#3a2f21] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#0d9488]"
                   />
                 </div>
               </div>
@@ -314,7 +318,7 @@ export default function RegisterPage() {
                   value={targetUniversity}
                   onChange={(e) => setTargetUniversity(e.target.value)}
                   placeholder={isArabic ? 'جامعة الملك سعود / الرياض' : 'King Saud University / Riyadh'}
-                  className="w-full h-11 min-h-[44px] pl-10 pr-3 rounded-xl border-2 border-[#3a2f21] bg-[#fbf6ea] text-[#3a2f21] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#0d9488]"
+                  className="w-full h-11 min-h-[44px] pl-10 pr-3 rounded-xl border-2 border-[#3a2f21] bg-[#f4eefb] text-[#3a2f21] text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-[#0d9488]"
                 />
               </div>
             </div>
