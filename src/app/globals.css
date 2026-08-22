@@ -52,7 +52,7 @@
 }
 
 html {
-  font-size: 17.5px;
+  font-size: 19px;
   font-family: 'Calibri', 'Carlito', system-ui, sans-serif !important;
 }
 
@@ -108,17 +108,29 @@ body,
   background-color: var(--paper, #ffffff);
   background-image: repeating-linear-gradient(
     transparent 0px,
-    transparent 31px,
-    var(--rule-line, rgba(139, 92, 246, 0.22)) 32px
+    transparent 33px,
+    var(--rule-line, rgba(139, 92, 246, 0.22)) 34px
   ) !important;
   color: var(--ink, #3a2f21);
   font-family: 'Calibri', 'Carlito', system-ui, sans-serif !important;
   min-height: 100vh;
-  line-height: 1.6;
+  line-height: 1.65;
+  font-size: 1.05rem;
 }
 
 *, ::before, ::after {
   font-family: inherit;
+}
+
+/* Secondary & Meta Text Scaling */
+.text-xs {
+  font-size: 0.85rem !important;
+  line-height: 1.45;
+}
+
+.text-sm {
+  font-size: 0.95rem !important;
+  line-height: 1.5;
 }
 
 /* Solid Clean Card Surfaces - Background lines NEVER show inside any card or template */
