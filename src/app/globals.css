@@ -5,9 +5,9 @@
 @import "../styles/notebook/styles.css";
 
 @theme {
-  --color-paper: #f4eefb;
+  --color-paper: #ffffff;
   --color-paper-card: #ffffff;
-  --color-paper-inset: #ede5f7;
+  --color-paper-inset: #f8f6fc;
   
   --color-ink: #3a2f21;
   --color-ink-soft: #5c4f3a;
@@ -26,9 +26,9 @@
 }
 
 :root {
-  --paper: #f4eefb;
+  --paper: #ffffff;
   --paper-card: #ffffff;
-  --paper-inset: #ede5f7;
+  --paper-inset: #f8f6fc;
   --white: #ffffff;
 
   --ink: #3a2f21;
@@ -40,10 +40,10 @@
   --teal-soft: #c9f2e8;
   --yellow: #ffd66e;
   --purple: #7c3aed;
-  --rule-line: rgba(124, 58, 237, 0.14); /* Lavender notebook lines */
+  --rule-line: rgba(139, 92, 246, 0.22); /* Lavender horizontal notebook lines (خزامى) */
   --red-margin: rgba(220, 38, 38, 0.18);
 
-  --background: #f4eefb;
+  --background: #ffffff;
   --foreground: #3a2f21;
 }
 
@@ -71,11 +71,11 @@ a[class*="text-ink"],
 
 /* Notebook Canvas Background & Light Purple Ruled Lines */
 body {
-  background-color: var(--paper, #f4eefb);
+  background-color: var(--paper, #ffffff);
   background-image: repeating-linear-gradient(
     transparent 0px,
     transparent 31px,
-    var(--rule-line, rgba(124, 58, 237, 0.14)) 32px
+    var(--rule-line, rgba(139, 92, 246, 0.22)) 32px
   );
   color: var(--ink, #3a2f21);
   font-family: var(--font-naskh), 'Noto Naskh Arabic', serif !important;
@@ -84,11 +84,11 @@ body {
 
 .bg-paper,
 .notebook-bg {
-  background-color: var(--paper, #f4eefb);
+  background-color: var(--paper, #ffffff);
   background-image: repeating-linear-gradient(
     transparent 0px,
     transparent 31px,
-    var(--rule-line, rgba(124, 58, 237, 0.14)) 32px
+    var(--rule-line, rgba(139, 92, 246, 0.22)) 32px
   );
 }
 
@@ -97,7 +97,7 @@ body {
   background-image: repeating-linear-gradient(
     transparent 0px,
     transparent 27px,
-    var(--rule-line, rgba(124, 58, 237, 0.12)) 28px
+    var(--rule-line, rgba(139, 92, 246, 0.18)) 28px
   );
 }
 

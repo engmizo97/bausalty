@@ -2,7 +2,7 @@
 :root{
   /* borders: everything meaningful gets a 2px ink border */
   --border-card:2px solid var(--ink);
-  --border-dashed:2px dashed rgba(58,47,33,.28); /* @kind other */
+  --border-dashed:2px dashed rgba(139, 92, 246, 0.4); /* Lavender dashed divider */
   --border-dashed-accent:1.5px dashed var(--teal);
   --border-option:1.5px solid var(--border-soft);
   /* hard offset shadows (never blurred) */

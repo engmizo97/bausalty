@@ -100,7 +100,7 @@ export default function HomePage() {
     <div className="flex-1 flex flex-col bg-paper overflow-x-hidden notebook-margin-line">
       
       {/* ================= HERO SECTION (NOTEBOOK AESTHETIC) ================= */}
-      <section className="relative min-h-[calc(100vh-64px)] flex flex-col justify-center py-10 sm:py-16 bg-paper border-b-2 border-dashed border-[#3a2f21]/20 overflow-hidden">
+      <section className="relative min-h-[calc(100vh-64px)] flex flex-col justify-center py-10 sm:py-16 bg-paper border-b-2 border-dashed border-[#8b5cf6]/40 overflow-hidden">
         
         {/* Notebook Spiral Accent Lines on Background */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
@@ -142,14 +142,14 @@ export default function HomePage() {
 
                 <Link
                   href="/login"
-                  className="text-center font-bold text-base text-[#3a2f21] border-b-2 border-dashed border-[#3a2f21] pb-0.5 hover:text-[#0d9488] transition-colors self-center"
+                  className="text-center font-bold text-base text-[#3a2f21] border-b-2 border-dashed border-[#8b5cf6]/50 pb-0.5 hover:text-[#0d9488] transition-colors self-center"
                 >
                   {isArabic ? 'تسجيل الدخول' : 'Sign In'}
                 </Link>
               </div>
 
               {/* Stats Row */}
-              <div className="pt-4 flex items-center justify-between gap-4 sm:gap-8 w-full max-w-lg border-t border-dashed border-[#3a2f21]/20 mt-2">
+              <div className="pt-4 flex items-center justify-between gap-4 sm:gap-8 w-full max-w-lg border-t border-dashed border-[#8b5cf6]/40 mt-2">
                 <div className="text-center sm:text-right">
                   <b className="font-display font-black text-2xl sm:text-3xl text-[#3a2f21] block">{isArabic ? '٤٢' : '42'}</b>
                   <span className="text-xs text-[#8a7a5f] font-bold">{isArabic ? 'سؤالاً تقييمياً' : 'Questions'}</span>
@@ -182,7 +182,7 @@ export default function HomePage() {
                 </div>
 
                 {/* Card Header & Timer */}
-                <div className="flex items-center justify-between border-b border-dashed border-[#3a2f21]/20 pb-2.5 pt-1">
+                <div className="flex items-center justify-between border-b border-dashed border-[#8b5cf6]/35 pb-2.5 pt-1">
                   <span className="text-xs font-bold text-[#8a7a5f]">
                     {isArabic ? 'السؤال رقم ١ من ٤٢ · مقياس الميول' : 'Question 01 of 42 · Interest Scale'}
                   </span>
@@ -238,7 +238,7 @@ export default function HomePage() {
       </section>
 
       {/* ================= VISION 2030 SECTORS ================= */}
-      <section className="py-12 md:py-16 bg-white border-b-2 border-dashed border-[#3a2f21]/20">
+      <section className="py-12 md:py-16 bg-white border-b-2 border-dashed border-[#8b5cf6]/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
@@ -302,7 +302,7 @@ export default function HomePage() {
       </section>
 
       {/* ================= 3 SIMPLE STEPS ================= */}
-      <section className="py-12 md:py-16 bg-paper border-b-2 border-dashed border-[#3a2f21]/20">
+      <section className="py-12 md:py-16 bg-paper border-b-2 border-dashed border-[#8b5cf6]/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
@@ -343,7 +343,7 @@ export default function HomePage() {
       </section>
 
       {/* ================= CTA BANNER ================= */}
-      <section className="py-12 bg-[#ffd66e] border-b-2 border-dashed border-[#3a2f21]/30">
+      <section className="py-12 bg-[#ffd66e] border-b-2 border-dashed border-[#8b5cf6]/40">
         <div className="max-w-3xl mx-auto px-4 text-center space-y-4">
           <h2 className="text-2xl sm:text-4xl font-display font-black text-[#3a2f21]">
             {isArabic ? 'جاهز لاكتشاف تخصصك الجامعي الأنسب؟' : 'Ready to Discover Your Ideal College Major?'}

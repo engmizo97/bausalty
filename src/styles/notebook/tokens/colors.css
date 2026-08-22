@@ -1,9 +1,9 @@
 /* قدرات AI — color tokens. Source of truth: Agent_LP landing page (notebook aesthetic) */
 :root{
   /* paper surfaces */
-  --paper:#f4eefb;        /* lavender notebook page background */
+  --paper:#ffffff;        /* clean white notebook page background */
   --paper-2:#ffffff;      /* card background */
-  --paper-3:#ede5f7;      /* inset / bar background */
+  --paper-3:#f8f6fc;      /* inset / bar background */
   --white:#ffffff;        /* elevated card (question card, chat) */
   /* ink (text) */
   --ink:#3a2f21;          /* headings, borders, primary text */
