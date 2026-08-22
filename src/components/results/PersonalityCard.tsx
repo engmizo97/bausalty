@@ -28,6 +28,15 @@ const ARCHETYPE_TITLES: Record<RiasecType, { en: string; ar: string }> = {
   C: { en: 'The Systematic Specialist & Controller', ar: 'المنظم والخبير التنظيمي' },
 };
 
+const RIASEC_SHORT_NAMES: Record<RiasecType, { ar: string; en: string }> = {
+  R: { ar: 'العملي', en: 'Realistic' },
+  I: { ar: 'الاستكشافي', en: 'Investigative' },
+  A: { ar: 'الفني', en: 'Artistic' },
+  S: { ar: 'الاجتماعي', en: 'Social' },
+  E: { ar: 'القيادي', en: 'Enterprising' },
+  C: { ar: 'التنظيمي', en: 'Conventional' },
+};
+
 export default function PersonalityCard({ result }: PersonalityCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isDownloading, setIsDownloading] = useState(false);
@@ -51,7 +60,7 @@ export default function PersonalityCard({ result }: PersonalityCardProps) {
   // Radar data for mini chart inside the card
   const categoriesList: RiasecType[] = ['R', 'I', 'A', 'S', 'E', 'C'];
   const radarData = categoriesList.map((cat) => ({
-    category: isArabic ? RIASEC_CATEGORIES[cat]?.nameAr : RIASEC_CATEGORIES[cat]?.nameEn,
+    category: isArabic ? RIASEC_SHORT_NAMES[cat].ar : RIASEC_SHORT_NAMES[cat].en,
     score: result.normalizedScores[cat] || 0,
     fullMark: 100,
   }));
@@ -68,18 +77,16 @@ export default function PersonalityCard({ result }: PersonalityCardProps) {
 
     if (Math.abs(dx) < 15) {
       textAnchor = 'middle';
-      yOffset = dy < 0 ? -8 : 12;
+      yOffset = dy < 0 ? -6 : 10;
     } else if (dx < 0) {
       textAnchor = 'end';
       xOffset = -6;
-      yOffset = dy < 0 ? -2 : 4;
+      yOffset = dy < 0 ? -1 : 3;
     } else {
       textAnchor = 'start';
       xOffset = 6;
-      yOffset = dy < 0 ? -2 : 4;
+      yOffset = dy < 0 ? -1 : 3;
     }
-
-    const parts = text.includes(' / ') ? text.split(' / ') : [text];
 
     return (
       <text
@@ -87,22 +94,11 @@ export default function PersonalityCard({ result }: PersonalityCardProps) {
         y={y + yOffset}
         textAnchor={textAnchor}
         fill="#3a2f21"
-        fontSize={9}
+        fontSize={10}
         fontWeight={800}
         className="select-none font-sans"
       >
-        {parts.length === 2 ? (
-          <>
-            <tspan x={x + xOffset} dy={dy < 0 ? "-0.4em" : "0"}>
-              {parts[0]}
-            </tspan>
-            <tspan x={x + xOffset} dy="1.15em" fill="#5c4f3a" fontSize={8}>
-              {`/ ${parts[1]}`}
-            </tspan>
-          </>
-        ) : (
-          <tspan>{text}</tspan>
-        )}
+        {text}
       </text>
     );
   };
@@ -141,8 +137,13 @@ export default function PersonalityCard({ result }: PersonalityCardProps) {
         {/* Card Header & Brand */}
         <div className="flex items-center justify-between border-b-2 border-[#3a2f21]/15 pb-4 relative z-10">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-2xl bg-[#0d9488] text-white border-2 border-[#3a2f21] flex items-center justify-center shadow-2xs">
-              <Compass className="w-6 h-6 text-[#ffd66e]" />
+            <div className="w-11 h-11 rounded-2xl border-2 border-[#3a2f21] overflow-hidden shadow-2xs bg-white shrink-0">
+              <img
+                src="/logo.png"
+                alt="بوصلتي"
+                className="w-full h-full object-cover"
+                crossOrigin="anonymous"
+              />
             </div>
             <div>
               <span className="text-xl font-display font-black text-[#3a2f21] tracking-tight block">
