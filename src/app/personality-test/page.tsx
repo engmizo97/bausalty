@@ -531,17 +531,24 @@ export default function PersonalityTestPage() {
                     {famousList.map((fig) => (
                       <div
                         key={fig.nameEn}
-                        className="bg-[#faf6ea] p-4 rounded-2xl border-2 border-ink shadow-notebook-xs space-y-1.5 text-center"
+                        className="bg-[#faf6ea] p-4 sm:p-5 rounded-2xl border-2 border-ink shadow-notebook-xs space-y-2 text-center flex flex-col items-center justify-between"
                       >
-                        <div className="w-10 h-10 rounded-full bg-yellow border-2 border-ink flex items-center justify-center mx-auto text-base font-black text-ink">
-                          ⭐
+                        <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-full border-2 border-ink overflow-hidden shadow-notebook-xs mx-auto bg-white shrink-0">
+                          <img
+                            src={fig.image || '/logo.png'}
+                            alt={isArabic ? fig.nameAr : fig.nameEn}
+                            className="w-full h-full object-cover"
+                            loading="lazy"
+                          />
                         </div>
-                        <p className="font-display font-bold text-base text-ink pt-1">
-                          {isArabic ? fig.nameAr : fig.nameEn}
-                        </p>
-                        <p className="text-xs font-bold text-muted">
-                          {isArabic ? fig.roleAr : fig.roleEn}
-                        </p>
+                        <div>
+                          <p className="font-display font-black text-base text-ink pt-1">
+                            {isArabic ? fig.nameAr : fig.nameEn}
+                          </p>
+                          <p className="text-xs font-bold text-muted">
+                            {isArabic ? fig.roleAr : fig.roleEn}
+                          </p>
+                        </div>
                       </div>
                     ))}
                   </div>

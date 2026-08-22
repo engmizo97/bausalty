@@ -32,7 +32,7 @@ export interface ArchetypeInfo {
   weaknessesAr?: string[];
   growthAdviceEn?: string;
   growthAdviceAr?: string;
-  famousFigures?: Array<{ nameEn: string; nameAr: string; roleEn: string; roleAr: string }>;
+  famousFigures?: Array<{ nameEn: string; nameAr: string; roleEn: string; roleAr: string; image?: string }>;
   learningStyleEn: string;
   learningStyleAr: string;
   linkedRiasecCodes: string[]; // e.g. ["IRC", "IAR"]
