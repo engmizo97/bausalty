@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import {
@@ -122,8 +123,14 @@ export default function RegisterPage() {
         {/* Header Logo & Title */}
         <div className="text-center space-y-3">
           <Link href="/" className="inline-flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-[#0d9488] text-white border-2 border-[#3a2f21] flex items-center justify-center shadow-[3px_3px_0_#3a2f21]">
-              <Compass className="w-7 h-7 text-[#ffd66e]" />
+            <div className="w-12 h-12 rounded-2xl border-2 border-[#3a2f21] overflow-hidden shadow-[3px_3px_0_#3a2f21] bg-white shrink-0">
+              <Image
+                src="/logo.png"
+                alt="بوصلتي"
+                width={48}
+                height={48}
+                className="w-full h-full object-cover"
+              />
             </div>
             <div className="text-right">
               <span className="text-3xl font-display font-black text-[#3a2f21] block">

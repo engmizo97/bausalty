@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import {
   Compass,
@@ -64,8 +65,14 @@ export default function CheckoutPage() {
         {/* Header Logo */}
         <div className="text-center space-y-2">
           <Link href="/" className="inline-flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-teal text-white border-2 border-ink flex items-center justify-center shadow-notebook-xs">
-              <Compass className="w-7 h-7 text-yellow" />
+            <div className="w-12 h-12 rounded-2xl border-2 border-ink overflow-hidden shadow-notebook-xs bg-white shrink-0">
+              <Image
+                src="/logo.png"
+                alt="بوصلتي"
+                width={48}
+                height={48}
+                className="w-full h-full object-cover"
+              />
             </div>
             <div className="text-right">
               <span className="text-3xl font-display font-black text-ink block">بوصلتي</span>

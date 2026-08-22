@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Compass, User } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
@@ -41,8 +42,14 @@ export default function Header() {
           {/* RIGHT SIDE (in RTL): Logo & Desktop Navigation Links */}
           <div className="flex items-center gap-6 lg:gap-8">
             <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-[11px] bg-[#ffd66e] text-[#3a2f21] border-2 border-[#3a2f21] flex items-center justify-center shadow-[2.5px_2.5px_0_#3a2f21] -rotate-4 group-hover:rotate-0 transition-transform">
-                <Compass className="w-5 h-5 text-[#3a2f21]" />
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-[11px] border-2 border-[#3a2f21] overflow-hidden shadow-[2.5px_2.5px_0_#3a2f21] -rotate-4 group-hover:rotate-0 transition-transform bg-white shrink-0">
+                <Image
+                  src="/logo.png"
+                  alt="بوصلتي"
+                  width={40}
+                  height={40}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <span className="text-xl sm:text-2xl font-display font-bold text-[#3a2f21]">
                 {isArabic ? 'بوصلتي' : 'Bausalty'}

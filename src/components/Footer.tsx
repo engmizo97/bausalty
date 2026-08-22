@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Compass, Heart } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -17,8 +18,14 @@ export default function Footer() {
           {/* Brand & Mission */}
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-teal text-white border-2 border-ink flex items-center justify-center shadow-notebook-xs">
-                <Compass className="w-6 h-6 text-yellow" />
+              <div className="w-10 h-10 rounded-xl border-2 border-ink overflow-hidden shadow-notebook-xs bg-white shrink-0">
+                <Image
+                  src="/logo.png"
+                  alt="بوصلتي"
+                  width={40}
+                  height={40}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div>
                 <span className="text-2xl font-display font-black text-ink">
