@@ -75,14 +75,37 @@ export default function Header() {
             </nav>
           </div>
 
-          {/* LEFT SIDE (in RTL): Language Toggle & Login / Dashboard Button */}
+          {/* LEFT SIDE (in RTL): Language Switch Toggle & Login / Dashboard Button */}
           <div className="flex items-center gap-3">
+            
+            {/* Notebook Interactive Language Switch */}
             <button
               onClick={toggleLanguage}
-              className="text-xs font-bold text-[#5c4f3a] hover:text-[#3a2f21] px-2.5 py-1.5 rounded-lg border border-[#3a2f21]/20 hidden sm:inline-block"
-              title={isArabic ? 'تغيير اللغة' : 'Change Language'}
+              type="button"
+              className="relative inline-flex items-center p-1 bg-white border-2 border-[#3a2f21] rounded-full shadow-[2px_2px_0_#3a2f21] hover:shadow-[1px_1px_0_#3a2f21] transition-all cursor-pointer select-none"
+              title={isArabic ? 'Switch to English' : 'التحويل إلى العربية'}
+              aria-label={isArabic ? 'Switch to English' : 'التحويل إلى العربية'}
             >
-              {isArabic ? 'English' : 'العربية'}
+              <div className="flex items-center text-xs font-black relative z-10">
+                <span
+                  className={`px-2.5 py-1 rounded-full transition-all duration-200 ${
+                    isArabic
+                      ? 'bg-[#0d9488] text-white shadow-xs'
+                      : 'text-[#5c4f3a] hover:text-[#3a2f21]'
+                  }`}
+                >
+                  عربي
+                </span>
+                <span
+                  className={`px-2.5 py-1 rounded-full transition-all duration-200 ${
+                    !isArabic
+                      ? 'bg-[#7c3aed] text-white shadow-xs'
+                      : 'text-[#5c4f3a] hover:text-[#3a2f21]'
+                  }`}
+                >
+                  EN
+                </span>
+              </div>
             </button>
 
             {isLoggedIn ? (

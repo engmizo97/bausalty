@@ -60,7 +60,8 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   };
 
   const toggleLanguage = () => {
-    setLanguage(language === 'ar' ? 'en' : 'ar');
+    const nextLang = language === 'ar' ? 'en' : 'ar';
+    setLanguage(nextLang);
   };
 
   return (

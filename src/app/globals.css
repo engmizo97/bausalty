@@ -112,10 +112,17 @@ body {
     position: absolute;
     top: 0;
     bottom: 0;
-    right: 48px;
     width: 2px;
     background: var(--red-margin, rgba(220, 38, 38, 0.18));
     pointer-events: none;
+  }
+  [dir="rtl"] .notebook-margin-line::before {
+    right: 48px;
+    left: auto;
+  }
+  [dir="ltr"] .notebook-margin-line::before {
+    left: 48px;
+    right: auto;
   }
 }
 

@@ -107,7 +107,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             
             {/* --- HERO COPY & CTAS --- */}
-            <div className="lg:col-span-7 flex flex-col items-start gap-5 text-right">
+            <div className="lg:col-span-7 flex flex-col items-start gap-5 text-start">
               
               {/* Notebook Dashed Tag Pill */}
               <div className="inline-flex items-center gap-2 bg-[#c9f2e8] border-[1.5px] border-dashed border-[#0d9488] rounded-full px-4 py-1.5 text-xs sm:text-sm font-bold text-[#0f766e] -rotate-1 shadow-2xs">
@@ -137,7 +137,7 @@ export default function HomePage() {
                   href="/assessment"
                   className="w-full sm:w-auto text-center font-display font-bold text-lg text-white bg-[#0d9488] hover:bg-[#0f766e] border-2 border-[#3a2f21] rounded-[14px] px-8 py-3.5 shadow-[3px_3px_0_#3a2f21] hover:translate-x-[-1px] hover:translate-y-[1px] hover:shadow-[1.5px_1.5px_0_#3a2f21] transition-all"
                 >
-                  {isArabic ? 'ابدأ التقييم مجاناً ←' : 'Start Assessment Free ←'}
+                  {isArabic ? 'ابدأ التقييم مجاناً ←' : 'Start Assessment Free →'}
                 </Link>
 
                 <Link
@@ -150,19 +150,19 @@ export default function HomePage() {
 
               {/* Stats Row */}
               <div className="pt-4 flex items-center justify-between gap-4 sm:gap-8 w-full max-w-lg border-t border-dashed border-[#8b5cf6]/40 mt-2">
-                <div className="text-center sm:text-right">
+                <div className="text-center sm:text-start">
                   <b className="font-display font-black text-2xl sm:text-3xl text-[#3a2f21] block">{isArabic ? '٤٢' : '42'}</b>
                   <span className="text-xs text-[#8a7a5f] font-bold">{isArabic ? 'سؤالاً تقييمياً' : 'Questions'}</span>
                 </div>
-                <div className="text-center sm:text-right">
+                <div className="text-center sm:text-start">
                   <b className="font-display font-black text-2xl sm:text-3xl text-[#3a2f21] block">{isArabic ? '٦' : '6'}</b>
                   <span className="text-xs text-[#8a7a5f] font-bold">{isArabic ? 'أبعاد للميول' : 'Dimensions'}</span>
                 </div>
-                <div className="text-center sm:text-right">
+                <div className="text-center sm:text-start">
                   <b className="font-display font-black text-2xl sm:text-3xl text-[#3a2f21] block">{isArabic ? '+٥٠' : '+50'}</b>
                   <span className="text-xs text-[#8a7a5f] font-bold">{isArabic ? 'تخصصاً سعودياً' : 'Saudi Majors'}</span>
                 </div>
-                <div className="text-center sm:text-right">
+                <div className="text-center sm:text-start">
                   <b className="font-display font-black text-2xl sm:text-3xl text-[#0d9488] block">{isArabic ? '١٠٠٪' : '100%'}</b>
                   <span className="text-xs text-[#8a7a5f] font-bold">{isArabic ? 'تقرير فوري' : 'Instant Report'}</span>
                 </div>
