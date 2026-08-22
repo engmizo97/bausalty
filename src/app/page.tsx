@@ -177,7 +177,7 @@ export default function HomePage() {
               <div className="notebook-paper-lined border-2 border-[#3a2f21] rounded-[18px] shadow-[5px_5px_0_#3a2f21] p-6 relative rotate-0 sm:rotate-1 space-y-3.5 notebook-spiral-edge">
                 
                 {/* Washi Tape Strip */}
-                <div className="absolute -top-3.5 right-12 w-28 h-6 bg-[#ffd66e]/95 -rotate-2 rounded-xs border border-[#3a2f21]/25 flex items-center justify-center text-[10px] font-black text-[#3a2f21] uppercase tracking-wider">
+                <div className={`absolute -top-3.5 ${isArabic ? 'right-12' : 'left-12'} w-28 h-6 bg-[#ffd66e]/95 -rotate-2 rounded-xs border border-[#3a2f21]/25 flex items-center justify-center text-[10px] font-black text-[#3a2f21] uppercase tracking-wider`}>
                   {isArabic ? 'نموذج من الدفتر' : 'Notebook Sample'}
                 </div>
 

@@ -44,11 +44,17 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const dir: Direction = language === 'ar' ? 'rtl' : 'ltr';
 
   useEffect(() => {
-    if (mounted) {
+    if (typeof document !== 'undefined') {
+      document.documentElement.setAttribute('dir', dir);
+      document.documentElement.setAttribute('lang', language);
       document.documentElement.dir = dir;
       document.documentElement.lang = language;
+      if (document.body) {
+        document.body.setAttribute('dir', dir);
+        document.body.dir = dir;
+      }
     }
-  }, [language, dir, mounted]);
+  }, [language, dir]);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
@@ -56,6 +62,17 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       localStorage.setItem('bausalty_lang', lang);
     } catch {
       // Ignore write error
+    }
+    if (typeof document !== 'undefined') {
+      const nextDir = lang === 'ar' ? 'rtl' : 'ltr';
+      document.documentElement.setAttribute('dir', nextDir);
+      document.documentElement.setAttribute('lang', lang);
+      document.documentElement.dir = nextDir;
+      document.documentElement.lang = lang;
+      if (document.body) {
+        document.body.setAttribute('dir', nextDir);
+        document.body.dir = nextDir;
+      }
     }
   };
 
@@ -66,7 +83,16 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <LanguageContext.Provider value={{ language, dir, setLanguage, toggleLanguage, mounted }}>
-      {children}
+      <div
+        id="bausalty-root"
+        dir={dir}
+        lang={language}
+        className={`w-full min-h-full flex flex-col transition-all duration-150 ${
+          dir === 'ltr' ? 'ltr text-left' : 'rtl text-right'
+        }`}
+      >
+        {children}
+      </div>
     </LanguageContext.Provider>
   );
 }
