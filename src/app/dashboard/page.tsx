@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import {
   Compass,
   Award,
@@ -47,6 +47,7 @@ interface MbtiResultSaved {
 
 export default function StudentDashboardPage() {
   const router = useRouter();
+  const { data: session, status: authStatus } = useSession();
   const { language } = useLanguage();
   const isArabic = language === 'ar';
 
@@ -57,33 +58,60 @@ export default function StudentDashboardPage() {
   const [isDownloadingPdf, setIsDownloadingPdf] = useState<boolean>(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      try {
-        const savedSession = localStorage.getItem('bausalty_user_session');
-        if (!savedSession) {
-          router.push('/login?callbackUrl=/dashboard');
-          return;
+    if (authStatus === 'loading') return;
+
+    try {
+      const savedSession = localStorage.getItem('bausalty_user_session');
+      let currentStudent: StudentProfile | null = savedSession ? JSON.parse(savedSession) : null;
+
+      if (session?.user) {
+        const isPreviousMock = currentStudent?.email === 'sarah.otaibi@ksu.edu.sa' || currentStudent?.id?.startsWith('google-student-');
+
+        if (isPreviousMock && session.user.email !== 'sarah.otaibi@ksu.edu.sa') {
+          localStorage.removeItem('bausalty_assessment_result');
+          localStorage.removeItem('bausalty_mbti_result');
+          setRiasecResult(null);
+          setMbtiResult(null);
         }
 
-        setStudent(JSON.parse(savedSession));
+        currentStudent = {
+          id: session.user.id || session.user.email || 'user',
+          name: session.user.name || currentStudent?.name || 'طالب بوصلتي',
+          email: session.user.email || currentStudent?.email || '',
+          plan: currentStudent?.plan || 'FREE',
+          image: session.user.image || currentStudent?.image || '',
+          signedInAt: currentStudent?.signedInAt || new Date().toISOString(),
+        };
 
-        const savedRiasec = localStorage.getItem('bausalty_assessment_result');
-        if (savedRiasec) {
-          setRiasecResult(JSON.parse(savedRiasec));
-        }
-
-        const savedMbti = localStorage.getItem('bausalty_mbti_result');
-        if (savedMbti) {
-          setMbtiResult(JSON.parse(savedMbti));
-        }
-      } catch {
-        // Ignore
-      } finally {
-        setIsLoaded(true);
+        localStorage.setItem('bausalty_user_session', JSON.stringify(currentStudent));
       }
-    }, 0);
-    return () => clearTimeout(timer);
-  }, [router]);
+
+      if (!currentStudent && !session?.user) {
+        router.push('/login?callbackUrl=/dashboard');
+        return;
+      }
+
+      setStudent(currentStudent);
+
+      const savedRiasec = localStorage.getItem('bausalty_assessment_result');
+      if (savedRiasec) {
+        setRiasecResult(JSON.parse(savedRiasec));
+      } else {
+        setRiasecResult(null);
+      }
+
+      const savedMbti = localStorage.getItem('bausalty_mbti_result');
+      if (savedMbti) {
+        setMbtiResult(JSON.parse(savedMbti));
+      } else {
+        setMbtiResult(null);
+      }
+    } catch {
+      // Ignore
+    } finally {
+      setIsLoaded(true);
+    }
+  }, [session, authStatus, router]);
 
   const handleSignOut = async () => {
     try {
