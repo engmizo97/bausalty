@@ -57,10 +57,11 @@ const config: Config = {
         },
       },
       fontFamily: {
-        display: ["Marhey", "cursive"],
-        ui: ["Baloo Bhaijaan 2", "system-ui", "sans-serif"],
+        display: ["Calibri", "Carlito", "sans-serif"],
+        ui: ["Calibri", "Carlito", "sans-serif"],
         prose: ["Calibri", "Carlito", "sans-serif"],
         sans: ["Calibri", "Carlito", "sans-serif"],
+        serif: ["Calibri", "Carlito", "sans-serif"],
       },
       boxShadow: {
         "notebook-xs": "2.5px 2.5px 0px #3a2f21",
