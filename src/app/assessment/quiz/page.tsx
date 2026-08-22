@@ -127,8 +127,8 @@ export default function RiasecQuizPage() {
       // Ignore write error
     }
 
-    // Free Tier Paywall Check: Question 12 max (index 11)
-    if (!isPaid && currentIndex === 11) {
+    // Free Tier Paywall Check: Question 21 max (index 20)
+    if (!isPaid && currentIndex === 20) {
       setTimeout(() => {
         setShowUpgradeModal(true);
       }, 200);
@@ -145,7 +145,7 @@ export default function RiasecQuizPage() {
 
   const handleNext = () => {
     // Free Tier Paywall Check
-    if (!isPaid && currentIndex === 11) {
+    if (!isPaid && currentIndex === 20) {
       setShowUpgradeModal(true);
       return;
     }
@@ -153,6 +153,34 @@ export default function RiasecQuizPage() {
     if (currentIndex < totalQuestions - 1) {
       setCurrentIndex((prev) => prev + 1);
     }
+  };
+
+  const handleViewFreeResults = () => {
+    setShowUpgradeModal(false);
+    setIsSubmitting(true);
+
+    const { rawScores, normalizedScores } = calculateScores(answers, QUESTIONS);
+    const topCode = generateHollandCode(normalizedScores);
+    const matchingMajors = getMajorRecommendations(normalizedScores);
+
+    const result: AssessmentResult = {
+      scores: rawScores,
+      normalizedScores,
+      topCode,
+      primaryType: topCode[0] as RiasecType,
+      secondaryType: topCode[1] as RiasecType,
+      tertiaryType: topCode[2] as RiasecType,
+      matchingMajors,
+      completedAt: new Date().toISOString(),
+    };
+
+    try {
+      localStorage.setItem('bausalty_assessment_result', JSON.stringify(result));
+    } catch {
+      // Ignore write error
+    }
+
+    router.push('/results');
   };
 
   const handlePrev = () => {
@@ -252,7 +280,8 @@ export default function RiasecQuizPage() {
       <UpgradeModal
         isOpen={showUpgradeModal}
         onClose={() => setShowUpgradeModal(false)}
-        questionsCompleted={12}
+        onViewFreeResults={handleViewFreeResults}
+        questionsCompleted={21}
       />
 
       {/* --- STICKY PROGRESS BAR --- */}

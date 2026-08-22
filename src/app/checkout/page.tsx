@@ -81,7 +81,7 @@ export default function CheckoutPage() {
           </Link>
 
           <h1 className="text-2xl sm:text-3xl font-display font-black text-ink">
-            {isArabic ? 'إتمام الدفع الآمن (60 ر.س)' : 'Secure Checkout (60 SAR)'}
+            {isArabic ? 'إتمام الدفع الآمن (49 ر.س)' : 'Secure Checkout (49 SAR)'}
           </h1>
           <p className="text-xs sm:text-sm text-ink-soft font-prose">
             {isArabic
@@ -125,8 +125,8 @@ export default function CheckoutPage() {
                   {isArabic ? 'اختبار هولاند 42 سؤالاً + بطاقة التقرير + توصيات رؤية 2030' : '42-Item Assessment + Report Card + Vision 2030 Majors'}
                 </span>
                 <div className="text-right">
-                  <span className="text-xs text-muted line-through block">120 SAR</span>
-                  <span className="text-2xl font-display font-black text-ink">60 SAR</span>
+                  <span className="text-xs text-muted line-through block">98 SAR</span>
+                  <span className="text-2xl font-display font-black text-ink">49 SAR</span>
                 </div>
               </div>
             </div>
@@ -246,7 +246,7 @@ export default function CheckoutPage() {
                 <span>
                   {isProcessing
                     ? (isArabic ? 'جاري معالجة الدفع...' : 'Processing Payment...')
-                    : (isArabic ? 'إتمام الدفع الفوري (60 ر.س)' : 'Complete Payment (60 SAR)')}
+                    : (isArabic ? 'إتمام الدفع الفوري (49 ر.س)' : 'Complete Payment (49 SAR)')}
                 </span>
                 <ArrowRight className={`w-5 h-5 ${isArabic ? 'rotate-180' : ''}`} />
               </button>

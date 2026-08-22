@@ -116,7 +116,7 @@ export default function AssessmentHubPage() {
               <ul className="space-y-2 text-xs font-bold text-ink pt-2">
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-teal shrink-0" />
-                  <span>{isArabic ? 'معاينة مجانية لأول ١٢ سؤالاً' : 'Free Preview Sample for first 12 questions'}</span>
+                  <span>{isArabic ? 'معاينة مجانية لأول ٢١ سؤالاً' : 'Free Preview Sample for first 21 questions'}</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-teal shrink-0" />
