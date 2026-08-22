@@ -12,6 +12,7 @@ import {
   HelpCircle,
   Award,
   Lock,
+  Crown,
 } from 'lucide-react';
 import { QUESTIONS, RIASEC_CATEGORIES } from '@/data/questions';
 import { calculateScores, generateHollandCode, getMajorRecommendations } from '@/lib/scoring';
@@ -128,10 +129,10 @@ export default function RiasecQuizPage() {
     }
 
     // Free Tier Paywall Check: Question 21 max (index 20)
-    if (!isPaid && currentIndex === 20) {
+    if (!isPaid && currentIndex >= 20) {
       setTimeout(() => {
         setShowUpgradeModal(true);
-      }, 200);
+      }, 150);
       return;
     }
 
@@ -143,9 +144,17 @@ export default function RiasecQuizPage() {
     }
   };
 
+  // Safeguard: Never allow free tier to navigate beyond question 21 (index 20)
+  useEffect(() => {
+    if (!isPaid && currentIndex > 20) {
+      setCurrentIndex(20);
+      setShowUpgradeModal(true);
+    }
+  }, [currentIndex, isPaid]);
+
   const handleNext = () => {
     // Free Tier Paywall Check
-    if (!isPaid && currentIndex === 20) {
+    if (!isPaid && currentIndex >= 20) {
       setShowUpgradeModal(true);
       return;
     }
@@ -426,7 +435,15 @@ export default function RiasecQuizPage() {
             <span>{isArabic ? 'السابق' : 'Previous'}</span>
           </button>
 
-          {currentIndex < totalQuestions - 1 ? (
+          {!isPaid && currentIndex >= 20 ? (
+            <button
+              onClick={() => setShowUpgradeModal(true)}
+              className="h-12 min-h-[48px] inline-flex items-center gap-2 bg-[#ffd66e] hover:bg-amber-300 text-[#3a2f21] px-6 rounded-xl font-display font-black text-sm border-2 border-ink shadow-notebook-sm transition-all hover:scale-102 active:scale-98"
+            >
+              <Crown className="w-4 h-4 text-purple" />
+              <span>{isArabic ? 'إنهاء المعاينة والتقرير الشامل' : 'Complete Preview & Full Report'}</span>
+            </button>
+          ) : currentIndex < totalQuestions - 1 ? (
             <button
               onClick={handleNext}
               className="h-12 min-h-[48px] inline-flex items-center gap-2 bg-teal hover:bg-teal-deep text-white px-6 rounded-xl font-extrabold text-sm border-2 border-ink shadow-notebook-xs transition-all hover:scale-102 active:scale-98"
