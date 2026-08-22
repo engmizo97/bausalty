@@ -1,17 +1,17 @@
 /* قدرات AI — typography tokens */
 :root{
-  --font-display:'Calibri', 'Carlito', sans-serif;    /* headings, numbers, sticky notes */
-  --font-ui:'Calibri', 'Carlito', sans-serif;         /* UI, buttons, labels */
-  --font-prose:'Calibri', 'Carlito', sans-serif;      /* long-form paragraphs, question text, PDF */
-  --text-h-xl:clamp(48px, 7vw, 84px);  /* hero */
-  --text-h-lg:clamp(34px, 5vw, 56px);  /* section titles */
-  --text-h-md:clamp(30px, 4vw, 40px);  /* sub-sections */
-  --text-card-title:23px;
-  --text-body:20px;
-  --text-body-sm:17.5px;
-  --text-ui:18.5px;
-  --text-caption:15.5px;
+  --font-display:'Baloo Bhaijaan 2', sans-serif;      /* headings, numbers, sticky notes */
+  --font-ui:'Baloo Bhaijaan 2', sans-serif;           /* UI, buttons, labels */
+  --font-prose:'Baloo Bhaijaan 2', sans-serif;        /* long-form paragraphs, question text, PDF */
+  --text-h-xl:clamp(34px, 5vw, 64px);  /* hero */
+  --text-h-lg:clamp(26px, 3.5vw, 42px);  /* section titles */
+  --text-h-md:clamp(22px, 2.8vw, 30px);  /* sub-sections */
+  --text-card-title:19px;
+  --text-body:16.5px;
+  --text-body-sm:14.5px;
+  --text-ui:15.5px;
+  --text-caption:13px;
   --leading-display:1.35;
-  --leading-prose:1.8;
-  --leading-ui:1.55;
+  --leading-prose:1.65;
+  --leading-ui:1.45;
 }

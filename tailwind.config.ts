@@ -57,11 +57,11 @@ const config: Config = {
         },
       },
       fontFamily: {
-        display: ["Calibri", "Carlito", "sans-serif"],
-        ui: ["Calibri", "Carlito", "sans-serif"],
-        prose: ["Calibri", "Carlito", "sans-serif"],
-        sans: ["Calibri", "Carlito", "sans-serif"],
-        serif: ["Calibri", "Carlito", "sans-serif"],
+        display: ["Baloo Bhaijaan 2", "system-ui", "sans-serif"],
+        ui: ["Baloo Bhaijaan 2", "system-ui", "sans-serif"],
+        prose: ["Baloo Bhaijaan 2", "system-ui", "sans-serif"],
+        sans: ["Baloo Bhaijaan 2", "system-ui", "sans-serif"],
+        serif: ["Baloo Bhaijaan 2", "system-ui", "sans-serif"],
       },
       boxShadow: {
         "notebook-xs": "2.5px 2.5px 0px #3a2f21",

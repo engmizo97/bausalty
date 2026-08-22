@@ -4,27 +4,11 @@
 /* Notebook Design System Import */
 @import "../styles/notebook/styles.css";
 
-/* Local Calibri Web Font Definitions */
+/* Baloo Bhaijaan 2 Web Font Definitions */
 @font-face {
-  font-family: 'Calibri';
-  src: url('/fonts/Calibri-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Calibri';
-  src: url('/fonts/Calibri-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Calibri';
-  src: url('/fonts/Calibri-Light.ttf') format('truetype');
-  font-weight: 300;
+  font-family: 'Baloo Bhaijaan 2';
+  src: url('/fonts/BalooBhaijaan2.ttf') format('truetype');
+  font-weight: 400 800;
   font-style: normal;
   font-display: swap;
 }
@@ -44,16 +28,11 @@
   --color-yellow: #ffd66e;
   --color-purple: #7c3aed;
 
-  --font-serif: 'Calibri', 'Carlito', system-ui, sans-serif;
-  --font-display: 'Calibri', 'Carlito', system-ui, sans-serif;
-  --font-ui: 'Calibri', 'Carlito', system-ui, sans-serif;
-  --font-prose: 'Calibri', 'Carlito', system-ui, sans-serif;
-  --font-sans: 'Calibri', 'Carlito', system-ui, sans-serif;
-}
-
-html {
-  font-size: 19px;
-  font-family: 'Calibri', 'Carlito', system-ui, sans-serif !important;
+  --font-serif: 'Baloo Bhaijaan 2', system-ui, sans-serif;
+  --font-display: 'Baloo Bhaijaan 2', system-ui, sans-serif;
+  --font-ui: 'Baloo Bhaijaan 2', system-ui, sans-serif;
+  --font-prose: 'Baloo Bhaijaan 2', system-ui, sans-serif;
+  --font-sans: 'Baloo Bhaijaan 2', system-ui, sans-serif;
 }
 
 :root {
@@ -108,29 +87,16 @@ body,
   background-color: var(--paper, #ffffff);
   background-image: repeating-linear-gradient(
     transparent 0px,
-    transparent 33px,
-    var(--rule-line, rgba(139, 92, 246, 0.22)) 34px
+    transparent 31px,
+    var(--rule-line, rgba(139, 92, 246, 0.22)) 32px
   ) !important;
   color: var(--ink, #3a2f21);
-  font-family: 'Calibri', 'Carlito', system-ui, sans-serif !important;
+  font-family: 'Baloo Bhaijaan 2', system-ui, sans-serif !important;
   min-height: 100vh;
-  line-height: 1.65;
-  font-size: 1.05rem;
 }
 
 *, ::before, ::after {
   font-family: inherit;
-}
-
-/* Secondary & Meta Text Scaling */
-.text-xs {
-  font-size: 0.85rem !important;
-  line-height: 1.45;
-}
-
-.text-sm {
-  font-size: 0.95rem !important;
-  line-height: 1.5;
 }
 
 /* Solid Clean Card Surfaces - Background lines NEVER show inside any card or template */
