@@ -51,10 +51,61 @@ export default function PersonalityCard({ result }: PersonalityCardProps) {
   // Radar data for mini chart inside the card
   const categoriesList: RiasecType[] = ['R', 'I', 'A', 'S', 'E', 'C'];
   const radarData = categoriesList.map((cat) => ({
-    category: isArabic ? RIASEC_CATEGORIES[cat]?.nameAr : cat,
+    category: isArabic ? RIASEC_CATEGORIES[cat]?.nameAr : RIASEC_CATEGORIES[cat]?.nameEn,
     score: result.normalizedScores[cat] || 0,
     fullMark: 100,
   }));
+
+  const renderCustomPolarTick = (props: any) => {
+    const { x, y, cx, cy, payload } = props;
+    const text: string = payload?.value || '';
+    const dx = x - cx;
+    const dy = y - cy;
+
+    let textAnchor: 'start' | 'middle' | 'end' = 'middle';
+    let xOffset = 0;
+    let yOffset = 0;
+
+    if (Math.abs(dx) < 15) {
+      textAnchor = 'middle';
+      yOffset = dy < 0 ? -8 : 12;
+    } else if (dx < 0) {
+      textAnchor = 'end';
+      xOffset = -6;
+      yOffset = dy < 0 ? -2 : 4;
+    } else {
+      textAnchor = 'start';
+      xOffset = 6;
+      yOffset = dy < 0 ? -2 : 4;
+    }
+
+    const parts = text.includes(' / ') ? text.split(' / ') : [text];
+
+    return (
+      <text
+        x={x + xOffset}
+        y={y + yOffset}
+        textAnchor={textAnchor}
+        fill="#3a2f21"
+        fontSize={9}
+        fontWeight={800}
+        className="select-none font-sans"
+      >
+        {parts.length === 2 ? (
+          <>
+            <tspan x={x + xOffset} dy={dy < 0 ? "-0.4em" : "0"}>
+              {parts[0]}
+            </tspan>
+            <tspan x={x + xOffset} dy="1.15em" fill="#5c4f3a" fontSize={8}>
+              {`/ ${parts[1]}`}
+            </tspan>
+          </>
+        ) : (
+          <tspan>{text}</tspan>
+        )}
+      </text>
+    );
+  };
 
   const handleDownloadImage = async () => {
     if (!cardRef.current) return;
@@ -126,16 +177,16 @@ export default function PersonalityCard({ result }: PersonalityCardProps) {
         {/* Mini Radar Chart + Strengths Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center bg-white/90 p-4 rounded-2xl border-2 border-[#3a2f21] relative z-10">
           {/* Radar Chart */}
-          <div className="h-44 w-full flex items-center justify-center">
+          <div className="h-56 sm:h-52 w-full flex items-center justify-center py-2">
             <ResponsiveContainer width="100%" height="100%">
-              <RadarChart cx="50%" cy="50%" outerRadius="70%" data={radarData}>
+              <RadarChart cx="50%" cy="50%" outerRadius="55%" data={radarData}>
                 <PolarGrid stroke="#3a2f21" strokeDasharray="2 2" strokeOpacity={0.25} />
-                <PolarAngleAxis dataKey="category" tick={{ fill: '#3a2f21', fontSize: 10, fontWeight: 700 }} />
+                <PolarAngleAxis dataKey="category" tick={renderCustomPolarTick} />
                 <Radar
                   name="Score"
                   dataKey="score"
                   stroke="#0d9488"
-                  strokeWidth={2}
+                  strokeWidth={2.5}
                   fill="#0d9488"
                   fillOpacity={0.35}
                 />

@@ -81,6 +81,57 @@ export default function ResultsPage() {
     };
   });
 
+  const renderCustomPolarTick = (props: any) => {
+    const { x, y, cx, cy, payload } = props;
+    const text: string = payload?.value || '';
+    const dx = x - cx;
+    const dy = y - cy;
+
+    let textAnchor: 'start' | 'middle' | 'end' = 'middle';
+    let xOffset = 0;
+    let yOffset = 0;
+
+    if (Math.abs(dx) < 15) {
+      textAnchor = 'middle';
+      yOffset = dy < 0 ? -10 : 14;
+    } else if (dx < 0) {
+      textAnchor = 'end';
+      xOffset = -8;
+      yOffset = dy < 0 ? -2 : 4;
+    } else {
+      textAnchor = 'start';
+      xOffset = 8;
+      yOffset = dy < 0 ? -2 : 4;
+    }
+
+    const parts = text.includes(' / ') ? text.split(' / ') : [text];
+
+    return (
+      <text
+        x={x + xOffset}
+        y={y + yOffset}
+        textAnchor={textAnchor}
+        fill="#3a2f21"
+        fontSize={11}
+        fontWeight={800}
+        className="select-none font-sans"
+      >
+        {parts.length === 2 ? (
+          <>
+            <tspan x={x + xOffset} dy={dy < 0 ? "-0.4em" : "0"}>
+              {parts[0]}
+            </tspan>
+            <tspan x={x + xOffset} dy="1.2em" fill="#5c4f3a" fontSize={9.5}>
+              {`/ ${parts[1]}`}
+            </tspan>
+          </>
+        ) : (
+          <tspan>{text}</tspan>
+        )}
+      </text>
+    );
+  };
+
   const filteredMajors = result.matchingMajors.filter((m) =>
     filterVision2030 ? m.isVision2030 : true
   );
@@ -157,13 +208,13 @@ export default function ResultsPage() {
               <Compass className="w-6 h-6 text-teal" />
             </div>
 
-            <div className="h-72 sm:h-80 w-full">
+            <div className="h-80 sm:h-96 w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <RadarChart cx="50%" cy="50%" outerRadius="75%" data={radarData}>
+                <RadarChart cx="50%" cy="50%" outerRadius="58%" data={radarData}>
                   <PolarGrid stroke="#3a2f21" strokeDasharray="3 3" strokeOpacity={0.25} />
                   <PolarAngleAxis
                     dataKey="category"
-                    tick={{ fill: '#3a2f21', fontSize: 11, fontWeight: 700 }}
+                    tick={renderCustomPolarTick}
                   />
                   <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="#8a7a5f" strokeOpacity={0.4} />
                   <Radar
