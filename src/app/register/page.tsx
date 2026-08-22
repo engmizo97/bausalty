@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 import {
   Compass,
   Sparkles,
@@ -106,34 +107,12 @@ export default function RegisterPage() {
 
   const handleGoogleSignUp = async () => {
     setIsLoading(true);
-
-    const userProfile = {
-      id: `google-reg-${Date.now()}`,
-      name: isArabic ? 'سارة العتيبي' : 'Sarah Al-Otaibi',
-      email: 'sarah.otaibi@ksu.edu.sa',
-      plan: 'FREE' as const,
-      image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80',
-      signedInAt: new Date().toISOString(),
-    };
-
     try {
-      localStorage.setItem('bausalty_user_session', JSON.stringify(userProfile));
-      window.dispatchEvent(new Event('storage'));
-
-      // Automatically send SendGrid Welcome Email for Google user
-      fetch('/api/email/welcome', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: userProfile.email, name: userProfile.name }),
-      }).catch(() => {});
-    } catch {
-      // Ignore write error
-    }
-
-    setTimeout(() => {
+      await signIn('google', { callbackUrl: getCallbackUrl() });
+    } catch (err) {
+      console.error('Google Sign Up Error:', err);
       setIsLoading(false);
-      router.push(getCallbackUrl());
-    }, 500);
+    }
   };
 
   return (

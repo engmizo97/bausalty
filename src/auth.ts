@@ -11,6 +11,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   pages: {
     signIn: "/login",
   },
+  trustHost: true,
   callbacks: {
     async session({ session, token }) {
       if (session?.user && token?.sub) {
@@ -19,5 +20,5 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return session;
     },
   },
-  secret: process.env.AUTH_SECRET || "bausalty_secret_auth_key_2026_saudi",
+  secret: process.env.AUTH_SECRET,
 });

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 import {
   Compass,
   Award,
@@ -84,14 +85,14 @@ export default function StudentDashboardPage() {
     return () => clearTimeout(timer);
   }, [router]);
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
     try {
       localStorage.removeItem('bausalty_user_session');
       window.dispatchEvent(new Event('storage'));
     } catch {
       // Ignore
     }
-    router.push('/login');
+    await signOut({ callbackUrl: '/login' });
   };
 
   const handleUpgradePlan = () => {
