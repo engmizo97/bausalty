@@ -305,259 +305,281 @@ export default function PersonalityTestPage() {
 
         {/* --- RESULTS DISPLAY SCREEN --- */}
         {result ? (
-          <div className="space-y-8">
-            
-            {/* Result Header Badge */}
-            <div className="bg-yellow rounded-3xl p-6 sm:p-10 border-2 border-ink shadow-notebook-md text-center space-y-4">
-              <div className="w-16 h-16 rounded-2xl bg-teal text-white border-2 border-ink flex items-center justify-center mx-auto shadow-notebook-xs">
-                <Brain className="w-8 h-8 text-yellow" />
-              </div>
+          (() => {
+            const activeArchetype = ARCHETYPES[result.code] || result.archetype;
+            const famousList = activeArchetype.famousFigures || [
+              { nameAr: 'ستيف جوبز', nameEn: 'Steve Jobs', roleAr: 'مبتكر ورائد أعمال', roleEn: 'Tech Pioneer' },
+              { nameAr: 'وارن بافيت', nameEn: 'Warren Buffett', roleAr: 'مستثمر عالمي', roleEn: 'Global Investor' },
+              { nameAr: 'هنري فورد', nameEn: 'Henry Ford', roleAr: 'رائد الصناعة الحديثة', roleEn: 'Industrialist' },
+            ];
 
-              <span className="inline-block text-xs font-black uppercase bg-paper-card border border-ink px-3.5 py-1 rounded-full shadow-2xs">
-                {isArabic ? result.archetype.groupAr : result.archetype.groupEn}
-              </span>
-
-              <h2 className="text-4xl sm:text-5xl font-display font-black text-ink tracking-widest">
-                {result.code}
-              </h2>
-
-              <h3 className="text-2xl sm:text-3xl font-display font-black text-teal">
-                {isArabic ? result.archetype.titleAr : result.archetype.titleEn}
-              </h3>
-
-              <p className="text-ink-soft text-sm sm:text-base font-prose max-w-2xl mx-auto leading-relaxed">
-                {isArabic ? result.archetype.descriptionAr : result.archetype.descriptionEn}
-              </p>
-
-              {/* Action Buttons: PDF Download + Share + Retake */}
-              <div className="pt-3 flex flex-wrap justify-center gap-3">
-                <button
-                  onClick={handleDownloadPdf}
-                  disabled={isDownloadingPdf}
-                  className="h-12 px-6 bg-teal hover:bg-teal-deep text-white border-2 border-ink rounded-xl font-display font-black text-sm shadow-notebook-xs inline-flex items-center gap-2 hover:scale-102 transition-all"
-                >
-                  <Download className="w-4 h-4 text-yellow" />
-                  <span>{isDownloadingPdf ? (isArabic ? 'جاري التحميل...' : 'Downloading...') : (isArabic ? 'تحميل التقرير (PDF)' : 'Download PDF Report')}</span>
-                </button>
-
-                <button
-                  onClick={handleShare}
-                  className="h-12 px-5 bg-paper-card hover:bg-paper-inset text-ink border-2 border-ink rounded-xl font-bold text-sm shadow-notebook-xs inline-flex items-center gap-2 hover:scale-102 transition-all"
-                >
-                  <Share2 className="w-4 h-4 text-purple" />
-                  <span>{isArabic ? 'مشاركة النتيجة' : 'Share Result'}</span>
-                </button>
-
-                <button
-                  onClick={handleReset}
-                  className="h-12 px-5 bg-paper hover:bg-paper-inset text-ink border-2 border-ink rounded-xl font-bold text-sm shadow-notebook-xs inline-flex items-center gap-2 transition-all"
-                >
-                  <RotateCcw className="w-4 h-4 text-teal" />
-                  <span>{isArabic ? 'إعادة الاختبار' : 'Retake Test'}</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Trait Percentages Breakdown Grid with Full Arabic Labels */}
-            <div className="bg-paper-card rounded-notebook p-6 sm:p-8 border-2 border-ink shadow-notebook-md space-y-5">
-              <h3 className="text-xl font-display font-black text-ink border-b-2 border-ink/10 pb-3">
-                {isArabic ? 'تحليل الأبعاد الأربعة للشخصية' : '4-Dimension Trait Breakdown'}
-              </h3>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            return (
+              <div className="space-y-8">
                 
-                {/* E vs I */}
-                <div className="space-y-2 bg-paper p-4 rounded-2xl border-2 border-ink">
-                  <div className="flex justify-between text-xs font-black text-ink">
-                    <span>{isArabic ? 'الانفتاح الاجتماعي (E)' : 'Extraversion (E)'}: {result.percentages.EI.E}%</span>
-                    <span>{isArabic ? 'الانطواء والتركيز (I)' : 'Introversion (I)'}: {result.percentages.EI.I}%</span>
+                {/* Result Header Badge */}
+                <div className="bg-yellow rounded-3xl p-6 sm:p-10 border-2 border-ink shadow-notebook-md text-center space-y-4">
+                  <div className="w-16 h-16 rounded-2xl bg-teal text-white border-2 border-ink flex items-center justify-center mx-auto shadow-notebook-xs">
+                    <Brain className="w-8 h-8 text-yellow" />
                   </div>
-                  <div className="w-full h-3.5 bg-paper-inset rounded-full overflow-hidden p-0.5 border border-ink">
-                    <div
-                      className="h-full bg-teal rounded-full transition-all duration-500"
-                      style={{ width: `${result.percentages.EI.E}%` }}
-                    />
-                  </div>
-                </div>
 
-                {/* S vs N */}
-                <div className="space-y-2 bg-paper p-4 rounded-2xl border-2 border-ink">
-                  <div className="flex justify-between text-xs font-black text-ink">
-                    <span>{isArabic ? 'الواقعية والتفاصيل (S)' : 'Sensing (S)'}: {result.percentages.SN.S}%</span>
-                    <span>{isArabic ? 'الحدس والرؤية (N)' : 'Intuition (N)'}: {result.percentages.SN.N}%</span>
-                  </div>
-                  <div className="w-full h-3.5 bg-paper-inset rounded-full overflow-hidden p-0.5 border border-ink">
-                    <div
-                      className="h-full bg-purple rounded-full transition-all duration-500"
-                      style={{ width: `${result.percentages.SN.S}%` }}
-                    />
-                  </div>
-                </div>
+                  <span className="inline-block text-xs font-black uppercase bg-white border border-ink px-3.5 py-1 rounded-full shadow-2xs">
+                    {isArabic ? activeArchetype.groupAr : activeArchetype.groupEn}
+                  </span>
 
-                {/* T vs F */}
-                <div className="space-y-2 bg-paper p-4 rounded-2xl border-2 border-ink">
-                  <div className="flex justify-between text-xs font-black text-ink">
-                    <span>{isArabic ? 'التفكير والمنطق (T)' : 'Thinking (T)'}: {result.percentages.TF.T}%</span>
-                    <span>{isArabic ? 'المشاعر والقيم (F)' : 'Feeling (F)'}: {result.percentages.TF.F}%</span>
-                  </div>
-                  <div className="w-full h-3.5 bg-paper-inset rounded-full overflow-hidden p-0.5 border border-ink">
-                    <div
-                      className="h-full bg-yellow rounded-full transition-all duration-500"
-                      style={{ width: `${result.percentages.TF.T}%` }}
-                    />
-                  </div>
-                </div>
+                  <h2 className="text-4xl sm:text-5xl font-display font-black text-ink tracking-widest">
+                    {result.code}
+                  </h2>
 
-                {/* J vs P */}
-                <div className="space-y-2 bg-paper p-4 rounded-2xl border-2 border-ink">
-                  <div className="flex justify-between text-xs font-black text-ink">
-                    <span>{isArabic ? 'الحزم والتنظيم (J)' : 'Judging (J)'}: {result.percentages.JP.J}%</span>
-                    <span>{isArabic ? 'المرونة والاستكشاف (P)' : 'Perceiving (P)'}: {result.percentages.JP.P}%</span>
-                  </div>
-                  <div className="w-full h-3.5 bg-paper-inset rounded-full overflow-hidden p-0.5 border border-ink">
-                    <div
-                      className="h-full bg-teal rounded-full transition-all duration-500"
-                      style={{ width: `${result.percentages.JP.J}%` }}
-                    />
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            {/* Strengths & Weaknesses Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              
-              {/* Strengths */}
-              <div className="bg-paper-card rounded-notebook p-6 border-2 border-ink shadow-notebook-md space-y-4">
-                <h3 className="text-lg font-display font-black text-ink flex items-center gap-2">
-                  <Award className="w-5 h-5 text-teal" />
-                  <span>{isArabic ? 'أبرز نقاط القوة' : 'Core Strengths'}</span>
-                </h3>
-                <ul className="space-y-2 text-sm font-bold text-ink-soft">
-                  {(isArabic ? result.archetype.strengthsAr : result.archetype.strengthsEn).map((str) => (
-                    <li key={str} className="flex items-center gap-2.5 bg-paper p-2.5 rounded-xl border border-ink/20">
-                      <CheckCircle2 className="w-4 h-4 text-teal shrink-0" />
-                      <span>{str}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Weaknesses & Blindspots */}
-              <div className="bg-paper-card rounded-notebook p-6 border-2 border-ink shadow-notebook-md space-y-4">
-                <h3 className="text-lg font-display font-black text-ink flex items-center gap-2">
-                  <AlertTriangle className="w-5 h-5 text-amber-600" />
-                  <span>{isArabic ? 'أبرز التحديات ونقاط الضعف' : 'Blindspots & Challenges'}</span>
-                </h3>
-                <ul className="space-y-2 text-sm font-bold text-ink-soft">
-                  {((isArabic ? result.archetype.weaknessesAr : result.archetype.weaknessesEn) || [
-                    isArabic ? 'المثالية المفرطة في بعض المواقف' : 'Over-perfectionism in certain scenarios',
-                    isArabic ? 'الحاجة لتطوير المرونة مع المتغيرات المفاجئة' : 'Need for flexibility with sudden changes',
-                    isArabic ? 'صعوبة التعبير عن المشاعر تحت الضغط' : 'Difficulty expressing emotions under pressure',
-                  ]).map((weak) => (
-                    <li key={weak} className="flex items-center gap-2.5 bg-paper p-2.5 rounded-xl border border-ink/20">
-                      <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
-                      <span>{weak}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-            </div>
-
-            {/* Growth Advice & Learning Style */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              
-              {/* How to Improve & Growth Advice */}
-              <div className="bg-paper-card rounded-notebook p-6 border-2 border-ink shadow-notebook-md space-y-3">
-                <h3 className="text-lg font-display font-black text-ink flex items-center gap-2">
-                  <TrendingUp className="w-5 h-5 text-[#0d9488]" />
-                  <span>{isArabic ? 'كيف تطور شخصيتك وتتفوق؟' : 'Actionable Growth Strategies'}</span>
-                </h3>
-                <p className="text-sm font-prose text-ink-soft leading-relaxed bg-paper p-4 rounded-2xl border border-ink/20">
-                  {(isArabic ? result.archetype.growthAdviceAr : result.archetype.growthAdviceEn) ||
-                    (isArabic
-                      ? 'احرص على الموازنة بين منطقك الصارم ومرونتك الإنسانية، واستثمر في الاستماع الفعال وتقبل وجهات النظر البديلة لتحقيق أقصى نجاح أكاديمي ومهني.'
-                      : 'Balance logic with empathy, invest in active listening, and embrace calculated risks for maximum career success.')}
-                </p>
-              </div>
-
-              {/* Learning Style */}
-              <div className="bg-paper-card rounded-notebook p-6 border-2 border-ink shadow-notebook-md space-y-3">
-                <h3 className="text-lg font-display font-black text-ink flex items-center gap-2">
-                  <BookOpen className="w-5 h-5 text-purple" />
-                  <span>{isArabic ? 'أسلوب التعلم الأنسب' : 'Optimal Learning Style'}</span>
-                </h3>
-                <p className="text-sm font-prose text-ink-soft leading-relaxed bg-paper p-4 rounded-2xl border border-ink/20">
-                  {isArabic ? result.archetype.learningStyleAr : result.archetype.learningStyleEn}
-                </p>
-              </div>
-
-            </div>
-
-            {/* Famous Figures & Role Models */}
-            {result.archetype.famousFigures && result.archetype.famousFigures.length > 0 && (
-              <div className="bg-paper-card rounded-notebook p-6 sm:p-8 border-2 border-ink shadow-notebook-md space-y-4">
-                <div className="flex items-center gap-2 border-b-2 border-ink/10 pb-3">
-                  <Users className="w-5 h-5 text-purple" />
-                  <h3 className="text-xl font-display font-black text-ink">
-                    {isArabic ? `أبرز القادة والمشاهير بنمط (${result.code})` : `Famous Figures & Leaders (${result.code})`}
+                  <h3 className="text-2xl sm:text-3xl font-display font-black text-teal">
+                    {isArabic ? activeArchetype.titleAr : activeArchetype.titleEn}
                   </h3>
-                </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
-                  {result.archetype.famousFigures.map((fig) => (
-                    <div
-                      key={fig.nameEn}
-                      className="bg-paper p-4 rounded-2xl border-2 border-ink shadow-notebook-xs space-y-1 text-center"
+                  <p className="text-ink-soft text-sm sm:text-base font-prose max-w-2xl mx-auto leading-relaxed">
+                    {isArabic ? activeArchetype.descriptionAr : activeArchetype.descriptionEn}
+                  </p>
+
+                  {/* Action Buttons: PDF Download + Share + Retake */}
+                  <div className="pt-3 flex flex-wrap justify-center gap-3">
+                    <button
+                      onClick={handleDownloadPdf}
+                      disabled={isDownloadingPdf}
+                      className="h-12 px-6 bg-teal hover:bg-teal-deep text-white border-2 border-ink rounded-xl font-display font-black text-sm shadow-notebook-xs inline-flex items-center gap-2 hover:scale-102 transition-all"
                     >
-                      <div className="w-10 h-10 rounded-full bg-yellow border border-ink flex items-center justify-center mx-auto text-sm font-black text-ink">
-                        ⭐
-                      </div>
-                      <p className="font-display font-bold text-base text-ink pt-1">
-                        {isArabic ? fig.nameAr : fig.nameEn}
-                      </p>
-                      <p className="text-xs font-bold text-muted">
-                        {isArabic ? fig.roleAr : fig.roleEn}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+                      <Download className="w-4 h-4 text-yellow" />
+                      <span>{isDownloadingPdf ? (isArabic ? 'جاري التحميل...' : 'Downloading...') : (isArabic ? 'تحميل التقرير (PDF)' : 'Download PDF Report')}</span>
+                    </button>
 
-            {/* Linked RIASEC College Majors */}
-            <div className="bg-teal text-white rounded-3xl p-6 sm:p-8 border-2 border-ink shadow-notebook-lg space-y-4">
-              <div className="flex items-center gap-2">
-                <GraduationCap className="w-6 h-6 text-yellow" />
-                <h3 className="text-xl font-display font-black text-white">
-                  {isArabic ? `التخصصات السعودية المرتبطة بنمط (${result.code})` : `Saudi Majors Aligned with (${result.code})`}
-                </h3>
-              </div>
+                    <button
+                      onClick={handleShare}
+                      className="h-12 px-5 bg-white hover:bg-[#faf6ea] text-ink border-2 border-ink rounded-xl font-bold text-sm shadow-notebook-xs inline-flex items-center gap-2 hover:scale-102 transition-all"
+                    >
+                      <Share2 className="w-4 h-4 text-purple" />
+                      <span>{isArabic ? 'مشاركة النتيجة' : 'Share Result'}</span>
+                    </button>
 
-              <p className="text-xs sm:text-sm text-teal-tint font-prose">
-                {isArabic
-                  ? 'يتطابق نمط شخصيتك مع التخصصات الأكاديمية التالية ذات الأكواد الهولندية المتقاطعة ضمن رؤية المملكة ٢٠٣٠:'
-                  : 'Your 16Personalities archetype correlates strongly with these high-priority Saudi university majors:'}
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                {(isArabic ? result.archetype.linkedMajorsAr : result.archetype.linkedMajorsEn).map((m, idx) => (
-                  <div key={m} className="bg-paper-card text-ink p-3.5 rounded-2xl border-2 border-ink shadow-notebook-xs flex items-center justify-between">
-                    <div>
-                      <p className="font-extrabold text-sm text-ink">{m}</p>
-                      <p className="text-[11px] font-bold text-muted">Holland: {result.archetype.linkedRiasecCodes[idx] || 'IRC'}</p>
-                    </div>
-                    <Link href="/majors" className="text-teal hover:underline text-xs font-bold shrink-0">
-                      Explorer →
-                    </Link>
+                    <button
+                      onClick={handleReset}
+                      className="h-12 px-5 bg-white hover:bg-[#faf6ea] text-ink border-2 border-ink rounded-xl font-bold text-sm shadow-notebook-xs inline-flex items-center gap-2 transition-all"
+                    >
+                      <RotateCcw className="w-4 h-4 text-teal" />
+                      <span>{isArabic ? 'إعادة الاختبار' : 'Retake Test'}</span>
+                    </button>
                   </div>
-                ))}
-              </div>
-            </div>
+                </div>
 
-          </div>
+                {/* Detailed Personality Bio / Overview Card */}
+                <div className="bg-white rounded-notebook p-6 sm:p-8 border-2 border-ink shadow-notebook-md space-y-3">
+                  <div className="flex items-center gap-2.5 border-b-2 border-ink/10 pb-3">
+                    <Brain className="w-6 h-6 text-teal" />
+                    <h3 className="text-xl font-display font-black text-ink">
+                      {isArabic ? `نبذة تفصيلية عن شخصية (${result.code} - ${activeArchetype.titleAr})` : `Detailed Profile: (${result.code} - ${activeArchetype.titleEn})`}
+                    </h3>
+                  </div>
+                  <p className="text-sm sm:text-base font-prose text-ink-soft leading-relaxed pt-1">
+                    {isArabic ? activeArchetype.descriptionAr : activeArchetype.descriptionEn}
+                  </p>
+                </div>
+
+                {/* Trait Percentages Breakdown Grid with Full Arabic Labels */}
+                <div className="bg-white rounded-notebook p-6 sm:p-8 border-2 border-ink shadow-notebook-md space-y-5">
+                  <h3 className="text-xl font-display font-black text-ink border-b-2 border-ink/10 pb-3">
+                    {isArabic ? 'تحليل الأبعاد الأربعة للشخصية' : '4-Dimension Trait Breakdown'}
+                  </h3>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    
+                    {/* E vs I */}
+                    <div className="space-y-2 bg-[#faf6ea] p-4 rounded-2xl border-2 border-ink">
+                      <div className="flex justify-between text-xs font-black text-ink">
+                        <span>{isArabic ? 'الانفتاح الاجتماعي (E)' : 'Extraversion (E)'}: {result.percentages.EI.E}%</span>
+                        <span>{isArabic ? 'الانطواء والتركيز (I)' : 'Introversion (I)'}: {result.percentages.EI.I}%</span>
+                      </div>
+                      <div className="w-full h-3.5 bg-white rounded-full overflow-hidden p-0.5 border border-ink">
+                        <div
+                          className="h-full bg-teal rounded-full transition-all duration-500"
+                          style={{ width: `${result.percentages.EI.E}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* S vs N */}
+                    <div className="space-y-2 bg-[#faf6ea] p-4 rounded-2xl border-2 border-ink">
+                      <div className="flex justify-between text-xs font-black text-ink">
+                        <span>{isArabic ? 'الواقعية والتفاصيل (S)' : 'Sensing (S)'}: {result.percentages.SN.S}%</span>
+                        <span>{isArabic ? 'الحدس والرؤية (N)' : 'Intuition (N)'}: {result.percentages.SN.N}%</span>
+                      </div>
+                      <div className="w-full h-3.5 bg-white rounded-full overflow-hidden p-0.5 border border-ink">
+                        <div
+                          className="h-full bg-purple rounded-full transition-all duration-500"
+                          style={{ width: `${result.percentages.SN.S}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* T vs F */}
+                    <div className="space-y-2 bg-[#faf6ea] p-4 rounded-2xl border-2 border-ink">
+                      <div className="flex justify-between text-xs font-black text-ink">
+                        <span>{isArabic ? 'التفكير والمنطق (T)' : 'Thinking (T)'}: {result.percentages.TF.T}%</span>
+                        <span>{isArabic ? 'المشاعر والقيم (F)' : 'Feeling (F)'}: {result.percentages.TF.F}%</span>
+                      </div>
+                      <div className="w-full h-3.5 bg-white rounded-full overflow-hidden p-0.5 border border-ink">
+                        <div
+                          className="h-full bg-yellow rounded-full transition-all duration-500"
+                          style={{ width: `${result.percentages.TF.T}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* J vs P */}
+                    <div className="space-y-2 bg-[#faf6ea] p-4 rounded-2xl border-2 border-ink">
+                      <div className="flex justify-between text-xs font-black text-ink">
+                        <span>{isArabic ? 'الحزم والتنظيم (J)' : 'Judging (J)'}: {result.percentages.JP.J}%</span>
+                        <span>{isArabic ? 'المرونة والاستكشاف (P)' : 'Perceiving (P)'}: {result.percentages.JP.P}%</span>
+                      </div>
+                      <div className="w-full h-3.5 bg-white rounded-full overflow-hidden p-0.5 border border-ink">
+                        <div
+                          className="h-full bg-teal rounded-full transition-all duration-500"
+                          style={{ width: `${result.percentages.JP.J}%` }}
+                        />
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                {/* Strengths & Weaknesses Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  
+                  {/* Strengths */}
+                  <div className="bg-white rounded-notebook p-6 border-2 border-ink shadow-notebook-md space-y-4">
+                    <h3 className="text-lg font-display font-black text-ink flex items-center gap-2">
+                      <Award className="w-5 h-5 text-teal" />
+                      <span>{isArabic ? 'أبرز نقاط القوة' : 'Core Strengths'}</span>
+                    </h3>
+                    <ul className="space-y-2.5 text-sm font-bold text-ink-soft">
+                      {(isArabic ? activeArchetype.strengthsAr : activeArchetype.strengthsEn).map((str) => (
+                        <li key={str} className="flex items-center gap-2.5 bg-[#faf6ea] p-3 rounded-xl border border-ink/20">
+                          <CheckCircle2 className="w-4 h-4 text-teal shrink-0" />
+                          <span>{str}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Weaknesses & Blindspots */}
+                  <div className="bg-white rounded-notebook p-6 border-2 border-ink shadow-notebook-md space-y-4">
+                    <h3 className="text-lg font-display font-black text-ink flex items-center gap-2">
+                      <AlertTriangle className="w-5 h-5 text-amber-600" />
+                      <span>{isArabic ? 'أبرز التحديات ونقاط الضعف' : 'Blindspots & Challenges'}</span>
+                    </h3>
+                    <ul className="space-y-2.5 text-sm font-bold text-ink-soft">
+                      {((isArabic ? activeArchetype.weaknessesAr : activeArchetype.weaknessesEn) || [
+                        isArabic ? 'المثالية المفرطة في بعض المواقف' : 'Over-perfectionism in certain scenarios',
+                        isArabic ? 'الحاجة لتطوير المرونة مع المتغيرات المفاجئة' : 'Need for flexibility with sudden changes',
+                        isArabic ? 'صعوبة التعبير عن المشاعر تحت الضغط' : 'Difficulty expressing emotions under pressure',
+                      ]).map((weak) => (
+                        <li key={weak} className="flex items-center gap-2.5 bg-[#faf6ea] p-3 rounded-xl border border-ink/20">
+                          <span className="w-2.5 h-2.5 rounded-full bg-amber-500 shrink-0" />
+                          <span>{weak}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                </div>
+
+                {/* Growth Advice & Learning Style */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  
+                  {/* How to Improve & Growth Advice */}
+                  <div className="bg-white rounded-notebook p-6 border-2 border-ink shadow-notebook-md space-y-3">
+                    <h3 className="text-lg font-display font-black text-ink flex items-center gap-2">
+                      <TrendingUp className="w-5 h-5 text-[#0d9488]" />
+                      <span>{isArabic ? 'كيف تطور شخصيتك وتتفوق؟' : 'Actionable Growth Strategies'}</span>
+                    </h3>
+                    <p className="text-sm font-prose text-ink-soft leading-relaxed bg-[#faf6ea] p-4 rounded-2xl border border-ink/20">
+                      {(isArabic ? activeArchetype.growthAdviceAr : activeArchetype.growthAdviceEn) ||
+                        (isArabic
+                          ? 'احرص على الموازنة بين منطقك الصارم ومرونتك الإنسانية، واستثمر في الاستماع الفعال وتقبل وجهات النظر البديلة لتحقيق أقصى نجاح أكاديمي ومهني.'
+                          : 'Balance logic with empathy, invest in active listening, and embrace calculated risks for maximum career success.')}
+                    </p>
+                  </div>
+
+                  {/* Learning Style */}
+                  <div className="bg-white rounded-notebook p-6 border-2 border-ink shadow-notebook-md space-y-3">
+                    <h3 className="text-lg font-display font-black text-ink flex items-center gap-2">
+                      <BookOpen className="w-5 h-5 text-purple" />
+                      <span>{isArabic ? 'أسلوب التعلم الأنسب' : 'Optimal Learning Style'}</span>
+                    </h3>
+                    <p className="text-sm font-prose text-ink-soft leading-relaxed bg-[#faf6ea] p-4 rounded-2xl border border-ink/20">
+                      {isArabic ? activeArchetype.learningStyleAr : activeArchetype.learningStyleEn}
+                    </p>
+                  </div>
+
+                </div>
+
+                {/* Famous Figures & Role Models */}
+                <div className="bg-white rounded-notebook p-6 sm:p-8 border-2 border-ink shadow-notebook-md space-y-4">
+                  <div className="flex items-center gap-2 border-b-2 border-ink/10 pb-3">
+                    <Users className="w-5 h-5 text-purple" />
+                    <h3 className="text-xl font-display font-black text-ink">
+                      {isArabic ? `أبرز القادة والمشاهير بنمط (${result.code})` : `Famous Figures & Leaders (${result.code})`}
+                    </h3>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
+                    {famousList.map((fig) => (
+                      <div
+                        key={fig.nameEn}
+                        className="bg-[#faf6ea] p-4 rounded-2xl border-2 border-ink shadow-notebook-xs space-y-1.5 text-center"
+                      >
+                        <div className="w-10 h-10 rounded-full bg-yellow border-2 border-ink flex items-center justify-center mx-auto text-base font-black text-ink">
+                          ⭐
+                        </div>
+                        <p className="font-display font-bold text-base text-ink pt-1">
+                          {isArabic ? fig.nameAr : fig.nameEn}
+                        </p>
+                        <p className="text-xs font-bold text-muted">
+                          {isArabic ? fig.roleAr : fig.roleEn}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Linked RIASEC College Majors */}
+                <div className="bg-teal text-white rounded-3xl p-6 sm:p-8 border-2 border-ink shadow-notebook-lg space-y-4">
+                  <div className="flex items-center gap-2">
+                    <GraduationCap className="w-6 h-6 text-yellow" />
+                    <h3 className="text-xl font-display font-black text-white">
+                      {isArabic ? `التخصصات السعودية المرتبطة بنمط (${result.code})` : `Saudi Majors Aligned with (${result.code})`}
+                    </h3>
+                  </div>
+
+                  <p className="text-xs sm:text-sm text-teal-tint font-prose">
+                    {isArabic
+                      ? 'يتطابق نمط شخصيتك مع التخصصات الأكاديمية التالية ذات الأكواد الهولندية المتقاطعة ضمن رؤية المملكة ٢٠٣٠:'
+                      : 'Your 16Personalities archetype correlates strongly with these high-priority Saudi university majors:'}
+                  </p>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                    {(isArabic ? activeArchetype.linkedMajorsAr : activeArchetype.linkedMajorsEn).map((m, idx) => (
+                      <div key={m} className="bg-white text-ink p-3.5 rounded-2xl border-2 border-ink shadow-notebook-xs flex items-center justify-between">
+                        <div>
+                          <p className="font-extrabold text-sm text-ink">{m}</p>
+                          <p className="text-[11px] font-bold text-muted">Holland: {activeArchetype.linkedRiasecCodes[idx] || 'IRC'}</p>
+                        </div>
+                        <Link href="/majors" className="text-teal hover:underline text-xs font-bold shrink-0">
+                          Explorer →
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+            );
+          })()
         ) : (
           /* --- QUIZ QUESTION ENGINE --- */
           <div className="space-y-6">

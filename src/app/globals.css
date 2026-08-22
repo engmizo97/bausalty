@@ -82,23 +82,17 @@ body {
   min-height: 100vh;
 }
 
-.bg-paper,
-.notebook-bg {
-  background-color: var(--paper, #ffffff);
-  background-image: repeating-linear-gradient(
-    transparent 0px,
-    transparent 31px,
-    var(--rule-line, rgba(139, 92, 246, 0.22)) 32px
-  );
+/* Solid Clean Card Surfaces - No lines inside cards or templates */
+.bg-paper {
+  background-color: var(--paper, #ffffff) !important;
+  background-image: none !important;
 }
 
-.notebook-paper-lined {
-  background-color: var(--paper-card, #ffffff);
-  background-image: repeating-linear-gradient(
-    transparent 0px,
-    transparent 27px,
-    var(--rule-line, rgba(139, 92, 246, 0.18)) 28px
-  );
+.notebook-paper-lined,
+.notebook-bg,
+.bg-paper-card {
+  background-color: #ffffff !important;
+  background-image: none !important;
 }
 
 /* Red Notebook Margin Line Utility */
