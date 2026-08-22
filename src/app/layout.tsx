@@ -32,8 +32,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" className={`h-full antialiased scroll-smooth ${notoNaskh.variable}`}>
-      <body className="min-h-full flex flex-col bg-paper text-ink selection:bg-yellow selection:text-ink border-t-4 border-teal font-serif">
+    <html lang="ar" dir="rtl" className="h-full antialiased scroll-smooth font-sans">
+      <body className="min-h-full flex flex-col bg-paper text-ink selection:bg-yellow selection:text-ink border-t-4 border-teal font-sans">
         <ClientProviders>
           <Header />
           <main className="flex-1 flex flex-col">{children}</main>

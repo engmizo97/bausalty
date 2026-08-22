@@ -4,6 +4,31 @@
 /* Notebook Design System Import */
 @import "../styles/notebook/styles.css";
 
+/* Local Calibri Web Font Definitions */
+@font-face {
+  font-family: 'Calibri';
+  src: url('/fonts/Calibri-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Calibri';
+  src: url('/fonts/Calibri-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Calibri';
+  src: url('/fonts/Calibri-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   --color-paper: #ffffff;
   --color-paper-card: #ffffff;
@@ -19,10 +44,10 @@
   --color-yellow: #ffd66e;
   --color-purple: #7c3aed;
 
-  --font-serif: var(--font-naskh), 'Noto Naskh Arabic', serif;
-  --font-display: var(--font-naskh), 'Noto Naskh Arabic', serif;
-  --font-ui: var(--font-naskh), 'Noto Naskh Arabic', serif;
-  --font-prose: var(--font-naskh), 'Noto Naskh Arabic', serif;
+  --font-serif: 'Calibri', 'Carlito', system-ui, sans-serif;
+  --font-display: 'Calibri', 'Carlito', system-ui, sans-serif;
+  --font-ui: 'Calibri', 'Carlito', system-ui, sans-serif;
+  --font-prose: 'Calibri', 'Carlito', system-ui, sans-serif;
 }
 
 :root {
@@ -81,7 +106,7 @@ body,
     var(--rule-line, rgba(139, 92, 246, 0.22)) 32px
   ) !important;
   color: var(--ink, #3a2f21);
-  font-family: var(--font-naskh), 'Noto Naskh Arabic', serif !important;
+  font-family: 'Calibri', 'Carlito', system-ui, sans-serif !important;
   min-height: 100vh;
 }
 

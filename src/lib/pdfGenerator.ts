@@ -92,14 +92,14 @@ export function generateRiasecPdf(result: AssessmentResult, userName: string = '
     margin: 12mm 15mm 12mm 15mm;
     @bottom-center {
       content: "منصة بوصلتي • مجموعة تحسين للذكاء الاصطناعي | تقرير رسمي معتمد";
-      font-family: 'Noto Naskh Arabic', serif;
+      font-family: 'Calibri', 'Carlito', sans-serif;
       font-size: 8.5pt;
       color: #8a7a5f;
     }
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Noto Naskh Arabic', 'Noto Sans Arabic', serif;
+    font-family: 'Calibri', 'Carlito', sans-serif;
     color: #3a2f21;
     background-color: #ffffff;
     line-height: 1.5;
@@ -344,14 +344,14 @@ export function generatePersonalityPdf(result: PersonalityResult, userName: stri
     margin: 12mm 15mm 12mm 15mm;
     @bottom-center {
       content: "منصة بوصلتي • تقرير تحليل الشخصية ومواءمة التخصصات | تقرير رسمي معتمد";
-      font-family: 'Noto Naskh Arabic', serif;
+      font-family: 'Calibri', 'Carlito', sans-serif;
       font-size: 8.5pt;
       color: #8a7a5f;
     }
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Noto Naskh Arabic', 'Noto Sans Arabic', serif;
+    font-family: 'Calibri', 'Carlito', sans-serif;
     color: #3a2f21;
     background-color: #ffffff;
     line-height: 1.55;
