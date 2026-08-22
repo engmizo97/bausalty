@@ -28,6 +28,11 @@ export interface ArchetypeInfo {
   descriptionAr: string;
   strengthsEn: string[];
   strengthsAr: string[];
+  weaknessesEn?: string[];
+  weaknessesAr?: string[];
+  growthAdviceEn?: string;
+  growthAdviceAr?: string;
+  famousFigures?: Array<{ nameEn: string; nameAr: string; roleEn: string; roleAr: string }>;
   learningStyleEn: string;
   learningStyleAr: string;
   linkedRiasecCodes: string[]; // e.g. ["IRC", "IAR"]

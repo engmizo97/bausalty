@@ -8,14 +8,18 @@ import {
   Compass,
   Sparkles,
   ArrowLeft,
+  ArrowRight,
   RotateCcw,
   Award,
   CheckCircle2,
   BookOpen,
   Brain,
   GraduationCap,
-  HelpCircle,
-  Zap,
+  Download,
+  Share2,
+  AlertTriangle,
+  TrendingUp,
+  Users,
   Lock,
 } from 'lucide-react';
 import { MBTI_QUESTIONS, MbtiTrait } from '@/data/mbtiDataset';
@@ -41,117 +45,44 @@ export default function PersonalityTestPage() {
   const isArabic = language === 'ar';
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [answers, setAnswers] = useState<Record<number, MbtiTrait>>({});
+  const [result, setResult] = useState<MbtiResultData | null>(null);
+  const [isDownloadingPdf, setIsDownloadingPdf] = useState<boolean>(false);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
-  // Lazy auth state initialization
-  const [isAuthenticated] = useState<boolean>(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        return !!localStorage.getItem('bausalty_user_session');
-      } catch {
-        return false;
-      }
-    }
-    return false;
-  });
-
+  // Restore saved progress or results from localStorage
   useEffect(() => {
-    if (!isAuthenticated) {
-      router.push('/login?callbackUrl=/personality-test');
-    }
-  }, [isAuthenticated, router]);
-
-  // UNSELECTED BY DEFAULT: answers initializes as empty object {}
-  const [answers, setAnswers] = useState<Record<number, MbtiTrait>>(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const saved = localStorage.getItem('bausalty_mbti_answers');
-        if (saved) return JSON.parse(saved);
-      } catch {
-        // Ignore read error
+    try {
+      const savedResult = localStorage.getItem('bausalty_mbti_result');
+      if (savedResult) {
+        setResult(JSON.parse(savedResult));
       }
-    }
-    return {};
-  });
 
-  const [result, setResult] = useState<MbtiResultData | null>(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const savedResult = localStorage.getItem('bausalty_mbti_result');
-        if (savedResult) return JSON.parse(savedResult);
-      } catch {
-        // Ignore read error
+      const savedAnswers = localStorage.getItem('bausalty_mbti_answers');
+      if (savedAnswers) {
+        setAnswers(JSON.parse(savedAnswers));
       }
+    } catch {
+      // Ignore read error
+    } finally {
+      setIsLoaded(true);
     }
-    return null;
-  });
+  }, []);
 
-  const totalQuestions = MBTI_QUESTIONS.length; // 70 Questions
+  const totalQuestions = MBTI_QUESTIONS.length;
   const currentQuestion = MBTI_QUESTIONS[currentIndex];
   const progressPercent = Math.round(((currentIndex + 1) / totalQuestions) * 100);
   const answeredCount = Object.keys(answers).length;
 
-  const calculateMbtiResult = (allAnswers: Record<number, MbtiTrait>): MbtiResultData => {
-    const counts: Record<MbtiTrait, number> = {
-      E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0
-    };
-
-    MBTI_QUESTIONS.forEach((q) => {
-      const trait = allAnswers[q.id];
-      if (trait && trait in counts) {
-        counts[trait] += 1;
-      }
-    });
-
-    const letterEI = counts.E > counts.I ? 'E' : 'I';
-    const letterSN = counts.S > counts.N ? 'S' : 'N';
-    const letterTF = counts.T > counts.F ? 'T' : 'F';
-    const letterJP = counts.J > counts.P ? 'J' : 'P';
-
-    const code = `${letterEI}${letterSN}${letterTF}${letterJP}`;
-
-    const totalEI = counts.E + counts.I || 17;
-    const totalSN = counts.S + counts.N || 18;
-    const totalTF = counts.T + counts.F || 17;
-    const totalJP = counts.J + counts.P || 18;
-
-    const percentages = {
-      EI: {
-        E: Math.round((counts.E / totalEI) * 100),
-        I: Math.round((counts.I / totalEI) * 100),
-      },
-      SN: {
-        S: Math.round((counts.S / totalSN) * 100),
-        N: Math.round((counts.N / totalSN) * 100),
-      },
-      TF: {
-        T: Math.round((counts.T / totalTF) * 100),
-        F: Math.round((counts.F / totalTF) * 100),
-      },
-      JP: {
-        J: Math.round((counts.J / totalJP) * 100),
-        P: Math.round((counts.P / totalJP) * 100),
-      },
-    };
-
-    const archetype = ARCHETYPES[code] || ARCHETYPES['INTJ'];
-
-    return {
-      code,
-      archetype,
-      percentages,
-      completedAt: new Date().toISOString(),
-    };
-  };
-
   const handleSelectOption = (trait: MbtiTrait) => {
-    const updatedAnswers = {
+    const updated = {
       ...answers,
       [currentQuestion.id]: trait,
     };
-    setAnswers(updatedAnswers);
+    setAnswers(updated);
 
     try {
-      localStorage.setItem('bausalty_mbti_answers', JSON.stringify(updatedAnswers));
+      localStorage.setItem('bausalty_mbti_answers', JSON.stringify(updated));
     } catch {
       // Ignore write error
     }
@@ -159,35 +90,13 @@ export default function PersonalityTestPage() {
     if (currentIndex < totalQuestions - 1) {
       setTimeout(() => {
         setCurrentIndex((prev) => Math.min(prev + 1, totalQuestions - 1));
-      }, 200);
-    } else {
-      // Completed all 70 questions -> compute final MBTI profile
-      setTimeout(() => {
-        const computed = calculateMbtiResult(updatedAnswers);
-        setResult(computed);
-        try {
-          localStorage.setItem('bausalty_mbti_result', JSON.stringify(computed));
-          localStorage.setItem('bausalty_personality_result', JSON.stringify(computed));
+      }, 250);
+    }
+  };
 
-          // Trigger SendGrid Automatic PDF Report Delivery
-          const savedSession = localStorage.getItem('bausalty_user_session');
-          if (savedSession) {
-            const user = JSON.parse(savedSession);
-            fetch('/api/email/results', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                email: user.email,
-                name: user.name,
-                testType: '16PERSONALITIES',
-                personalityResult: computed,
-              }),
-            }).catch(() => {});
-          }
-        } catch {
-          // Ignore
-        }
-      }, 300);
+  const handleNext = () => {
+    if (currentIndex < totalQuestions - 1) {
+      setCurrentIndex((prev) => prev + 1);
     }
   };
 
@@ -198,7 +107,7 @@ export default function PersonalityTestPage() {
   };
 
   const handleReset = () => {
-    if (confirm(isArabic ? 'هل تريد إعادة ضبط إجابات اختبار الشخصية؟' : 'Reset personality test answers?')) {
+    if (confirm(isArabic ? 'هل تريد إعادة إجراء اختبار الشخصية من البداية؟' : 'Are you sure you want to reset your test answers?')) {
       setAnswers({});
       setResult(null);
       setCurrentIndex(0);
@@ -206,22 +115,82 @@ export default function PersonalityTestPage() {
         localStorage.removeItem('bausalty_mbti_answers');
         localStorage.removeItem('bausalty_mbti_result');
       } catch {
-        // Ignore
+        // Ignore write error
       }
     }
   };
 
-  const handleForceFinish = () => {
-    if (answeredCount < 12) {
-      alert(isArabic ? 'يرجى الإجابة على 12 سؤالاً على الأقل للحصول على نمط دقيق.' : 'Please answer at least 12 questions for an accurate archetype calculation.');
-      return;
+  const handleCalculateResult = () => {
+    if (answeredCount < totalQuestions) {
+      const missingCount = totalQuestions - answeredCount;
+      if (
+        !confirm(
+          isArabic
+            ? `لديك ${missingCount} أسئلة غير مجاب عليها. هل ترغب بمتابعة حساب النمط؟`
+            : `You have ${missingCount} unanswered items. Proceed?`
+        )
+      ) {
+        return;
+      }
     }
-    const computed = calculateMbtiResult(answers);
-    setResult(computed);
-    try {
-      localStorage.setItem('bausalty_mbti_result', JSON.stringify(computed));
 
-      // Trigger SendGrid Automatic PDF Report Delivery
+    // Tally traits
+    const counts: Record<MbtiTrait, number> = {
+      E: 0,
+      I: 0,
+      S: 0,
+      N: 0,
+      T: 0,
+      F: 0,
+      J: 0,
+      P: 0,
+    };
+
+    Object.values(answers).forEach((trait) => {
+      counts[trait] = (counts[trait] || 0) + 1;
+    });
+
+    const E_total = counts.E + counts.I || 1;
+    const S_total = counts.S + counts.N || 1;
+    const T_total = counts.T + counts.F || 1;
+    const J_total = counts.J + counts.P || 1;
+
+    const ePct = Math.round((counts.E / E_total) * 100);
+    const iPct = 100 - ePct;
+
+    const sPct = Math.round((counts.S / S_total) * 100);
+    const nPct = 100 - sPct;
+
+    const tPct = Math.round((counts.T / T_total) * 100);
+    const fPct = 100 - tPct;
+
+    const jPct = Math.round((counts.J / J_total) * 100);
+    const pPct = 100 - jPct;
+
+    const code = `${counts.E >= counts.I ? 'E' : 'I'}${counts.S >= counts.N ? 'S' : 'N'}${
+      counts.T >= counts.F ? 'T' : 'F'
+    }${counts.J >= counts.P ? 'J' : 'P'}`;
+
+    const archetype = ARCHETYPES[code] || ARCHETYPES['INTJ'];
+
+    const resultData: MbtiResultData = {
+      code,
+      archetype,
+      percentages: {
+        EI: { E: ePct, I: iPct },
+        SN: { S: sPct, N: nPct },
+        TF: { T: tPct, F: fPct },
+        JP: { J: jPct, P: pPct },
+      },
+      completedAt: new Date().toISOString(),
+    };
+
+    setResult(resultData);
+
+    try {
+      localStorage.setItem('bausalty_mbti_result', JSON.stringify(resultData));
+
+      // Trigger automatic welcome/results email in background
       const savedSession = localStorage.getItem('bausalty_user_session');
       if (savedSession) {
         const user = JSON.parse(savedSession);
@@ -232,21 +201,82 @@ export default function PersonalityTestPage() {
             email: user.email,
             name: user.name,
             testType: '16PERSONALITIES',
-            personalityResult: computed,
+            personalityResult: resultData,
           }),
         }).catch(() => {});
       }
     } catch {
-      // Ignore
+      // Ignore write error
+    }
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleDownloadPdf = async () => {
+    if (!result) return;
+    setIsDownloadingPdf(true);
+
+    try {
+      const res = await fetch('/api/pdf/download', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: 'Student',
+          testType: '16PERSONALITIES',
+          personalityResult: result,
+        }),
+      });
+
+      if (res.ok) {
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Bausalty-Personality-Report-${result.code}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+      } else {
+        alert(isArabic ? 'حدث خطأ أثناء تحميل التقرير' : 'Error downloading PDF report');
+      }
+    } catch (err) {
+      console.error('PDF error:', err);
+      alert(isArabic ? 'فشل تحميل التقرير' : 'Failed to download report');
+    } finally {
+      setIsDownloadingPdf(false);
     }
   };
 
-  if (!isAuthenticated) {
+  const handleShare = async () => {
+    if (!result) return;
+    const shareData = {
+      title: isArabic ? `نمط شخصيتي (${result.code}) | بوصلتي` : `My Personality Profile (${result.code}) | Bausalty`,
+      text: isArabic
+        ? `اكتشفت نمط شخصيتي (${result.code} - ${result.archetype.titleAr}) عبر منصة بوصلتي! جرب الاختبار واكتشف تخصصك الأنسب:`
+        : `I discovered my 16Personalities archetype (${result.code} - ${result.archetype.titleEn}) on Bausalty!`,
+      url: window.location.href,
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch {}
+    } else {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        alert(isArabic ? 'تم نسخ رابط النتيجة إلى الحافظة بنجاح!' : 'Link copied to clipboard!');
+      } catch {}
+    }
+  };
+
+  if (!isLoaded) {
     return (
       <div className="flex-1 bg-paper flex items-center justify-center p-12">
         <div className="text-center space-y-4">
-          <Lock className="w-10 h-10 text-teal mx-auto animate-bounce" />
-          <p className="text-ink font-bold font-display">{isArabic ? 'جاري التحقق من تسجيل الدخول...' : 'Checking Student Authentication...'}</p>
+          <Brain className="w-10 h-10 text-teal mx-auto animate-bounce" />
+          <p className="text-ink font-bold font-display">{isArabic ? 'جاري تحميل الاختبار...' : 'Loading Assessment...'}</p>
         </div>
       </div>
     );
@@ -266,10 +296,10 @@ export default function PersonalityTestPage() {
           <h1 className="text-3xl sm:text-4xl font-display font-black text-ink">
             {isArabic ? 'اختبار الأنماط الستة عشر للشخصية' : 'Discover Your 16Personalities Archetype'}
           </h1>
-          <p className="text-xs sm:text-sm text-ink-soft font-prose max-w-2xl mx-auto">
+          <p className="text-xs sm:text-sm text-ink-soft font-prose max-w-2xl mx-auto leading-relaxed">
             {isArabic
-              ? 'أجب على الأسئلة لاكتشاف نمط شخصيتك الخماسي (مثل INTJ العقل المدبر أو ENFP المناضل)، وكيف ترتبط أبعاد شخصيتك بالتخصصات الجامعية السعودية.'
-              : 'Answer standardized scenario items to calculate your 4-letter Myers-Briggs archetype (e.g. INTJ Architect, ENFP Campaigner) and link your traits to Saudi university majors.'}
+              ? 'أجب على الأسئلة لاكتشاف نمط شخصيتك القياسي، وتحليل نقاط القوة والضعف، وأبرز الشخصيات والمشاهير المشابهين، ومواءمة التخصصات السعودية.'
+              : 'Discover your standardized 4-letter Myers-Briggs archetype with in-depth strengths, blindspots, famous figures, and aligned Saudi university majors.'}
           </p>
         </div>
 
@@ -283,7 +313,7 @@ export default function PersonalityTestPage() {
                 <Brain className="w-8 h-8 text-yellow" />
               </div>
 
-              <span className="inline-block text-xs font-black uppercase bg-paper-card border border-ink px-3 py-1 rounded-full">
+              <span className="inline-block text-xs font-black uppercase bg-paper-card border border-ink px-3.5 py-1 rounded-full shadow-2xs">
                 {isArabic ? result.archetype.groupAr : result.archetype.groupEn}
               </span>
 
@@ -299,84 +329,94 @@ export default function PersonalityTestPage() {
                 {isArabic ? result.archetype.descriptionAr : result.archetype.descriptionEn}
               </p>
 
-              <div className="pt-2 flex flex-wrap justify-center gap-3">
+              {/* Action Buttons: PDF Download + Share + Retake */}
+              <div className="pt-3 flex flex-wrap justify-center gap-3">
+                <button
+                  onClick={handleDownloadPdf}
+                  disabled={isDownloadingPdf}
+                  className="h-12 px-6 bg-teal hover:bg-teal-deep text-white border-2 border-ink rounded-xl font-display font-black text-sm shadow-notebook-xs inline-flex items-center gap-2 hover:scale-102 transition-all"
+                >
+                  <Download className="w-4 h-4 text-yellow" />
+                  <span>{isDownloadingPdf ? (isArabic ? 'جاري التحميل...' : 'Downloading...') : (isArabic ? 'تحميل التقرير (PDF)' : 'Download PDF Report')}</span>
+                </button>
+
+                <button
+                  onClick={handleShare}
+                  className="h-12 px-5 bg-paper-card hover:bg-paper-inset text-ink border-2 border-ink rounded-xl font-bold text-sm shadow-notebook-xs inline-flex items-center gap-2 hover:scale-102 transition-all"
+                >
+                  <Share2 className="w-4 h-4 text-purple" />
+                  <span>{isArabic ? 'مشاركة النتيجة' : 'Share Result'}</span>
+                </button>
+
                 <button
                   onClick={handleReset}
-                  className="h-11 px-5 bg-paper hover:bg-paper-inset text-ink border-2 border-ink rounded-xl font-bold text-xs shadow-notebook-xs inline-flex items-center gap-2"
+                  className="h-12 px-5 bg-paper hover:bg-paper-inset text-ink border-2 border-ink rounded-xl font-bold text-sm shadow-notebook-xs inline-flex items-center gap-2 transition-all"
                 >
                   <RotateCcw className="w-4 h-4 text-teal" />
                   <span>{isArabic ? 'إعادة الاختبار' : 'Retake Test'}</span>
                 </button>
-
-                <Link
-                  href="/assessment/quiz"
-                  className="h-11 px-5 bg-teal hover:bg-teal-deep text-white border-2 border-ink rounded-xl font-bold text-xs shadow-notebook-xs inline-flex items-center gap-2"
-                >
-                  <Compass className="w-4 h-4 text-yellow" />
-                  <span>{isArabic ? 'إجراء اختبار الميول والتخصصات' : 'Take Career Assessment'}</span>
-                </Link>
               </div>
             </div>
 
-            {/* Trait Percentages Breakdown Grid */}
+            {/* Trait Percentages Breakdown Grid with Full Arabic Labels */}
             <div className="bg-paper-card rounded-notebook p-6 sm:p-8 border-2 border-ink shadow-notebook-md space-y-5">
               <h3 className="text-xl font-display font-black text-ink border-b-2 border-ink/10 pb-3">
                 {isArabic ? 'تحليل الأبعاد الأربعة للشخصية' : '4-Dimension Trait Breakdown'}
               </h3>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 
                 {/* E vs I */}
-                <div className="space-y-1.5 bg-paper p-4 rounded-2xl border-2 border-ink">
-                  <div className="flex justify-between text-xs font-bold text-ink">
-                    <span>Extraversion (E): {result.percentages.EI.E}%</span>
-                    <span>Introversion (I): {result.percentages.EI.I}%</span>
+                <div className="space-y-2 bg-paper p-4 rounded-2xl border-2 border-ink">
+                  <div className="flex justify-between text-xs font-black text-ink">
+                    <span>{isArabic ? 'الانفتاح الاجتماعي (E)' : 'Extraversion (E)'}: {result.percentages.EI.E}%</span>
+                    <span>{isArabic ? 'الانطواء والتركيز (I)' : 'Introversion (I)'}: {result.percentages.EI.I}%</span>
                   </div>
-                  <div className="w-full h-3 bg-paper-inset rounded-full overflow-hidden p-0.5 border border-ink">
+                  <div className="w-full h-3.5 bg-paper-inset rounded-full overflow-hidden p-0.5 border border-ink">
                     <div
-                      className="h-full bg-teal rounded-full"
+                      className="h-full bg-teal rounded-full transition-all duration-500"
                       style={{ width: `${result.percentages.EI.E}%` }}
                     />
                   </div>
                 </div>
 
                 {/* S vs N */}
-                <div className="space-y-1.5 bg-paper p-4 rounded-2xl border-2 border-ink">
-                  <div className="flex justify-between text-xs font-bold text-ink">
-                    <span>Sensing (S): {result.percentages.SN.S}%</span>
-                    <span>Intuition (N): {result.percentages.SN.N}%</span>
+                <div className="space-y-2 bg-paper p-4 rounded-2xl border-2 border-ink">
+                  <div className="flex justify-between text-xs font-black text-ink">
+                    <span>{isArabic ? 'الواقعية والتفاصيل (S)' : 'Sensing (S)'}: {result.percentages.SN.S}%</span>
+                    <span>{isArabic ? 'الحدس والرؤية (N)' : 'Intuition (N)'}: {result.percentages.SN.N}%</span>
                   </div>
-                  <div className="w-full h-3 bg-paper-inset rounded-full overflow-hidden p-0.5 border border-ink">
+                  <div className="w-full h-3.5 bg-paper-inset rounded-full overflow-hidden p-0.5 border border-ink">
                     <div
-                      className="h-full bg-purple rounded-full"
+                      className="h-full bg-purple rounded-full transition-all duration-500"
                       style={{ width: `${result.percentages.SN.S}%` }}
                     />
                   </div>
                 </div>
 
                 {/* T vs F */}
-                <div className="space-y-1.5 bg-paper p-4 rounded-2xl border-2 border-ink">
-                  <div className="flex justify-between text-xs font-bold text-ink">
-                    <span>Thinking (T): {result.percentages.TF.T}%</span>
-                    <span>Feeling (F): {result.percentages.TF.F}%</span>
+                <div className="space-y-2 bg-paper p-4 rounded-2xl border-2 border-ink">
+                  <div className="flex justify-between text-xs font-black text-ink">
+                    <span>{isArabic ? 'التفكير والمنطق (T)' : 'Thinking (T)'}: {result.percentages.TF.T}%</span>
+                    <span>{isArabic ? 'المشاعر والقيم (F)' : 'Feeling (F)'}: {result.percentages.TF.F}%</span>
                   </div>
-                  <div className="w-full h-3 bg-paper-inset rounded-full overflow-hidden p-0.5 border border-ink">
+                  <div className="w-full h-3.5 bg-paper-inset rounded-full overflow-hidden p-0.5 border border-ink">
                     <div
-                      className="h-full bg-yellow rounded-full"
+                      className="h-full bg-yellow rounded-full transition-all duration-500"
                       style={{ width: `${result.percentages.TF.T}%` }}
                     />
                   </div>
                 </div>
 
                 {/* J vs P */}
-                <div className="space-y-1.5 bg-paper p-4 rounded-2xl border-2 border-ink">
-                  <div className="flex justify-between text-xs font-bold text-ink">
-                    <span>Judging (J): {result.percentages.JP.J}%</span>
-                    <span>Perceiving (P): {result.percentages.JP.P}%</span>
+                <div className="space-y-2 bg-paper p-4 rounded-2xl border-2 border-ink">
+                  <div className="flex justify-between text-xs font-black text-ink">
+                    <span>{isArabic ? 'الحزم والتنظيم (J)' : 'Judging (J)'}: {result.percentages.JP.J}%</span>
+                    <span>{isArabic ? 'المرونة والاستكشاف (P)' : 'Perceiving (P)'}: {result.percentages.JP.P}%</span>
                   </div>
-                  <div className="w-full h-3 bg-paper-inset rounded-full overflow-hidden p-0.5 border border-ink">
+                  <div className="w-full h-3.5 bg-paper-inset rounded-full overflow-hidden p-0.5 border border-ink">
                     <div
-                      className="h-full bg-teal rounded-full"
+                      className="h-full bg-teal rounded-full transition-all duration-500"
                       style={{ width: `${result.percentages.JP.J}%` }}
                     />
                   </div>
@@ -385,7 +425,7 @@ export default function PersonalityTestPage() {
               </div>
             </div>
 
-            {/* Strengths & Learning Style */}
+            {/* Strengths & Weaknesses Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               
               {/* Strengths */}
@@ -396,7 +436,7 @@ export default function PersonalityTestPage() {
                 </h3>
                 <ul className="space-y-2 text-sm font-bold text-ink-soft">
                   {(isArabic ? result.archetype.strengthsAr : result.archetype.strengthsEn).map((str) => (
-                    <li key={str} className="flex items-center gap-2 bg-paper p-2.5 rounded-xl border border-ink/20">
+                    <li key={str} className="flex items-center gap-2.5 bg-paper p-2.5 rounded-xl border border-ink/20">
                       <CheckCircle2 className="w-4 h-4 text-teal shrink-0" />
                       <span>{str}</span>
                     </li>
@@ -404,8 +444,47 @@ export default function PersonalityTestPage() {
                 </ul>
               </div>
 
-              {/* Learning Style */}
+              {/* Weaknesses & Blindspots */}
               <div className="bg-paper-card rounded-notebook p-6 border-2 border-ink shadow-notebook-md space-y-4">
+                <h3 className="text-lg font-display font-black text-ink flex items-center gap-2">
+                  <AlertTriangle className="w-5 h-5 text-amber-600" />
+                  <span>{isArabic ? 'أبرز التحديات ونقاط الضعف' : 'Blindspots & Challenges'}</span>
+                </h3>
+                <ul className="space-y-2 text-sm font-bold text-ink-soft">
+                  {((isArabic ? result.archetype.weaknessesAr : result.archetype.weaknessesEn) || [
+                    isArabic ? 'المثالية المفرطة في بعض المواقف' : 'Over-perfectionism in certain scenarios',
+                    isArabic ? 'الحاجة لتطوير المرونة مع المتغيرات المفاجئة' : 'Need for flexibility with sudden changes',
+                    isArabic ? 'صعوبة التعبير عن المشاعر تحت الضغط' : 'Difficulty expressing emotions under pressure',
+                  ]).map((weak) => (
+                    <li key={weak} className="flex items-center gap-2.5 bg-paper p-2.5 rounded-xl border border-ink/20">
+                      <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
+                      <span>{weak}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+            </div>
+
+            {/* Growth Advice & Learning Style */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              
+              {/* How to Improve & Growth Advice */}
+              <div className="bg-paper-card rounded-notebook p-6 border-2 border-ink shadow-notebook-md space-y-3">
+                <h3 className="text-lg font-display font-black text-ink flex items-center gap-2">
+                  <TrendingUp className="w-5 h-5 text-[#0d9488]" />
+                  <span>{isArabic ? 'كيف تطور شخصيتك وتتفوق؟' : 'Actionable Growth Strategies'}</span>
+                </h3>
+                <p className="text-sm font-prose text-ink-soft leading-relaxed bg-paper p-4 rounded-2xl border border-ink/20">
+                  {(isArabic ? result.archetype.growthAdviceAr : result.archetype.growthAdviceEn) ||
+                    (isArabic
+                      ? 'احرص على الموازنة بين منطقك الصارم ومرونتك الإنسانية، واستثمر في الاستماع الفعال وتقبل وجهات النظر البديلة لتحقيق أقصى نجاح أكاديمي ومهني.'
+                      : 'Balance logic with empathy, invest in active listening, and embrace calculated risks for maximum career success.')}
+                </p>
+              </div>
+
+              {/* Learning Style */}
+              <div className="bg-paper-card rounded-notebook p-6 border-2 border-ink shadow-notebook-md space-y-3">
                 <h3 className="text-lg font-display font-black text-ink flex items-center gap-2">
                   <BookOpen className="w-5 h-5 text-purple" />
                   <span>{isArabic ? 'أسلوب التعلم الأنسب' : 'Optimal Learning Style'}</span>
@@ -416,6 +495,37 @@ export default function PersonalityTestPage() {
               </div>
 
             </div>
+
+            {/* Famous Figures & Role Models */}
+            {result.archetype.famousFigures && result.archetype.famousFigures.length > 0 && (
+              <div className="bg-paper-card rounded-notebook p-6 sm:p-8 border-2 border-ink shadow-notebook-md space-y-4">
+                <div className="flex items-center gap-2 border-b-2 border-ink/10 pb-3">
+                  <Users className="w-5 h-5 text-purple" />
+                  <h3 className="text-xl font-display font-black text-ink">
+                    {isArabic ? `أبرز القادة والمشاهير بنمط (${result.code})` : `Famous Figures & Leaders (${result.code})`}
+                  </h3>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
+                  {result.archetype.famousFigures.map((fig) => (
+                    <div
+                      key={fig.nameEn}
+                      className="bg-paper p-4 rounded-2xl border-2 border-ink shadow-notebook-xs space-y-1 text-center"
+                    >
+                      <div className="w-10 h-10 rounded-full bg-yellow border border-ink flex items-center justify-center mx-auto text-sm font-black text-ink">
+                        ⭐
+                      </div>
+                      <p className="font-display font-bold text-base text-ink pt-1">
+                        {isArabic ? fig.nameAr : fig.nameEn}
+                      </p>
+                      <p className="text-xs font-bold text-muted">
+                        {isArabic ? fig.roleAr : fig.roleEn}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Linked RIASEC College Majors */}
             <div className="bg-teal text-white rounded-3xl p-6 sm:p-8 border-2 border-ink shadow-notebook-lg space-y-4">
@@ -428,7 +538,7 @@ export default function PersonalityTestPage() {
 
               <p className="text-xs sm:text-sm text-teal-tint font-prose">
                 {isArabic
-                  ? 'يتطابق نمط شخصيتك مع التخصصات الأكاديمية التالية ذات الأكواد الهولندية المتقاطعة:'
+                  ? 'يتطابق نمط شخصيتك مع التخصصات الأكاديمية التالية ذات الأكواد الهولندية المتقاطعة ضمن رؤية المملكة ٢٠٣٠:'
                   : 'Your 16Personalities archetype correlates strongly with these high-priority Saudi university majors:'}
               </p>
 
@@ -457,114 +567,100 @@ export default function PersonalityTestPage() {
               <div className="flex items-center justify-between text-xs sm:text-sm font-bold text-ink">
                 <span>{isArabic ? `السؤال ${currentIndex + 1} من ${totalQuestions}` : `Question ${currentIndex + 1} of ${totalQuestions}`}</span>
                 <div className="flex items-center gap-3">
-                  <span className="text-xs font-black bg-yellow border border-ink px-2.5 py-0.5 rounded-full">
-                    {answeredCount} / {totalQuestions} {isArabic ? 'مجاب' : 'Answered'}
-                  </span>
-                  <span className="text-teal font-extrabold">{progressPercent}%</span>
+                  <span className="text-ink-soft font-semibold">{progressPercent}%</span>
+                  <button
+                    onClick={handleReset}
+                    className="text-xs text-muted hover:text-ink font-bold flex items-center gap-1"
+                  >
+                    <RotateCcw className="w-3 h-3" />
+                    <span>{isArabic ? 'إعادة ضبط' : 'Reset'}</span>
+                  </button>
                 </div>
               </div>
+
               <div className="w-full h-3 bg-paper-inset rounded-full overflow-hidden p-0.5 border border-ink">
                 <motion.div
                   className="h-full bg-teal rounded-full"
+                  initial={{ width: 0 }}
                   animate={{ width: `${progressPercent}%` }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.2 }}
                 />
               </div>
             </div>
 
-            {/* Question Card */}
+            {/* Question Card Box */}
             <AnimatePresence mode="wait">
               <motion.div
-                key={currentIndex}
+                key={currentQuestion.id}
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.25 }}
-                className="bg-[#fffdf6] rounded-notebook p-6 sm:p-10 border-2 border-ink shadow-notebook-md space-y-8"
+                transition={{ duration: 0.2 }}
+                className="notebook-paper-lined rounded-notebook p-6 sm:p-10 border-2 border-ink shadow-notebook-md space-y-8"
               >
-                <div className="space-y-2">
+                {/* Question Header */}
+                <div className="flex items-center justify-between border-b-2 border-ink/10 pb-4">
                   <span className="text-xs font-black uppercase bg-yellow border border-ink px-3 py-1 rounded-full shadow-2xs inline-block">
-                    Item #{currentIndex + 1} ({currentQuestion.dimension})
+                    {isArabic ? `السؤال ${currentIndex + 1}` : `Scenario ${currentIndex + 1}`}
                   </span>
-
-                  <h2 className={`font-display font-bold text-ink leading-snug ${isArabic ? 'text-xl sm:text-2xl font-prose text-right' : 'text-xl sm:text-2xl text-left'}`}>
-                    {isArabic ? currentQuestion.textAr : currentQuestion.textEn}
-                  </h2>
+                  <span className="text-xs font-bold text-muted">
+                    {isArabic ? 'اختر الخيار الأقرب لطبيعتك العفوية' : 'Pick the closest match to your natural style'}
+                  </span>
                 </div>
 
-                {/* Option A vs Option B Selection Cards — Unselected By Default */}
-                <div className="space-y-3 pt-2">
-                  <p className="text-xs font-bold text-ink-soft uppercase tracking-wider flex items-center gap-1.5">
-                    <HelpCircle className="w-4 h-4 text-teal" />
-                    <span>{isArabic ? 'اختر الخيار الذي يمثلك بشكل أفضل:' : 'Choose the option that best describes you:'}</span>
-                  </p>
+                {/* Scenario Statement */}
+                <h2 className="text-xl sm:text-2xl font-prose font-bold text-ink leading-relaxed">
+                  {isArabic ? currentQuestion.textAr : currentQuestion.textEn}
+                </h2>
 
-                  <div className="grid grid-cols-1 gap-4">
-                    {/* Option A */}
-                    <motion.button
-                      whileHover={{ scale: 1.01, translateY: -1 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => handleSelectOption(currentQuestion.optionA.trait)}
-                      className={`p-5 rounded-2xl border-2 text-left flex items-center justify-between transition-all ${
-                        answers[currentQuestion.id] === currentQuestion.optionA.trait
-                          ? 'bg-teal-tint border-ink shadow-notebook-xs ring-2 ring-teal'
-                          : 'bg-paper-card border-ink/20 hover:border-ink hover:bg-paper-inset'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-teal text-white border-2 border-ink flex items-center justify-center font-display font-black text-sm shrink-0">
-                          A
-                        </div>
-                        <div>
+                {/* Options (A or B) */}
+                <div className="space-y-4">
+                  {[
+                    { key: 'A', option: currentQuestion.optionA },
+                    { key: 'B', option: currentQuestion.optionB },
+                  ].map(({ key, option }) => {
+                    const isSelected = answers[currentQuestion.id] === option.trait;
+
+                    return (
+                      <motion.button
+                        key={key}
+                        whileHover={{ scale: 1.01, translateY: -1 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => handleSelectOption(option.trait)}
+                        className={`w-full min-h-[56px] p-4 sm:p-5 rounded-2xl border-2 text-left flex items-center justify-between transition-all duration-150 ${
+                          isSelected
+                            ? 'bg-teal-tint border-ink shadow-notebook-xs ring-2 ring-teal'
+                            : 'bg-paper-card border-ink/20 hover:border-ink hover:bg-paper-inset'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3.5">
+                          <div className={`w-8 h-8 rounded-lg ${key === 'A' ? 'bg-teal' : 'bg-purple'} text-white border-2 border-ink flex items-center justify-center font-display font-black text-sm shrink-0`}>
+                            {key}
+                          </div>
                           <p className="font-bold text-sm sm:text-base text-ink">
-                            {isArabic ? currentQuestion.optionA.labelAr : currentQuestion.optionA.labelEn}
+                            {isArabic ? option.labelAr : option.labelEn}
                           </p>
                         </div>
-                      </div>
 
-                      {answers[currentQuestion.id] === currentQuestion.optionA.trait && (
-                        <CheckCircle2 className="w-6 h-6 text-teal fill-yellow shrink-0 ml-2" />
-                      )}
-                    </motion.button>
-
-                    {/* Option B */}
-                    <motion.button
-                      whileHover={{ scale: 1.01, translateY: -1 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => handleSelectOption(currentQuestion.optionB.trait)}
-                      className={`p-5 rounded-2xl border-2 text-left flex items-center justify-between transition-all ${
-                        answers[currentQuestion.id] === currentQuestion.optionB.trait
-                          ? 'bg-teal-tint border-ink shadow-notebook-xs ring-2 ring-teal'
-                          : 'bg-paper-card border-ink/20 hover:border-ink hover:bg-paper-inset'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-purple text-white border-2 border-ink flex items-center justify-center font-display font-black text-sm shrink-0">
-                          B
-                        </div>
-                        <div>
-                          <p className="font-bold text-sm sm:text-base text-ink">
-                            {isArabic ? currentQuestion.optionB.labelAr : currentQuestion.optionB.labelEn}
-                          </p>
-                        </div>
-                      </div>
-
-                      {answers[currentQuestion.id] === currentQuestion.optionB.trait && (
-                        <CheckCircle2 className="w-6 h-6 text-teal fill-yellow shrink-0 ml-2" />
-                      )}
-                    </motion.button>
-                  </div>
+                        {isSelected ? (
+                          <CheckCircle2 className="w-6 h-6 text-teal fill-yellow shrink-0" />
+                        ) : (
+                          <div className="w-5 h-5 rounded-full border-2 border-ink/30 shrink-0" />
+                        )}
+                      </motion.button>
+                    );
+                  })}
                 </div>
 
               </motion.div>
             </AnimatePresence>
 
-            {/* Navigation Controls */}
-            <div className="flex items-center justify-between pt-2">
+            {/* Navigation Buttons */}
+            <div className="mt-8 flex items-center justify-between gap-4">
               <button
                 onClick={handlePrev}
                 disabled={currentIndex === 0}
-                className={`h-12 px-5 rounded-xl font-bold text-sm border-2 transition-all inline-flex items-center gap-2 ${
+                className={`h-12 min-h-[48px] inline-flex items-center gap-2 px-5 rounded-xl font-bold text-sm border-2 transition-all ${
                   currentIndex === 0
                     ? 'opacity-40 cursor-not-allowed text-muted border-ink/20 bg-paper-inset'
                     : 'text-ink bg-paper-card border-ink hover:bg-paper-inset shadow-notebook-xs'
@@ -574,23 +670,23 @@ export default function PersonalityTestPage() {
                 <span>{isArabic ? 'السابق' : 'Previous'}</span>
               </button>
 
-              {answeredCount === totalQuestions && (
+              {currentIndex < totalQuestions - 1 ? (
                 <button
-                  onClick={handleForceFinish}
-                  className="h-12 px-5 rounded-xl bg-yellow text-ink border-2 border-ink font-display font-black text-xs shadow-notebook-xs flex items-center gap-1.5"
+                  onClick={handleNext}
+                  className="h-12 min-h-[48px] inline-flex items-center gap-2 bg-teal hover:bg-teal-deep text-white px-6 rounded-xl font-extrabold text-sm border-2 border-ink shadow-notebook-xs transition-all hover:scale-102 active:scale-98"
                 >
-                  <Zap className="w-4 h-4 text-purple" />
-                  <span>{isArabic ? 'إنهاء وحساب النتيجة' : 'Finish & View Result'}</span>
+                  <span>{isArabic ? 'التالي' : 'Next'}</span>
+                  <ArrowRight className={`w-4 h-4 ${isArabic ? 'rotate-180' : ''}`} />
+                </button>
+              ) : (
+                <button
+                  onClick={handleCalculateResult}
+                  className="h-12 min-h-[48px] inline-flex items-center gap-2 bg-yellow hover:bg-amber-300 text-ink px-7 rounded-xl font-display font-black text-base border-2 border-ink shadow-notebook-md hover:scale-102 active:scale-98 transition-all"
+                >
+                  <Sparkles className="w-5 h-5 text-teal" />
+                  <span>{isArabic ? 'عرض تحليل الشخصية الكامل' : 'Calculate & View Archetype'}</span>
                 </button>
               )}
-
-              <button
-                onClick={handleReset}
-                className="text-xs font-bold text-muted hover:text-rose-600 flex items-center gap-1"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-                <span>{isArabic ? 'إعادة ضبط' : 'Reset'}</span>
-              </button>
             </div>
 
           </div>
