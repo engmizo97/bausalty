@@ -7,7 +7,7 @@
 @theme {
   --color-paper: #ffffff;
   --color-paper-card: #ffffff;
-  --color-paper-inset: #f8f6fc;
+  --color-paper-inset: #faf6ea;
   
   --color-ink: #3a2f21;
   --color-ink-soft: #5c4f3a;
@@ -28,7 +28,7 @@
 :root {
   --paper: #ffffff;
   --paper-card: #ffffff;
-  --paper-inset: #f8f6fc;
+  --paper-inset: #faf6ea;
   --white: #ffffff;
 
   --ink: #3a2f21;

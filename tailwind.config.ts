@@ -12,7 +12,7 @@ const config: Config = {
         paper: {
           DEFAULT: "#ffffff",
           card: "#ffffff",
-          inset: "#f8f6fc",
+          inset: "#faf6ea",
         },
         ink: {
           DEFAULT: "#3a2f21",

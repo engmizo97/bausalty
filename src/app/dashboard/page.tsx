@@ -214,7 +214,7 @@ export default function StudentDashboardPage() {
             
             {/* Student Avatar */}
             <div className="relative shrink-0">
-              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-2 border-[#3a2f21] overflow-hidden shadow-2xs relative bg-[#ede5f7]">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-2 border-[#3a2f21] overflow-hidden shadow-2xs relative bg-[#faf6ea]">
                 {student.image ? (
                   <Image
                     src={student.image}
@@ -281,7 +281,7 @@ export default function StudentDashboardPage() {
 
             <button
               onClick={handleSignOut}
-              className="h-12 min-h-[48px] px-4 rounded-2xl bg-[#f4eefb] hover:bg-[#ede5f7] text-[#3a2f21] border-2 border-[#3a2f21] font-bold text-xs sm:text-sm shadow-[3px_3px_0_#3a2f21] flex items-center gap-1.5 transition-all"
+              className="h-12 min-h-[48px] px-4 rounded-2xl bg-[#faf6ea] hover:bg-[#f3ead9] text-[#3a2f21] border-2 border-[#3a2f21] font-bold text-xs sm:text-sm shadow-[3px_3px_0_#3a2f21] flex items-center gap-1.5 transition-all"
             >
               <LogOut className="w-4 h-4 text-rose-600" />
               <span>{isArabic ? 'خروج' : 'Sign Out'}</span>
@@ -332,7 +332,7 @@ export default function StudentDashboardPage() {
             </div>
 
             {/* 1. Holland Code Card */}
-            <div className="bg-[#f4eefb] p-4 rounded-2xl border-2 border-[#3a2f21] space-y-3">
+            <div className="bg-[#faf6ea] p-4 rounded-2xl border-2 border-[#3a2f21] space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-black uppercase text-[#3a2f21] flex items-center gap-1">
                   <Compass className="w-4 h-4 text-[#0d9488]" />
@@ -388,7 +388,7 @@ export default function StudentDashboardPage() {
             </div>
 
             {/* 2. 16Personalities Card */}
-            <div className="bg-[#f4eefb] p-4 rounded-2xl border-2 border-[#3a2f21] space-y-3">
+            <div className="bg-[#faf6ea] p-4 rounded-2xl border-2 border-[#3a2f21] space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-black uppercase text-[#3a2f21] flex items-center gap-1">
                   <Brain className="w-4 h-4 text-[#0d9488]" />
@@ -447,7 +447,7 @@ export default function StudentDashboardPage() {
             <div className="pt-2">
               <Link
                 href="/assessment/quiz"
-                className="w-full h-11 min-h-[44px] inline-flex items-center justify-center gap-2 bg-[#f4eefb] hover:bg-[#ede5f7] text-[#3a2f21] border-2 border-[#3a2f21] rounded-xl font-bold text-xs shadow-[3px_3px_0_#3a2f21] transition-all"
+                className="w-full h-11 min-h-[44px] inline-flex items-center justify-center gap-2 bg-[#faf6ea] hover:bg-[#f3ead9] text-[#3a2f21] border-2 border-[#3a2f21] rounded-xl font-bold text-xs shadow-[3px_3px_0_#3a2f21] transition-all"
               >
                 <RotateCcw className="w-4 h-4 text-[#0d9488]" />
                 <span>{isArabic ? 'إعادة إجراء الاختبار' : 'Retake Assessment'}</span>
