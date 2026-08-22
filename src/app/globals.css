@@ -69,29 +69,34 @@ a[class*="text-ink"],
   color: #3a2f21 !important;
 }
 
-/* Notebook Canvas Background & Light Purple Ruled Lines */
-body {
+/* Notebook Canvas Background & Lavender Ruled Lines */
+body,
+#bausalty-root,
+.bg-paper,
+.notebook-bg {
   background-color: var(--paper, #ffffff);
   background-image: repeating-linear-gradient(
     transparent 0px,
     transparent 31px,
     var(--rule-line, rgba(139, 92, 246, 0.22)) 32px
-  );
+  ) !important;
   color: var(--ink, #3a2f21);
   font-family: var(--font-naskh), 'Noto Naskh Arabic', serif !important;
   min-height: 100vh;
 }
 
-/* Solid Clean Card Surfaces - No lines inside cards or templates */
-.bg-paper {
-  background-color: var(--paper, #ffffff) !important;
+/* Solid Clean Card Surfaces - Background lines NEVER show inside any card or template */
+.notebook-paper-lined,
+.bg-paper-card,
+.bg-white {
+  background-color: #ffffff !important;
   background-image: none !important;
+  isolation: isolate;
 }
 
-.notebook-paper-lined,
-.notebook-bg,
-.bg-paper-card {
-  background-color: #ffffff !important;
+/* Ensure inner cards and badges have solid opaque backgrounds */
+.bg-paper-card > *,
+.notebook-paper-lined > * {
   background-image: none !important;
 }
 
