@@ -124,15 +124,7 @@ export default function StudentDashboardPage() {
   };
 
   const handleUpgradePlan = () => {
-    if (!student) return;
-    const updated = { ...student, plan: 'PAID' as const };
-    setStudent(updated);
-    try {
-      localStorage.setItem('bausalty_user_session', JSON.stringify(updated));
-    } catch {
-      // Ignore
-    }
-    alert(isArabic ? 'تم ترقية حسابك بنجاح إلى الفئة الممتازة!' : 'Your account has been upgraded to Premium!');
+    router.push('/checkout');
   };
 
   const handleDownloadPdfReport = async (testType: 'RIASEC' | '16PERSONALITIES') => {
@@ -270,13 +262,13 @@ export default function StudentDashboardPage() {
           {/* Action CTAs */}
           <div className="flex flex-wrap items-center justify-center gap-3 shrink-0 w-full md:w-auto">
             {student.plan === 'FREE' && (
-              <button
-                onClick={handleUpgradePlan}
+              <Link
+                href="/checkout"
                 className="h-12 min-h-[48px] px-5 rounded-2xl bg-[#ffd66e] hover:bg-amber-300 text-[#3a2f21] border-2 border-[#3a2f21] font-display font-black text-xs sm:text-sm shadow-[3px_3px_0_#3a2f21] flex items-center gap-2 hover:scale-102 transition-all"
               >
                 <Crown className="w-4 h-4 text-[#0d9488]" />
                 <span>{isArabic ? 'ترقية التقرير الشامل' : 'Upgrade to Premium'}</span>
-              </button>
+              </Link>
             )}
 
             <button
@@ -309,13 +301,13 @@ export default function StudentDashboardPage() {
               </p>
             </div>
 
-            <button
-              onClick={handleUpgradePlan}
+            <Link
+              href="/checkout"
               className="h-12 min-h-[48px] bg-[#0d9488] hover:bg-[#0f766e] text-white border-2 border-[#3a2f21] px-6 rounded-2xl font-display font-black text-sm shadow-[3px_3px_0_#3a2f21] shrink-0 inline-flex items-center gap-2 hover:scale-105 transition-all"
             >
               <Zap className="w-4 h-4 text-[#ffd66e]" />
               <span>{isArabic ? 'ترقية الحساب الآن' : 'Upgrade Account Now'}</span>
-            </button>
+            </Link>
           </div>
         )}
 
