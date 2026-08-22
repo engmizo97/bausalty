@@ -140,7 +140,37 @@ export default function StudentDashboardPage() {
     setIsDownloadingPdf(true);
 
     try {
-      const res = await fetch('/api/email/results', {
+      // 1. Direct PDF Download to student device
+      const res = await fetch('/api/pdf/download', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: student.name,
+          testType,
+          riasecResult,
+          personalityResult: mbtiResult,
+        }),
+      });
+
+      if (res.ok) {
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download =
+          testType === '16PERSONALITIES'
+            ? `Bausalty-Personality-Report-${mbtiResult?.code || 'Results'}.pdf`
+            : `Bausalty-RIASEC-Report-${riasecResult?.topCode || 'Results'}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+      } else {
+        alert(isArabic ? 'حدث خطأ أثناء إنشاء ملف PDF' : 'Error generating PDF report');
+      }
+
+      // 2. Trigger email in background
+      fetch('/api/email/results', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -150,16 +180,10 @@ export default function StudentDashboardPage() {
           riasecResult,
           personalityResult: mbtiResult,
         }),
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        alert(isArabic ? `تم إرسال تقرير PDF إلى بريدك الإلكتروني: ${student.email}` : `PDF report sent to your email: ${student.email}`);
-      } else {
-        alert(data?.error || 'Failed to trigger PDF report.');
-      }
+      }).catch(() => {});
     } catch (err) {
       console.error('PDF download error:', err);
+      alert(isArabic ? 'فشل تحميل التقرير' : 'Failed to download report');
     } finally {
       setIsDownloadingPdf(false);
     }
@@ -347,7 +371,7 @@ export default function StudentDashboardPage() {
                       className="w-full h-9 inline-flex items-center justify-center gap-1.5 bg-[#ffd66e] text-[#3a2f21] border border-[#3a2f21] rounded-xl font-bold text-xs shadow-2xs"
                     >
                       <Download className="w-3.5 h-3.5 text-[#3a2f21]" />
-                      <span>{isDownloadingPdf ? (isArabic ? 'جاري الإرسال...' : 'Sending...') : (isArabic ? 'تحميل التقرير (PDF)' : 'Download PDF Report')}</span>
+                      <span>{isDownloadingPdf ? (isArabic ? 'جاري التحميل...' : 'Downloading...') : (isArabic ? 'تحميل التقرير (PDF)' : 'Download PDF Report')}</span>
                     </button>
                   </div>
                 </div>
@@ -403,7 +427,7 @@ export default function StudentDashboardPage() {
                       className="w-full h-9 inline-flex items-center justify-center gap-1.5 bg-[#ffd66e] text-[#3a2f21] border border-[#3a2f21] rounded-xl font-bold text-xs shadow-2xs"
                     >
                       <Download className="w-3.5 h-3.5 text-[#3a2f21]" />
-                      <span>{isDownloadingPdf ? (isArabic ? 'جاري الإرسال...' : 'Sending...') : (isArabic ? 'تحميل التقرير (PDF)' : 'Download PDF Report')}</span>
+                      <span>{isDownloadingPdf ? (isArabic ? 'جاري التحميل...' : 'Downloading...') : (isArabic ? 'تحميل التقرير (PDF)' : 'Download PDF Report')}</span>
                     </button>
                   </div>
                 </div>
