@@ -40,13 +40,13 @@ export default function Footer() {
                 : 'Bausalty is a career guidance and psychometric personality alignment engine designed for Saudi high school and university students, aligned with Saudi Vision 2030.'}
             </p>
 
-            <div className="inline-flex items-center gap-2 text-xs font-bold text-ink-soft">
+            <div className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-white border-2 border-ink text-xs font-bold text-ink shadow-notebook-xs">
               <Image
-                src="/saudi-cr-badge.webp"
-                alt="السجل التجاري"
+                src="/tahseen-logo-small.webp"
+                alt="تحسين التعليمية"
                 width={20}
                 height={20}
-                className="w-5 h-5 object-contain shrink-0"
+                className="w-5 h-5 rounded object-cover shrink-0"
               />
               <span>سجل تجاري: <span dir="ltr">7051762271</span></span>
             </div>
