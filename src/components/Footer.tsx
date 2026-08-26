@@ -18,13 +18,15 @@ export default function Footer() {
           {/* Brand & Mission */}
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <Image
-                src="/bawsalati-logo.webp"
-                alt="بوصلتي"
-                width={40}
-                height={40}
-                className="w-10 h-10 object-contain shrink-0"
-              />
+              <div className="w-10 h-10 rounded-[11px] border-2 border-ink overflow-hidden shadow-notebook-xs bg-white shrink-0 flex items-center justify-center">
+                <Image
+                  src="/bawsalati-logo.webp"
+                  alt="بوصلتي"
+                  width={40}
+                  height={40}
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <div>
                 <span className="text-2xl font-display font-black text-ink">
                   {isArabic ? 'بوصلتي' : 'Bausalty'}
