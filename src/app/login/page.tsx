@@ -80,15 +80,14 @@ export default function LoginPage() {
         {/* Header Logo */}
         <div className="text-center space-y-3">
           <Link href="/" className="inline-flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl border-2 border-ink overflow-hidden shadow-notebook-xs bg-white shrink-0">
-              <Image
-                src="/logo.png"
-                alt="بوصلتي"
-                width={48}
-                height={48}
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <Image
+              src="/bawsalati-logo.webp"
+              alt="بوصلتي"
+              width={48}
+              height={48}
+              className="w-12 h-12 object-contain shrink-0"
+              priority
+            />
             <div className="text-right">
               <span className="text-3xl font-display font-black text-ink block">
                 {isArabic ? 'بوصلتي' : 'Bausalty'}

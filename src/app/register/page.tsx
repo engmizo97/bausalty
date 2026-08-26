@@ -120,20 +120,19 @@ export default function RegisterPage() {
     <div className="flex-1 flex flex-col items-center justify-center bg-paper py-10 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-lg space-y-8">
         
-        {/* Header Logo & Title */}
+        {/* Header Logo */}
         <div className="text-center space-y-3">
           <Link href="/" className="inline-flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl border-2 border-[#3a2f21] overflow-hidden shadow-[3px_3px_0_#3a2f21] bg-white shrink-0">
-              <Image
-                src="/logo.png"
-                alt="بوصلتي"
-                width={48}
-                height={48}
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <Image
+              src="/bawsalati-logo.webp"
+              alt="بوصلتي"
+              width={48}
+              height={48}
+              className="w-12 h-12 object-contain shrink-0"
+              priority
+            />
             <div className="text-right">
-              <span className="text-3xl font-display font-black text-[#3a2f21] block">
+              <span className="text-3xl font-display font-black text-ink block">
                 {isArabic ? 'بوصلتي' : 'Bausalty'}
               </span>
               <span className="text-xs font-bold text-[#0d9488] block">

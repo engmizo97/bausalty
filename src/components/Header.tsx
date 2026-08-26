@@ -42,16 +42,15 @@ export default function Header() {
           {/* RIGHT SIDE (in RTL): Logo & Desktop Navigation Links */}
           <div className="flex items-center gap-6 lg:gap-8">
             <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-[11px] border-2 border-[#3a2f21] overflow-hidden shadow-[2.5px_2.5px_0_#3a2f21] -rotate-4 group-hover:rotate-0 transition-transform bg-white shrink-0">
-                <Image
-                  src="/logo.png"
-                  alt="بوصلتي"
-                  width={40}
-                  height={40}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <span className="text-xl sm:text-2xl font-display font-bold text-[#3a2f21]">
+              <Image
+                src="/bawsalati-logo.webp"
+                alt="بوصلتي"
+                width={40}
+                height={40}
+                className="w-10 h-10 object-contain shrink-0"
+                priority
+              />
+              <span className="text-xl sm:text-2xl font-display font-bold text-[#1f1b13]">
                 {isArabic ? 'بوصلتي' : 'Bausalty'}
               </span>
             </Link>
