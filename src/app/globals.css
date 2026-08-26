@@ -1,26 +1,18 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Zain:wght@700;800&family=Baloo+Bhaijaan+2:wght@600;700&display=swap');
 @config "../../tailwind.config.ts";
 
 /* Notebook Design System Import */
 @import "../styles/notebook/styles.css";
-
-/* Baloo Bhaijaan 2 Web Font Definitions */
-@font-face {
-  font-family: 'Baloo Bhaijaan 2';
-  src: url('/fonts/BalooBhaijaan2.ttf') format('truetype');
-  font-weight: 400 800;
-  font-style: normal;
-  font-display: swap;
-}
 
 @theme {
   --color-paper: #ffffff;
   --color-paper-card: #ffffff;
   --color-paper-inset: #faf6ea;
   
-  --color-ink: #3a2f21;
-  --color-ink-soft: #5c4f3a;
-  --color-muted: #8a7a5f;
+  --color-ink: #1f1b13;
+  --color-ink-soft: #4b4131;
+  --color-muted: #7d715d;
 
   --color-teal: #0d9488;
   --color-teal-deep: #0f766e;
@@ -28,11 +20,12 @@
   --color-yellow: #ffd66e;
   --color-purple: #7c3aed;
 
-  --font-serif: 'Baloo Bhaijaan 2', system-ui, sans-serif;
-  --font-display: 'Baloo Bhaijaan 2', system-ui, sans-serif;
-  --font-ui: 'Baloo Bhaijaan 2', system-ui, sans-serif;
-  --font-prose: 'Baloo Bhaijaan 2', system-ui, sans-serif;
-  --font-sans: 'Baloo Bhaijaan 2', system-ui, sans-serif;
+  --font-serif: 'IBM Plex Sans Arabic', 'Baloo Bhaijaan 2', system-ui, sans-serif;
+  --font-display: 'Zain', 'IBM Plex Sans Arabic', 'Baloo Bhaijaan 2', system-ui, sans-serif;
+  --font-ui: 'IBM Plex Sans Arabic', 'Baloo Bhaijaan 2', system-ui, sans-serif;
+  --font-prose: 'IBM Plex Sans Arabic', 'Baloo Bhaijaan 2', system-ui, sans-serif;
+  --font-sans: 'IBM Plex Sans Arabic', 'Baloo Bhaijaan 2', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
 }
 
 :root {
@@ -41,9 +34,15 @@
   --paper-inset: #faf6ea;
   --white: #ffffff;
 
-  --ink: #3a2f21;
-  --ink-soft: #5c4f3a;
-  --muted: #8a7a5f;
+  --font-display: 'Zain', 'IBM Plex Sans Arabic', 'Baloo Bhaijaan 2', system-ui, sans-serif;
+  --font-ui: 'IBM Plex Sans Arabic', 'Baloo Bhaijaan 2', system-ui, sans-serif;
+  --font-prose: 'IBM Plex Sans Arabic', 'Baloo Bhaijaan 2', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans Arabic', 'Baloo Bhaijaan 2', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  --ink: #1f1b13;
+  --ink-soft: #4b4131;
+  --muted: #7d715d;
   
   --teal: #0d9488;
   --teal-deep: #0f766e;

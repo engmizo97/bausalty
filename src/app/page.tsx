@@ -151,20 +151,20 @@ export default function HomePage() {
               {/* Stats Row */}
               <div className="pt-4 flex items-center justify-between gap-4 sm:gap-8 w-full max-w-lg border-t border-dashed border-[#8b5cf6]/40 mt-2">
                 <div className="text-center sm:text-start">
-                  <b className="font-display font-black text-2xl sm:text-3xl text-[#3a2f21] block">{isArabic ? '٤٢' : '42'}</b>
-                  <span className="text-xs text-[#8a7a5f] font-bold">{isArabic ? 'سؤالاً تقييمياً' : 'Questions'}</span>
+                  <b className="font-display font-black text-2xl sm:text-3xl text-[#1f1b13] block"><span dir="ltr">42</span></b>
+                  <span className="text-xs text-[#7d715d] font-bold">{isArabic ? 'سؤالاً تقييمياً' : 'Questions'}</span>
                 </div>
                 <div className="text-center sm:text-start">
-                  <b className="font-display font-black text-2xl sm:text-3xl text-[#3a2f21] block">{isArabic ? '٦' : '6'}</b>
-                  <span className="text-xs text-[#8a7a5f] font-bold">{isArabic ? 'أبعاد للميول' : 'Dimensions'}</span>
+                  <b className="font-display font-black text-2xl sm:text-3xl text-[#1f1b13] block"><span dir="ltr">6</span></b>
+                  <span className="text-xs text-[#7d715d] font-bold">{isArabic ? 'أبعاد للميول' : 'Dimensions'}</span>
                 </div>
                 <div className="text-center sm:text-start">
-                  <b className="font-display font-black text-2xl sm:text-3xl text-[#3a2f21] block">{isArabic ? '+٥٠' : '+50'}</b>
-                  <span className="text-xs text-[#8a7a5f] font-bold">{isArabic ? 'تخصصاً سعودياً' : 'Saudi Majors'}</span>
+                  <b className="font-display font-black text-2xl sm:text-3xl text-[#1f1b13] block"><span dir="ltr">50+</span></b>
+                  <span className="text-xs text-[#7d715d] font-bold">{isArabic ? 'تخصصاً سعودياً' : 'Saudi Majors'}</span>
                 </div>
                 <div className="text-center sm:text-start">
-                  <b className="font-display font-black text-2xl sm:text-3xl text-[#0d9488] block">{isArabic ? '١٠٠٪' : '100%'}</b>
-                  <span className="text-xs text-[#8a7a5f] font-bold">{isArabic ? 'تقرير فوري' : 'Instant Report'}</span>
+                  <b className="font-display font-black text-2xl sm:text-3xl text-[#0d9488] block"><span dir="ltr">100%</span></b>
+                  <span className="text-xs text-[#7d715d] font-bold">{isArabic ? 'تقرير فوري' : 'Instant Report'}</span>
                 </div>
               </div>
 
@@ -174,20 +174,20 @@ export default function HomePage() {
             <div className="lg:col-span-5 relative mt-6 lg:mt-0">
               
               {/* Question Preview Card with lined paper inside */}
-              <div className="notebook-paper-lined border-2 border-[#3a2f21] rounded-[18px] shadow-[5px_5px_0_#3a2f21] p-6 relative rotate-0 sm:rotate-1 space-y-3.5 notebook-spiral-edge">
+              <div className="notebook-paper-lined border-2 border-[#1f1b13] rounded-[18px] shadow-[5px_5px_0_#1f1b13] p-6 relative rotate-0 sm:rotate-1 space-y-3.5 notebook-spiral-edge">
                 
                 {/* Washi Tape Strip */}
-                <div className={`absolute -top-3.5 ${isArabic ? 'right-12' : 'left-12'} w-28 h-6 bg-[#ffd66e]/95 -rotate-2 rounded-xs border border-[#3a2f21]/25 flex items-center justify-center text-[10px] font-black text-[#3a2f21] uppercase tracking-wider`}>
+                <div className={`absolute -top-3.5 ${isArabic ? 'right-12' : 'left-12'} w-28 h-6 bg-[#ffd66e]/95 -rotate-2 rounded-xs border border-[#1f1b13]/25 flex items-center justify-center text-[10px] font-black text-[#1f1b13] uppercase tracking-wider`}>
                   {isArabic ? 'نموذج من الدفتر' : 'Notebook Sample'}
                 </div>
 
                 {/* Card Header & Timer */}
                 <div className="flex items-center justify-between border-b border-dashed border-[#8b5cf6]/35 pb-2.5 pt-1">
-                  <span className="text-xs font-bold text-[#8a7a5f]">
-                    {isArabic ? 'السؤال رقم ١ من ٤٢ · مقياس الميول' : 'Question 01 of 42 · Interest Scale'}
+                  <span className="text-xs font-bold text-[#7d715d]">
+                    {isArabic ? 'السؤال رقم 1 من 42 · مقياس الميول' : 'Question 01 of 42 · Interest Scale'}
                   </span>
-                  <span className="text-xs sm:text-sm font-black text-[#0d9488] flex items-center gap-1">
-                    <span>⏱️ {isArabic ? '٠٤:٣٢' : '04:32'}</span>
+                  <span className="text-xs sm:text-sm font-black text-[#0d9488] flex items-center gap-1 font-mono">
+                    <span>⏱️ <span dir="ltr">04:32</span></span>
                   </span>
                 </div>
 
