@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
 import { Sparkles, ArrowRight, ShieldCheck, Mail, User, UserPlus } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -60,16 +59,6 @@ export default function LoginPage() {
     }, 250);
   };
 
-  const handleGoogleSignIn = async () => {
-    setIsLoading(true);
-    try {
-      await signIn('google', { callbackUrl: getCallbackUrl() });
-    } catch (err) {
-      console.error('Google Sign In Error:', err);
-      setIsLoading(false);
-    }
-  };
-
   return (
     <div className="min-h-[calc(100vh-140px)] flex items-center justify-center bg-[#faf6ea] py-10 px-4 sm:px-6">
       <div className="w-full max-w-[420px] space-y-6">
@@ -110,12 +99,10 @@ export default function LoginPage() {
         {/* Notebook Login Card */}
         <div className="bg-white rounded-3xl p-6 sm:p-7 border-2 border-[#1F1B13] shadow-[5px_5px_0_#1F1B13] space-y-5">
           
-          {/* GOOGLE SIGN IN BUTTON */}
-          <button
-            onClick={handleGoogleSignIn}
-            disabled={isLoading}
-            type="button"
-            className="w-full h-11 bg-white hover:bg-[#faf6ea] text-[#1F1B13] border-2 border-[#1F1B13] rounded-xl font-bold text-xs sm:text-sm shadow-[2px_2px_0_#1F1B13] flex items-center justify-center gap-2.5 transition-all active:translate-x-0.5 active:translate-y-0.5 disabled:opacity-50"
+          {/* DIRECT GOOGLE OAUTH LINK */}
+          <a
+            href="/api/auth/google"
+            className="w-full h-11 bg-white hover:bg-[#faf6ea] text-[#1F1B13] border-2 border-[#1F1B13] rounded-xl font-bold text-xs sm:text-sm shadow-[2px_2px_0_#1F1B13] flex items-center justify-center gap-2.5 transition-all active:translate-x-0.5 active:translate-y-0.5 cursor-pointer no-underline"
           >
             <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
               <path
@@ -136,7 +123,7 @@ export default function LoginPage() {
               />
             </svg>
             <span>{isArabic ? 'تسجيل الدخول بواسطة Google' : 'Sign in with Google'}</span>
-          </button>
+          </a>
 
           {/* Divider */}
           <div className="relative flex items-center justify-center my-3">

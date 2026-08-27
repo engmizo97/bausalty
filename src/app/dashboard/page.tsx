@@ -61,17 +61,31 @@ export default function StudentDashboardPage() {
     if (authStatus === 'loading') return;
 
     try {
-      const savedSession = typeof window !== 'undefined' ? localStorage.getItem('bausalty_user_session') : null;
-      let currentStudent: StudentProfile | null = savedSession ? JSON.parse(savedSession) : null;
+      let currentStudent: StudentProfile | null = null;
+      if (typeof window !== 'undefined') {
+        const savedSession = localStorage.getItem('bausalty_user_session');
+        if (savedSession) {
+          try { currentStudent = JSON.parse(savedSession); } catch {}
+        }
+        if (!currentStudent) {
+          const match = document.cookie.match(/bausalty_user=([^;]+)/);
+          if (match) {
+            try { 
+              currentStudent = JSON.parse(decodeURIComponent(match[1])); 
+              localStorage.setItem('bausalty_user_session', JSON.stringify(currentStudent));
+            } catch {}
+          }
+        }
+      }
 
-      if (session?.user) {
+      if (session?.user && !currentStudent) {
         currentStudent = {
           id: session.user.id || session.user.email || 'user',
-          name: session.user.name || currentStudent?.name || 'طالب بوصلتي',
-          email: session.user.email || currentStudent?.email || '',
-          plan: currentStudent?.plan || 'FREE',
-          image: session.user.image || currentStudent?.image || '',
-          signedInAt: currentStudent?.signedInAt || new Date().toISOString(),
+          name: session.user.name || 'طالب بوصلتي',
+          email: session.user.email || '',
+          plan: 'FREE',
+          image: session.user.image || '',
+          signedInAt: new Date().toISOString(),
         };
 
         localStorage.setItem('bausalty_user_session', JSON.stringify(currentStudent));
@@ -106,14 +120,13 @@ export default function StudentDashboardPage() {
     }
   }, [session, authStatus, router]);
 
-  const handleSignOut = async () => {
+  const handleSignOut = () => {
     try {
       localStorage.removeItem('bausalty_user_session');
+      document.cookie = 'bausalty_user=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
       window.dispatchEvent(new Event('storage'));
-    } catch {
-      // Ignore
-    }
-    await signOut({ callbackUrl: '/login' });
+    } catch {}
+    router.push('/login');
   };
 
   const handleUpgradePlan = () => {
