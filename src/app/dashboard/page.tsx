@@ -61,19 +61,10 @@ export default function StudentDashboardPage() {
     if (authStatus === 'loading') return;
 
     try {
-      const savedSession = localStorage.getItem('bausalty_user_session');
+      const savedSession = typeof window !== 'undefined' ? localStorage.getItem('bausalty_user_session') : null;
       let currentStudent: StudentProfile | null = savedSession ? JSON.parse(savedSession) : null;
 
       if (session?.user) {
-        const isPreviousMock = currentStudent?.email === 'sarah.otaibi@ksu.edu.sa' || currentStudent?.id?.startsWith('google-student-');
-
-        if (isPreviousMock && session.user.email !== 'sarah.otaibi@ksu.edu.sa') {
-          localStorage.removeItem('bausalty_assessment_result');
-          localStorage.removeItem('bausalty_mbti_result');
-          setRiasecResult(null);
-          setMbtiResult(null);
-        }
-
         currentStudent = {
           id: session.user.id || session.user.email || 'user',
           name: session.user.name || currentStudent?.name || 'طالب بوصلتي',
@@ -86,21 +77,23 @@ export default function StudentDashboardPage() {
         localStorage.setItem('bausalty_user_session', JSON.stringify(currentStudent));
       }
 
-      if (!currentStudent && !session?.user) {
+      if (!currentStudent && !session?.user && authStatus === 'unauthenticated') {
         router.push('/login?callbackUrl=/dashboard');
         return;
       }
 
-      setStudent(currentStudent);
+      if (currentStudent) {
+        setStudent(currentStudent);
+      }
 
-      const savedRiasec = localStorage.getItem('bausalty_assessment_result');
+      const savedRiasec = typeof window !== 'undefined' ? localStorage.getItem('bausalty_assessment_result') : null;
       if (savedRiasec) {
         setRiasecResult(JSON.parse(savedRiasec));
       } else {
         setRiasecResult(null);
       }
 
-      const savedMbti = localStorage.getItem('bausalty_mbti_result');
+      const savedMbti = typeof window !== 'undefined' ? localStorage.getItem('bausalty_mbti_result') : null;
       if (savedMbti) {
         setMbtiResult(JSON.parse(savedMbti));
       } else {

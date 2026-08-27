@@ -11,11 +11,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   session: {
     strategy: "jwt",
   },
-  pages: {
-    signIn: "/login",
-  },
   trustHost: true,
   callbacks: {
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      if (new URL(url).origin === baseUrl) return url;
+      return `${baseUrl}/dashboard`;
+    },
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
