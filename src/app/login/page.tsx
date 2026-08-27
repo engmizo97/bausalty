@@ -102,6 +102,7 @@ export default function LoginPage() {
           {/* DIRECT GOOGLE OAUTH LINK */}
           <a
             href="/api/auth/google"
+            target="_top"
             className="w-full h-11 bg-white hover:bg-[#faf6ea] text-[#1F1B13] border-2 border-[#1F1B13] rounded-xl font-bold text-xs sm:text-sm shadow-[2px_2px_0_#1F1B13] flex items-center justify-center gap-2.5 transition-all active:translate-x-0.5 active:translate-y-0.5 cursor-pointer no-underline"
           >
             <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
