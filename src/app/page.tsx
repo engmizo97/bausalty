@@ -74,21 +74,21 @@ export default function HomePage() {
 
   const steps = [
     {
-      step: isArabic ? '١' : '1',
+      step: '1',
       titleEn: 'Answer Assessment Questions',
       titleAr: 'الإجابة على أسئلة التقييم',
       descEn: 'Evaluate your interests across practical, analytical, creative, social, leadership, and organizational fields.',
       descAr: 'تقييم ميولك في المجالات العملية، والتحليلية، والإبداعية، والاجتماعية، والقيادية، والتنظيمية.',
     },
     {
-      step: isArabic ? '٢' : '2',
+      step: '2',
       titleEn: 'Analyze Your Personal Profile',
       titleAr: 'تحليل نمطك وميولك المهنية',
       descEn: 'Our system calculates your unique personality profile and compatibility dimensions.',
       descAr: 'يقوم المحرك بحساب أبعاد شخصيتك وتحديد الميول المهنية المتوافقة معك بدقة.',
     },
     {
-      step: isArabic ? '٣' : '3',
+      step: '3',
       titleEn: 'Discover Matching Saudi Majors',
       titleAr: 'استكشاف التخصصات الجامعية المناسبة',
       descEn: 'Get matched with top university majors aligned with Saudi Vision 2030 priorities.',
@@ -97,26 +97,25 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="flex-1 flex flex-col bg-paper overflow-x-hidden notebook-margin-line">
+    <div className="flex-1 flex flex-col bg-paper overflow-x-hidden">
       
-      {/* ================= HERO SECTION (NOTEBOOK AESTHETIC) ================= */}
-      <section className="relative min-h-[calc(100vh-64px)] flex flex-col justify-center py-10 sm:py-16 bg-paper border-b-2 border-dashed border-[#8b5cf6]/40 overflow-hidden">
+      {/* ================= HERO SECTION ================= */}
+      <section className="relative min-h-[calc(100vh-64px)] flex flex-col justify-center py-10 sm:py-14 bg-paper border-b border-[#1F1B13]/10 overflow-hidden">
         
-        {/* Notebook Spiral Accent Lines on Background */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
             {/* --- HERO COPY & CTAS --- */}
-            <div className="lg:col-span-7 flex flex-col items-start gap-5 text-start">
+            <div className="lg:col-span-7 flex flex-col items-start gap-4 text-start">
               
-              {/* Notebook Dashed Tag Pill */}
-              <div className="inline-flex items-center gap-2 bg-[#c9f2e8] border-[1.5px] border-dashed border-[#0d9488] rounded-full px-4 py-1.5 text-xs sm:text-sm font-bold text-[#0f766e] -rotate-1 shadow-2xs">
-                <Pencil className="w-3.5 h-3.5 text-[#0d9488] shrink-0" />
+              {/* Dashed Tag Pill */}
+              <div className="inline-flex items-center gap-2 bg-[#E8F7F5] border border-[#109E91]/40 rounded-full px-3.5 py-1 text-xs font-semibold text-[#0D7E74]">
+                <Pencil className="w-3.5 h-3.5 text-[#109E91] shrink-0" />
                 <span>{isArabic ? 'دليلك لاختيار التخصص الجامعي المناسب' : 'Your Guide to the Ideal College Major'}</span>
               </div>
 
               {/* Calligraphic Headline */}
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-display font-black text-[#3a2f21] leading-[1.3] tracking-tight">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-black text-[#1F1B13] leading-tight tracking-tight">
                 {isArabic ? (
                   <span className="hl-y inline-block">اكتشف تخصصك الأنسب</span>
                 ) : (
@@ -125,46 +124,46 @@ export default function HomePage() {
               </h1>
 
               {/* Description Body */}
-              <p className="font-prose text-base sm:text-lg text-[#5c4f3a] leading-[2.1] max-w-xl">
+              <p className="font-prose text-sm sm:text-base text-[#4B4131] leading-relaxed max-w-xl">
                 {isArabic
                   ? 'طريقك نحو التخصص الجامعي الأنسب يبدأ من هنا: حلل مهاراتك وميولك باختبارات علمية معتمدة، وتعرف على التخصصات المتوافقة مع قدراتك في الجامعات السعودية وسوق العمل.'
                   : 'Your journey to the ideal university major starts here: assess your personality with validated scientific frameworks, and align your strengths with Saudi market demand.'}
               </p>
 
               {/* Hero CTAs */}
-              <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto">
+              <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 w-full sm:w-auto">
                 <Link
                   href="/assessment"
-                  className="w-full sm:w-auto text-center font-display font-bold text-lg text-white bg-[#0d9488] hover:bg-[#0f766e] border-2 border-[#3a2f21] rounded-[14px] px-8 py-3.5 shadow-[3px_3px_0_#3a2f21] hover:translate-x-[-1px] hover:translate-y-[1px] hover:shadow-[1.5px_1.5px_0_#3a2f21] transition-all"
+                  className="w-full sm:w-auto text-center font-display font-bold text-base text-white bg-[#109E91] hover:bg-[#0D7E74] border-2 border-[#1F1B13] rounded-xl px-7 py-3 shadow-[2.5px_2.5px_0_#1F1B13] hover:translate-x-[-1px] hover:translate-y-[1px] hover:shadow-[1.5px_1.5px_0_#1F1B13] transition-all"
                 >
                   {isArabic ? 'ابدأ التقييم مجاناً ←' : 'Start Assessment Free →'}
                 </Link>
 
                 <Link
                   href="/login"
-                  className="text-center font-bold text-base text-[#3a2f21] border-b-2 border-dashed border-[#8b5cf6]/50 pb-0.5 hover:text-[#0d9488] transition-colors self-center"
+                  className="text-center font-medium text-sm text-[#4B4131] hover:text-[#109E91] transition-colors self-center px-3 py-2"
                 >
                   {isArabic ? 'تسجيل الدخول' : 'Sign In'}
                 </Link>
               </div>
 
               {/* Stats Row */}
-              <div className="pt-4 flex items-center justify-between gap-4 sm:gap-8 w-full max-w-lg border-t border-dashed border-[#8b5cf6]/40 mt-2">
+              <div className="pt-3 flex items-center justify-between gap-4 sm:gap-8 w-full max-w-lg border-t border-[#1F1B13]/10 mt-2">
                 <div className="text-center sm:text-start">
-                  <b className="font-display font-black text-2xl sm:text-3xl text-[#1f1b13] block"><span dir="ltr">42</span></b>
-                  <span className="text-xs text-[#7d715d] font-bold">{isArabic ? 'سؤالاً تقييمياً' : 'Questions'}</span>
+                  <b className="font-display font-black text-xl sm:text-2xl text-[#1F1B13] block"><span dir="ltr">42</span></b>
+                  <span className="text-xs text-[#7D715D] font-medium">{isArabic ? 'سؤالاً تقييمياً' : 'Questions'}</span>
                 </div>
                 <div className="text-center sm:text-start">
-                  <b className="font-display font-black text-2xl sm:text-3xl text-[#1f1b13] block"><span dir="ltr">6</span></b>
-                  <span className="text-xs text-[#7d715d] font-bold">{isArabic ? 'أبعاد للميول' : 'Dimensions'}</span>
+                  <b className="font-display font-black text-xl sm:text-2xl text-[#1F1B13] block"><span dir="ltr">6</span></b>
+                  <span className="text-xs text-[#7D715D] font-medium">{isArabic ? 'أبعاد للميول' : 'Dimensions'}</span>
                 </div>
                 <div className="text-center sm:text-start">
-                  <b className="font-display font-black text-2xl sm:text-3xl text-[#1f1b13] block"><span dir="ltr">50+</span></b>
-                  <span className="text-xs text-[#7d715d] font-bold">{isArabic ? 'تخصصاً سعودياً' : 'Saudi Majors'}</span>
+                  <b className="font-display font-black text-xl sm:text-2xl text-[#1F1B13] block"><span dir="ltr">50+</span></b>
+                  <span className="text-xs text-[#7D715D] font-medium">{isArabic ? 'تخصصاً سعودياً' : 'Saudi Majors'}</span>
                 </div>
                 <div className="text-center sm:text-start">
-                  <b className="font-display font-black text-2xl sm:text-3xl text-[#0d9488] block"><span dir="ltr">100%</span></b>
-                  <span className="text-xs text-[#7d715d] font-bold">{isArabic ? 'تقرير فوري' : 'Instant Report'}</span>
+                  <b className="font-display font-black text-xl sm:text-2xl text-[#109E91] block"><span dir="ltr">100%</span></b>
+                  <span className="text-xs text-[#7D715D] font-medium">{isArabic ? 'تقرير فوري' : 'Instant Report'}</span>
                 </div>
               </div>
 
@@ -238,56 +237,56 @@ export default function HomePage() {
       </section>
 
       {/* ================= VISION 2030 SECTORS ================= */}
-      <section className="py-12 md:py-16 bg-white border-b-2 border-dashed border-[#8b5cf6]/40">
+      <section className="py-10 md:py-14 bg-white border-b border-[#1F1B13]/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
-            <span className="text-xs font-bold text-[#c2410c] tracking-wider uppercase">
-              {isArabic ? 'الصفحة الثانية من الدفتر · تخصصات المستقبل' : 'Page 2 · Future Majors'}
+          <div className="text-center max-w-2xl mx-auto mb-8 space-y-1.5">
+            <span className="text-xs font-bold text-[#E5A93C] tracking-wider uppercase">
+              {isArabic ? 'تخصصات المستقبل والوظائف الواعدة' : 'Future Majors & Promising Careers'}
             </span>
-            <h2 className="text-2xl sm:text-4xl font-display font-bold text-[#3a2f21]">
+            <h2 className="text-2xl sm:text-3xl font-display font-bold text-[#1F1B13]">
               {isArabic ? (
-                <>قطاعات واعدة متوافقة مع <span className="hl-y">رؤية السعودية ٢٠٣٠</span></>
+                <>قطاعات واعدة متوافقة مع <span className="hl-y">رؤية السعودية 2030</span></>
               ) : (
                 <>High-Demand <span className="hl-y">Saudi Vision 2030</span> Sectors</>
               )}
             </h2>
-            <p className="text-[#5c4f3a] text-sm font-prose leading-relaxed">
+            <p className="text-[#4B4131] text-xs sm:text-sm font-prose leading-relaxed">
               {isArabic
                 ? 'يربط محرك بوصلتي نتائج تقييمك مباشرة مع القطاعات الاستراتيجية الوطنية ضمن برنامج تنمية القدرات البشرية.'
                 : 'Bausalty maps your profile directly to strategic national sectors under the Human Capability Development Program.'}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {vision2030Highlights.map((item) => {
               const IconComp = item.icon;
               return (
                 <div
                   key={item.titleEn}
-                  className="notebook-paper-lined border-2 border-[#3a2f21] rounded-[18px] p-6 shadow-[3px_3px_0_#3a2f21] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[5px_5px_0_#3a2f21] transition-all flex flex-col justify-between"
+                  className="bg-white border border-[#1F1B13]/15 rounded-2xl p-5 shadow-[2px_2px_0_#1F1B13] hover:shadow-[3px_3px_0_#109E91] hover:border-[#109E91] transition-all flex flex-col justify-between"
                 >
-                  <div className="space-y-3">
-                    <div className={`w-12 h-12 rounded-xl ${item.bgAccent} border-2 border-[#3a2f21] text-[#3a2f21] flex items-center justify-center shadow-2xs`}>
-                      <IconComp className="w-6 h-6 text-[#0d9488]" />
+                  <div className="space-y-2.5">
+                    <div className={`w-10 h-10 rounded-xl ${item.bgAccent} border border-[#1F1B13]/20 text-[#1F1B13] flex items-center justify-center`}>
+                      <IconComp className="w-5 h-5 text-[#109E91]" />
                     </div>
 
-                    <h3 className="text-lg font-display font-bold text-[#3a2f21]">
+                    <h3 className="text-base font-display font-bold text-[#1F1B13]">
                       {isArabic ? item.titleAr : item.titleEn}
                     </h3>
 
-                    <p className="text-[#5c4f3a] text-xs sm:text-sm font-prose leading-relaxed">
+                    <p className="text-[#4B4131] text-xs font-prose leading-relaxed">
                       {isArabic ? item.descriptionAr : item.descriptionEn}
                     </p>
                   </div>
 
-                  <div className="pt-4 border-t border-[#3a2f21]/15 flex items-center justify-between mt-4">
-                    <span className="text-[11px] font-bold text-[#8a7a5f] bg-white border border-[#3a2f21]/30 px-2.5 py-0.5 rounded-full">
-                      {isArabic ? 'رؤية ٢٠٣٠' : 'Vision 2030'}
+                  <div className="pt-3 border-t border-[#1F1B13]/10 flex items-center justify-between mt-3">
+                    <span className="text-[11px] font-semibold text-[#7D715D] bg-[#FAF6EA] border border-[#1F1B13]/15 px-2 py-0.5 rounded-full">
+                      {isArabic ? 'رؤية 2030' : 'Vision 2030'}
                     </span>
                     <Link
                       href="/majors"
-                      className="text-xs font-bold text-[#0d9488] hover:text-[#0f766e] flex items-center gap-1"
+                      className="text-xs font-bold text-[#109E91] hover:text-[#0D7E74] flex items-center gap-1"
                     >
                       <span>{isArabic ? 'استكشف التخصصات' : 'Explore Majors'}</span>
                       <ArrowRight className={`w-3.5 h-3.5 ${isArabic ? 'rotate-180' : ''}`} />
@@ -302,37 +301,37 @@ export default function HomePage() {
       </section>
 
       {/* ================= 3 SIMPLE STEPS ================= */}
-      <section className="py-12 md:py-16 bg-paper border-b-2 border-dashed border-[#8b5cf6]/40">
+      <section className="py-10 md:py-14 bg-paper border-b border-[#1F1B13]/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
-            <span className="text-xs font-bold text-[#c2410c] tracking-wider uppercase">
-              {isArabic ? 'الصفحة الثالثة من الدفتر · خطوات التقييم' : 'Page 3 · Assessment Steps'}
+          <div className="text-center max-w-2xl mx-auto mb-8 space-y-1.5">
+            <span className="text-xs font-bold text-[#E5A93C] tracking-wider uppercase">
+              {isArabic ? 'خطوات التقييم المبسطة' : 'Assessment Steps'}
             </span>
-            <h2 className="text-2xl sm:text-4xl font-display font-bold text-[#3a2f21]">
+            <h2 className="text-2xl sm:text-3xl font-display font-bold text-[#1F1B13]">
               {isArabic ? (
-                <>رحلتك لاكتشاف تخصصك في <span className="hl-y">٣ خطوات سهلة</span></>
+                <>رحلتك لاكتشاف تخصصك في <span className="hl-y">3 خطوات سهلة</span></>
               ) : (
                 <>Discover Your Major in <span className="hl-y">3 Simple Steps</span></>
               )}
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {steps.map((item) => (
               <div
                 key={item.titleEn}
-                className="notebook-paper-lined border-2 border-[#3a2f21] rounded-[18px] p-6 shadow-[3px_3px_0_#3a2f21] space-y-3"
+                className="bg-white border border-[#1F1B13]/15 rounded-2xl p-5 shadow-[2px_2px_0_#1F1B13] space-y-2.5"
               >
-                <div className="w-10 h-10 rounded-xl bg-[#ffd66e] text-[#3a2f21] border-2 border-[#3a2f21] flex items-center justify-center font-display font-black text-lg shadow-2xs">
+                <div className="w-9 h-9 rounded-xl bg-[#FEF6E8] text-[#1F1B13] border border-[#E5A93C]/40 flex items-center justify-center font-display font-black text-base shadow-2xs">
                   {item.step}
                 </div>
 
-                <h3 className="text-xl font-display font-bold text-[#3a2f21]">
+                <h3 className="text-lg font-display font-bold text-[#1F1B13]">
                   {isArabic ? item.titleAr : item.titleEn}
                 </h3>
 
-                <p className="text-[#5c4f3a] text-xs sm:text-sm font-prose leading-relaxed">
+                <p className="text-[#4B4131] text-xs font-prose leading-relaxed">
                   {isArabic ? item.descAr : item.descEn}
                 </p>
               </div>
@@ -343,12 +342,12 @@ export default function HomePage() {
       </section>
 
       {/* ================= CTA BANNER ================= */}
-      <section className="py-12 bg-[#ffd66e] border-b-2 border-dashed border-[#8b5cf6]/40">
-        <div className="max-w-3xl mx-auto px-4 text-center space-y-4">
-          <h2 className="text-2xl sm:text-4xl font-display font-black text-[#3a2f21]">
+      <section className="py-10 bg-[#FEF6E8] border-b border-[#1F1B13]/10">
+        <div className="max-w-3xl mx-auto px-4 text-center space-y-3">
+          <h2 className="text-2xl sm:text-3xl font-display font-black text-[#1F1B13]">
             {isArabic ? 'جاهز لاكتشاف تخصصك الجامعي الأنسب؟' : 'Ready to Discover Your Ideal College Major?'}
           </h2>
-          <p className="text-[#3a2f21] font-prose text-sm max-w-lg mx-auto font-medium leading-relaxed">
+          <p className="text-[#4B4131] font-prose text-xs sm:text-sm max-w-lg mx-auto font-medium leading-relaxed">
             {isArabic
               ? 'انضم الآن لآلاف الطلاب وابدأ اختبار تحديد الميول مجاناً وتعرّف على التخصصات المناسبة لك فوراً.'
               : 'Join thousands of Saudi students and get your personalized major report now.'}
@@ -356,9 +355,9 @@ export default function HomePage() {
           <div className="pt-2">
             <Link
               href="/assessment"
-              className="h-12 inline-flex items-center justify-center gap-2 bg-[#0d9488] hover:bg-[#0f766e] text-white px-8 rounded-xl font-display font-bold text-base border-2 border-[#3a2f21] shadow-[3px_3px_0_#3a2f21] hover:translate-x-[-1px] hover:translate-y-[1px] hover:shadow-[1.5px_1.5px_0_#3a2f21] transition-all"
+              className="h-11 inline-flex items-center justify-center gap-2 bg-[#109E91] hover:bg-[#0D7E74] text-white px-7 rounded-xl font-display font-bold text-sm border-2 border-[#1F1B13] shadow-[2.5px_2.5px_0_#1F1B13] hover:translate-x-[-1px] hover:translate-y-[1px] hover:shadow-[1.5px_1.5px_0_#1F1B13] transition-all"
             >
-              <Compass className="w-5 h-5 text-[#ffd66e]" />
+              <Compass className="w-4 h-4 text-[#FEF6E8]" />
               <span>{isArabic ? 'ابدأ الاختبار الآن' : 'Start Free Assessment'}</span>
             </Link>
           </div>

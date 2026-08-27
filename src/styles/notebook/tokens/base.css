@@ -1,12 +1,51 @@
-/* قدرات AI — base element styles + notebook background utilities */
-body { background: var(--paper); color: var(--ink); font-family: var(--font-ui); direction: rtl; }
-::selection { background: var(--yellow); color: var(--ink); }
-a { text-decoration: none; }
-a:where(:not([class*="text-"])) { color: var(--teal); }
-a:where(:not([class*="text-"])):hover { color: var(--teal-deep); }
-h1, h2, h3 { font-family: var(--font-display); font-weight: 700; color: var(--ink); }
-.notebook-bg { background-image: repeating-linear-gradient(to bottom, transparent 0px, transparent 35px, var(--rule-line) 35px, var(--rule-line) 37px); }
-.margin-line { position: relative; }
-.margin-line::before { content: ""; position: absolute; top: 0; bottom: 0; right: 60px; width: 2px; background: var(--red-margin); pointer-events: none; }
-.hl-y { background: linear-gradient(transparent 55%, var(--yellow) 55%, var(--yellow) 92%, transparent 92%); padding: 0 8px; }
-.hl-t { background: linear-gradient(transparent 55%, var(--teal-soft) 55%, var(--teal-soft) 92%, transparent 92%); padding: 0 8px; }
+/* تحسين · بوصلتي — base element styles */
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  direction: rtl;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: rgba(229, 169, 60, 0.25);
+  color: var(--ink);
+}
+
+a {
+  text-decoration: none;
+}
+
+a:where(:not([class*="text-"])) {
+  color: var(--teal);
+}
+
+a:where(:not([class*="text-"])):hover {
+  color: var(--teal-deep);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+:lang(ar), [dir="rtl"], [dir="rtl"] * {
+  letter-spacing: 0 !important;
+}
+
+.hl-y {
+  display: inline;
+  background-image: linear-gradient(transparent 60%, rgba(229, 169, 60, 0.35) 60%, rgba(229, 169, 60, 0.35) 92%, transparent 92%);
+  padding: 0 0.15em;
+  line-height: inherit;
+}
+
+.hl-t,
+.hl-teal {
+  display: inline;
+  background-image: linear-gradient(transparent 60%, rgba(16, 158, 145, 0.25) 60%, rgba(16, 158, 145, 0.25) 92%, transparent 92%);
+  padding: 0 0.15em;
+  line-height: inherit;
+}

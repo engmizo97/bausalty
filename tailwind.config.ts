@@ -10,24 +10,24 @@ const config: Config = {
     extend: {
       colors: {
         paper: {
-          DEFAULT: "#ffffff",
+          DEFAULT: "#FBF6EA",
           card: "#ffffff",
           inset: "#faf6ea",
         },
         ink: {
-          DEFAULT: "#3a2f21",
-          soft: "#5c4f3a",
-          muted: "#8a7a5f",
+          DEFAULT: "#1F1B13",
+          soft: "#4B4131",
+          muted: "#7D715D",
         },
         teal: {
-          DEFAULT: "#0d9488",
-          deep: "#0f766e",
-          soft: "#c9f2e8",
-          tint: "#e8f7f3",
+          DEFAULT: "#109E91",
+          deep: "#0D7E74",
+          soft: "#E8F7F5",
+          tint: "#f0faf8",
         },
         yellow: {
-          DEFAULT: "#ffd66e",
-          soft: "#fff3d1",
+          DEFAULT: "#E5A93C",
+          soft: "#FEF6E8",
         },
         purple: {
           DEFAULT: "#7c3aed",
@@ -57,11 +57,12 @@ const config: Config = {
         },
       },
       fontFamily: {
-        display: ["Baloo Bhaijaan 2", "system-ui", "sans-serif"],
-        ui: ["Baloo Bhaijaan 2", "system-ui", "sans-serif"],
-        prose: ["Baloo Bhaijaan 2", "system-ui", "sans-serif"],
-        sans: ["Baloo Bhaijaan 2", "system-ui", "sans-serif"],
-        serif: ["Baloo Bhaijaan 2", "system-ui", "sans-serif"],
+        display: ["Zain", "IBM Plex Sans Arabic", "system-ui", "sans-serif"],
+        ui: ["IBM Plex Sans Arabic", "system-ui", "sans-serif"],
+        prose: ["IBM Plex Sans Arabic", "system-ui", "sans-serif"],
+        sans: ["IBM Plex Sans Arabic", "system-ui", "sans-serif"],
+        serif: ["IBM Plex Sans Arabic", "system-ui", "sans-serif"],
+        mono: ["IBM Plex Mono", "monospace"],
       },
       boxShadow: {
         "notebook-xs": "2.5px 2.5px 0px #3a2f21",

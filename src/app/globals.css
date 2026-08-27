@@ -1,157 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Zain:wght@700;800;900&display=swap');
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Zain:wght@700;800&family=Baloo+Bhaijaan+2:wght@600;700&display=swap');
 @config "../../tailwind.config.ts";
 
 /* Notebook Design System Import */
 @import "../styles/notebook/styles.css";
 
 @theme {
-  --color-paper: #ffffff;
-  --color-paper-card: #ffffff;
-  --color-paper-inset: #faf6ea;
+  --color-paper: #FBF6EA;
+  --color-paper-card: #FFFFFF;
+  --color-paper-inset: #FAF6EA;
   
-  --color-ink: #1f1b13;
-  --color-ink-soft: #4b4131;
-  --color-muted: #7d715d;
+  --color-ink: #1F1B13;
+  --color-ink-soft: #4B4131;
+  --color-muted: #7D715D;
 
-  --color-teal: #0d9488;
-  --color-teal-deep: #0f766e;
-  --color-teal-soft: #c9f2e8;
-  --color-yellow: #ffd66e;
-  --color-purple: #7c3aed;
+  --color-teal: #109E91;
+  --color-teal-deep: #0D7E74;
+  --color-teal-soft: #E8F7F5;
+  --color-yellow: #E5A93C;
+  --color-purple: #7C3AED;
 
-  --font-serif: 'IBM Plex Sans Arabic', 'Baloo Bhaijaan 2', system-ui, sans-serif;
-  --font-display: 'Zain', 'IBM Plex Sans Arabic', 'Baloo Bhaijaan 2', system-ui, sans-serif;
-  --font-ui: 'IBM Plex Sans Arabic', 'Baloo Bhaijaan 2', system-ui, sans-serif;
-  --font-prose: 'IBM Plex Sans Arabic', 'Baloo Bhaijaan 2', system-ui, sans-serif;
-  --font-sans: 'IBM Plex Sans Arabic', 'Baloo Bhaijaan 2', system-ui, sans-serif;
+  --font-serif: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --font-display: 'Zain', 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --font-ui: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --font-prose: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --font-sans: 'IBM Plex Sans Arabic', system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
 }
 
 :root {
-  --paper: #ffffff;
-  --paper-card: #ffffff;
-  --paper-inset: #faf6ea;
-  --white: #ffffff;
+  --paper: #FBF6EA;
+  --paper-card: #FFFFFF;
+  --paper-inset: #FAF6EA;
+  --white: #FFFFFF;
 
-  --font-display: 'Zain', 'IBM Plex Sans Arabic', 'Baloo Bhaijaan 2', system-ui, sans-serif;
-  --font-ui: 'IBM Plex Sans Arabic', 'Baloo Bhaijaan 2', system-ui, sans-serif;
-  --font-prose: 'IBM Plex Sans Arabic', 'Baloo Bhaijaan 2', system-ui, sans-serif;
-  --font-body: 'IBM Plex Sans Arabic', 'Baloo Bhaijaan 2', system-ui, sans-serif;
+  --font-display: 'Zain', 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --font-ui: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --font-prose: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans Arabic', system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
 
-  --ink: #1f1b13;
-  --ink-soft: #4b4131;
-  --muted: #7d715d;
+  --ink: #1F1B13;
+  --ink-soft: #4B4131;
+  --muted: #7D715D;
   
-  --teal: #0d9488;
-  --teal-deep: #0f766e;
-  --teal-soft: #c9f2e8;
-  --yellow: #ffd66e;
-  --purple: #7c3aed;
-  --rule-line: rgba(139, 92, 246, 0.22); /* Lavender horizontal notebook lines (خزامى) */
-  --red-margin: rgba(220, 38, 38, 0.18);
+  --teal: #109E91;
+  --teal-deep: #0D7E74;
+  --teal-soft: #E8F7F5;
+  --yellow: #E5A93C;
+  --purple: #7C3AED;
+  --rule-line: rgba(139, 92, 246, 0.10);
+  --red-margin: rgba(220, 38, 38, 0.15);
 
-  --background: #ffffff;
-  --foreground: #3a2f21;
+  --background: #FBF6EA;
+  --foreground: #1F1B13;
 }
 
+/* Base Font & Body Settings */
+body,
+#bausalty-root,
+.bg-paper {
+  background-color: var(--paper, #FBF6EA);
+  color: var(--ink, #1F1B13);
+  font-family: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure Headings and Display Elements use Zain */
+h1, h2, h3, h4, h5, h6,
+.font-display {
+  font-family: 'Zain', 'IBM Plex Sans Arabic', system-ui, sans-serif !important;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.font-sans,
+.font-prose,
+.font-ui,
+p, span, button, input, textarea, select {
+  font-family: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+}
+
+.font-mono {
+  font-family: 'IBM Plex Mono', monospace !important;
+}
+
+:lang(ar), [dir="rtl"], [dir="rtl"] * {
+  letter-spacing: 0 !important;
+}
+
+/* Highlighting Utility */
 .hl-y {
-  background: linear-gradient(transparent 55%, #ffd66e 55%, #ffd66e 92%, transparent 92%);
-  padding: 0 8px;
+  display: inline;
+  background-image: linear-gradient(transparent 60%, rgba(229, 169, 60, 0.35) 60%, rgba(229, 169, 60, 0.35) 92%, transparent 92%);
+  padding: 0 0.2em;
+  border-radius: 4px;
 }
 
 .hl-t,
 .hl-teal {
-  background: linear-gradient(transparent 55%, #c9f2e8 55%, #c9f2e8 92%, transparent 92%);
-  padding: 0 8px;
+  display: inline;
+  background-image: linear-gradient(transparent 60%, rgba(16, 158, 145, 0.25) 60%, rgba(16, 158, 145, 0.25) 92%, transparent 92%);
+  padding: 0 0.2em;
+  border-radius: 4px;
 }
 
 /* Base Anchor Reset */
 a[class*="text-white"],
 .text-white {
-  color: #ffffff !important;
+  color: #FFFFFF !important;
 }
 
 a[class*="text-ink"],
 .text-ink {
-  color: #3a2f21 !important;
+  color: #1F1B13 !important;
 }
 
-/* Notebook Canvas Background & Lavender Ruled Lines */
-body,
-#bausalty-root,
-.bg-paper,
-.notebook-bg {
-  background-color: var(--paper, #ffffff);
-  background-image: repeating-linear-gradient(
-    transparent 0px,
-    transparent 31px,
-    var(--rule-line, rgba(139, 92, 246, 0.22)) 32px
-  ) !important;
-  color: var(--ink, #3a2f21);
-  font-family: 'Baloo Bhaijaan 2', system-ui, sans-serif !important;
-  min-height: 100vh;
-}
-
-*, ::before, ::after {
-  font-family: inherit;
-}
-
-/* Solid Clean Card Surfaces - Background lines NEVER show inside any card or template */
+/* Solid Clean Card Surfaces */
 .notebook-paper-lined,
 .bg-paper-card,
 .bg-white {
-  background-color: #ffffff !important;
+  background-color: #FFFFFF !important;
   background-image: none !important;
   isolation: isolate;
 }
 
-/* Ensure inner cards and badges have solid opaque backgrounds */
 .bg-paper-card > *,
 .notebook-paper-lined > * {
   background-image: none !important;
-}
-
-/* Red Notebook Margin Line Utility */
-.notebook-margin-line {
-  position: relative;
-}
-
-@media (min-width: 1024px) {
-  .notebook-margin-line::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: var(--red-margin, rgba(220, 38, 38, 0.18));
-    pointer-events: none;
-  }
-  [dir="rtl"] .notebook-margin-line::before {
-    right: 48px;
-    left: auto;
-  }
-  [dir="ltr"] .notebook-margin-line::before {
-    left: 48px;
-    right: auto;
-  }
-}
-
-/* Notebook Spiral Binding Holes */
-.notebook-spiral-edge {
-  position: relative;
-}
-
-.notebook-spiral-edge::before {
-  content: "";
-  position: absolute;
-  top: 12px;
-  bottom: 12px;
-  right: 8px;
-  width: 10px;
-  background-image: radial-gradient(circle, #3a2f21 3px, transparent 3.5px);
-  background-size: 10px 24px;
-  opacity: 0.25;
-  pointer-events: none;
 }
