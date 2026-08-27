@@ -4,13 +4,15 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Compass, User } from 'lucide-react';
+import { useSession } from 'next-auth/react';
+import { User } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
 export default function Header() {
   const pathname = usePathname();
   const { language, toggleLanguage } = useLanguage();
   const isArabic = language === 'ar';
+  const { data: session } = useSession();
 
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
@@ -18,15 +20,15 @@ export default function Header() {
     const checkAuth = () => {
       try {
         const savedSession = localStorage.getItem('bausalty_user_session');
-        setIsLoggedIn(!!savedSession);
+        setIsLoggedIn(!!savedSession || !!session?.user);
       } catch {
-        setIsLoggedIn(false);
+        setIsLoggedIn(!!session?.user);
       }
     };
     checkAuth();
     window.addEventListener('storage', checkAuth);
     return () => window.removeEventListener('storage', checkAuth);
-  }, [pathname]);
+  }, [pathname, session]);
 
   const navLinks = [
     { href: '/', labelEn: 'Home', labelAr: 'الرئيسية' },
@@ -109,7 +111,7 @@ export default function Header() {
               </div>
             </button>
 
-            {isLoggedIn ? (
+            {isLoggedIn || !!session?.user ? (
               <Link
                 href="/dashboard"
                 className="h-10 px-4 sm:px-5 rounded-xl border-2 border-[#3a2f21] bg-[#ffd66e] text-[#3a2f21] font-display font-bold text-sm shadow-[2.5px_2.5px_0_#3a2f21] hover:translate-x-[-1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0_#3a2f21] transition-all flex items-center gap-1.5"
