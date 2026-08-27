@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
-import { Compass, Sparkles, ArrowRight, ShieldCheck, Mail, User, UserPlus } from 'lucide-react';
+import { Sparkles, ArrowRight, ShieldCheck, Mail, User, UserPlus } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
 export default function LoginPage() {
@@ -34,9 +34,9 @@ export default function LoginPage() {
     setIsLoading(true);
 
     const userProfile = {
-      id: 'student-demo-101',
-      name: name || (isArabic ? 'فهد السعدي' : 'Fahad Al-Saudi'),
-      email: email || 'fahad.saudi@kaust.edu.sa',
+      id: `student-${Date.now()}`,
+      name: name.trim() || (isArabic ? 'طالب بوصلتي' : 'Bausalty Student'),
+      email: email.trim() || 'student@edutahseen.com',
       plan: 'FREE' as const,
       image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
       signedInAt: new Date().toISOString(),
@@ -44,23 +44,20 @@ export default function LoginPage() {
 
     try {
       localStorage.setItem('bausalty_user_session', JSON.stringify(userProfile));
-      // Notify other components of authentication state change
       window.dispatchEvent(new Event('storage'));
 
-      // Automatically trigger SendGrid Welcome Email
+      // Send welcome email in background
       fetch('/api/email/welcome', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: userProfile.email, name: userProfile.name }),
       }).catch(() => {});
-    } catch {
-      // Ignore write error
-    }
+    } catch {}
 
     setTimeout(() => {
       setIsLoading(false);
       router.push(getCallbackUrl());
-    }, 400);
+    }, 250);
   };
 
   const handleGoogleSignIn = async () => {
@@ -74,51 +71,53 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center bg-paper py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8">
+    <div className="min-h-[calc(100vh-140px)] flex items-center justify-center bg-[#faf6ea] py-10 px-4 sm:px-6">
+      <div className="w-full max-w-[420px] space-y-6">
         
         {/* Header Logo */}
-        <div className="text-center space-y-3">
-          <Link href="/" className="inline-flex items-center gap-3">
-            <Image
-              src="/bawsalati-logo.webp"
-              alt="بوصلتي"
-              width={48}
-              height={48}
-              className="w-12 h-12 object-contain shrink-0"
-              priority
-            />
+        <div className="text-center space-y-2">
+          <Link href="/" className="inline-flex items-center gap-2.5">
+            <div className="w-11 h-11 rounded-[11px] border-2 border-[#1F1B13] bg-white shadow-[2.5px_2.5px_0_#1F1B13] -rotate-2 flex items-center justify-center overflow-hidden shrink-0">
+              <Image
+                src="/bawsalati-logo.webp"
+                alt="بوصلتي"
+                width={40}
+                height={40}
+                className="w-10 h-10 object-contain shrink-0"
+                priority
+              />
+            </div>
             <div className="text-right">
-              <span className="text-3xl font-display font-black text-ink block">
+              <span className="text-2xl font-black text-[#1F1B13] block font-display leading-tight">
                 {isArabic ? 'بوصلتي' : 'Bausalty'}
               </span>
-              <span className="text-xs font-bold text-teal block">
+              <span className="text-[11px] font-bold text-[#0d9488] block">
                 {isArabic ? 'تحسين التعليمية' : 'Tahseen Education'}
               </span>
             </div>
           </Link>
 
-          <h1 className="text-2xl sm:text-3xl font-display font-black text-ink">
+          <h1 className="text-xl sm:text-2xl font-black text-[#1F1B13] font-display pt-2">
             {isArabic ? 'تسجيل الدخول للطالب' : 'Student Sign In'}
           </h1>
-          <p className="text-xs sm:text-sm text-ink-soft font-prose">
+          <p className="text-xs text-[#5c4f3a] font-medium">
             {isArabic
-              ? 'سجل دخولك لحفظ نتائج اختبار هولاند ومتابعة توصيات التخصصات السعودية.'
-              : 'Sign in to save your Holland Code results and track your Saudi major recommendations.'}
+              ? 'سجل دخولك لحفظ نتائج اختبار هولاند ومتابعة التخصصات.'
+              : 'Sign in to save your Holland Code results and recommendations.'}
           </p>
         </div>
 
-        {/* Notebook Styled Login Card */}
-        <div className="bg-paper-card rounded-notebook p-6 sm:p-8 border-2 border-ink shadow-notebook-md space-y-6">
+        {/* Notebook Login Card */}
+        <div className="bg-white rounded-3xl p-6 sm:p-7 border-2 border-[#1F1B13] shadow-[5px_5px_0_#1F1B13] space-y-5">
           
           {/* GOOGLE SIGN IN BUTTON */}
           <button
             onClick={handleGoogleSignIn}
             disabled={isLoading}
             type="button"
-            className="w-full h-12 min-h-[48px] bg-paper hover:bg-paper-inset text-ink border-2 border-ink rounded-xl font-bold text-sm shadow-notebook-xs flex items-center justify-center gap-3 transition-all hover:scale-102 active:scale-98"
+            className="w-full h-11 bg-white hover:bg-[#faf6ea] text-[#1F1B13] border-2 border-[#1F1B13] rounded-xl font-bold text-xs sm:text-sm shadow-[2px_2px_0_#1F1B13] flex items-center justify-center gap-2.5 transition-all active:translate-x-0.5 active:translate-y-0.5 disabled:opacity-50"
           >
-            <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
               <path
                 fill="#4285F4"
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -139,44 +138,45 @@ export default function LoginPage() {
             <span>{isArabic ? 'تسجيل الدخول بواسطة Google' : 'Sign in with Google'}</span>
           </button>
 
-          <div className="relative flex items-center justify-center">
-            <div className="border-t-2 border-ink/10 w-full" />
-            <span className="bg-paper-card px-3 text-xs font-bold text-muted uppercase">
-              {isArabic ? 'أو عبر البريد الإلكتروني' : 'Or with Email'}
+          {/* Divider */}
+          <div className="relative flex items-center justify-center my-3">
+            <div className="border-t border-[#1F1B13]/15 w-full" />
+            <span className="bg-white px-3 text-[11px] font-bold text-[#8a7a5f] uppercase">
+              {isArabic ? 'أو بالبريد والاسم' : 'Or with email'}
             </span>
           </div>
 
-          {/* Email / Name Demo Form */}
-          <form onSubmit={handleDemoSignIn} className="space-y-4">
+          {/* Email / Name Form */}
+          <form onSubmit={handleDemoSignIn} className="space-y-3.5">
             <div className="space-y-1">
-              <label className="text-xs font-extrabold text-ink block">
+              <label className="text-xs font-black text-[#1F1B13] block">
                 {isArabic ? 'الاسم الكامل:' : 'Full Name:'}
               </label>
               <div className="relative">
-                <User className="w-4 h-4 text-muted absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <User className="w-4 h-4 text-[#8a7a5f] absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder={isArabic ? 'فهد السعدي' : 'Fahad Al-Saudi'}
-                  className="w-full h-11 min-h-[44px] pl-10 pr-3 rounded-xl border-2 border-ink bg-paper text-ink text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-teal"
+                  placeholder={isArabic ? 'مثال: فهد السعدي' : 'e.g. Fahad Al-Saudi'}
+                  className="w-full h-10 pl-9 pr-3 rounded-xl border-2 border-[#1F1B13] bg-[#faf6ea] text-[#1F1B13] text-xs sm:text-sm font-bold focus:outline-none focus:bg-white"
                 />
               </div>
             </div>
 
             <div className="space-y-1">
-              <label className="text-xs font-extrabold text-ink block">
+              <label className="text-xs font-black text-[#1F1B13] block">
                 {isArabic ? 'البريد الإلكتروني:' : 'Email Address:'}
               </label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-muted absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Mail className="w-4 h-4 text-[#8a7a5f] absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="student@ksu.edu.sa"
-                  className="w-full h-11 min-h-[44px] pl-10 pr-3 rounded-xl border-2 border-ink bg-paper text-ink text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-teal"
+                  className="w-full h-10 pl-9 pr-3 rounded-xl border-2 border-[#1F1B13] bg-[#faf6ea] text-[#1F1B13] text-xs sm:text-sm font-bold focus:outline-none focus:bg-white"
                 />
               </div>
             </div>
@@ -184,35 +184,35 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full h-12 min-h-[48px] bg-teal hover:bg-teal-deep text-white border-2 border-ink rounded-xl font-display font-black text-sm shadow-notebook-xs flex items-center justify-center gap-2 transition-all hover:scale-102 active:scale-98"
+              className="w-full h-11 bg-[#0d9488] hover:bg-[#0f766e] text-white border-2 border-[#1F1B13] rounded-xl font-display font-black text-sm shadow-[2.5px_2.5px_0_#1F1B13] flex items-center justify-center gap-2 transition-all active:translate-x-0.5 active:translate-y-0.5 disabled:opacity-50 mt-2"
             >
-              <Sparkles className="w-4 h-4 text-yellow" />
-              <span>{isLoading ? (isArabic ? 'جاري التسجيل...' : 'Signing In...') : (isArabic ? 'دخول لوحة التحكم' : 'Sign In to Dashboard')}</span>
+              <Sparkles className="w-4 h-4 text-[#ffd66e]" />
+              <span>{isLoading ? (isArabic ? 'جاري الدخول...' : 'Signing In...') : (isArabic ? 'دخول فوري للمنصة' : 'Sign In to Dashboard')}</span>
               <ArrowRight className={`w-4 h-4 ${isArabic ? 'rotate-180' : ''}`} />
             </button>
           </form>
 
         </div>
 
-        {/* DON'T HAVE AN ACCOUNT? SIGN UP BUTTON / CARD */}
-        <div className="bg-yellow rounded-2xl p-5 border-2 border-ink shadow-notebook-xs text-center space-y-2">
-          <p className="text-xs sm:text-sm font-black text-ink">
+        {/* Register Card */}
+        <div className="bg-[#ffd66e] rounded-2xl p-4 border-2 border-[#1F1B13] shadow-[3px_3px_0_#1F1B13] text-center space-y-2">
+          <p className="text-xs font-black text-[#1F1B13]">
             {isArabic ? 'ليس لديك حساب طالب حتى الآن؟' : "Don't have a student account yet?"}
           </p>
           <Link
             href="/register"
-            className="w-full h-11 min-h-[44px] inline-flex items-center justify-center gap-2 bg-paper-card text-ink hover:bg-paper-inset border-2 border-ink rounded-xl font-display font-black text-xs sm:text-sm shadow-notebook-xs transition-all hover:scale-102"
+            className="w-full h-10 inline-flex items-center justify-center gap-2 bg-white text-[#1F1B13] hover:bg-[#faf6ea] border-2 border-[#1F1B13] rounded-xl font-display font-black text-xs shadow-[2px_2px_0_#1F1B13] transition-all"
           >
-            <UserPlus className="w-4 h-4 text-purple" />
-            <span>{isArabic ? 'إنشاء حساب طالب جديد مجاناً' : 'Create New Student Account Free'}</span>
-            <ArrowRight className={`w-4 h-4 ${isArabic ? 'rotate-180' : ''}`} />
+            <UserPlus className="w-3.5 h-3.5 text-[#7c3aed]" />
+            <span>{isArabic ? 'إنشاء حساب جديد مجاناً' : 'Create New Account Free'}</span>
+            <ArrowRight className={`w-3.5 h-3.5 ${isArabic ? 'rotate-180' : ''}`} />
           </Link>
         </div>
 
-        {/* Footer Note */}
-        <p className="text-center text-xs text-ink-soft flex items-center justify-center gap-1">
-          <ShieldCheck className="w-4 h-4 text-teal" />
-          <span>{isArabic ? 'آمن ومعتمد للطلاب في المملكة' : 'Secure & Validated for Saudi Students'}</span>
+        {/* Security Note */}
+        <p className="text-center text-[11px] text-[#5c4f3a] flex items-center justify-center gap-1 font-bold">
+          <ShieldCheck className="w-3.5 h-3.5 text-[#0d9488]" />
+          <span>{isArabic ? 'آمن ومعتمد لطلاب الجامعات السعودية' : 'Secure & Validated for Saudi Students'}</span>
         </p>
 
       </div>
