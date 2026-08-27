@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { User } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
 export default function Header() {
@@ -15,14 +14,41 @@ export default function Header() {
   const { data: session } = useSession();
 
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [user, setUser] = useState<{ name?: string; image?: string; email?: string } | null>(null);
 
   useEffect(() => {
     const checkAuth = () => {
       try {
         const savedSession = localStorage.getItem('bausalty_user_session');
-        setIsLoggedIn(!!savedSession || !!session?.user);
+        if (savedSession) {
+          const parsed = JSON.parse(savedSession);
+          setUser(parsed);
+          setIsLoggedIn(true);
+          return;
+        }
+        if (session?.user) {
+          setUser({
+            name: session.user.name || '',
+            image: session.user.image || '',
+            email: session.user.email || '',
+          });
+          setIsLoggedIn(true);
+          return;
+        }
+        setIsLoggedIn(false);
+        setUser(null);
       } catch {
-        setIsLoggedIn(!!session?.user);
+        if (session?.user) {
+          setUser({
+            name: session.user.name || '',
+            image: session.user.image || '',
+            email: session.user.email || '',
+          });
+          setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
+          setUser(null);
+        }
       }
     };
     checkAuth();
@@ -111,13 +137,27 @@ export default function Header() {
               </div>
             </button>
 
-            {isLoggedIn || !!session?.user ? (
+            {isLoggedIn ? (
               <Link
                 href="/dashboard"
-                className="h-9 px-4 rounded-xl border border-[#1F1B13] bg-[#FEF6E8] text-[#1F1B13] font-display font-bold text-sm shadow-[2px_2px_0_#1F1B13] hover:translate-x-[-1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0_#1F1B13] transition-all flex items-center gap-1.5"
+                className="h-9 px-3 rounded-xl border border-[#1F1B13]/30 bg-[#FEF6E8] text-[#1F1B13] font-semibold text-xs shadow-[1.5px_1.5px_0_#1F1B13] hover:translate-x-[-1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0_#1F1B13] transition-all flex items-center gap-2"
               >
-                <User className="w-4 h-4 text-[#109E91]" />
-                <span>{isArabic ? 'لوحة التحكم' : 'Dashboard'}</span>
+                {user?.image ? (
+                  <div className="w-6 h-6 rounded-full overflow-hidden border border-[#1F1B13]/40 relative shrink-0">
+                    <Image
+                      src={user.image}
+                      alt={user.name || 'User'}
+                      fill
+                      sizes="24px"
+                      className="object-cover"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-6 h-6 rounded-full bg-[#109E91] text-white flex items-center justify-center text-[10px] font-bold shrink-0">
+                    {user?.name?.[0] || 'ط'}
+                  </div>
+                )}
+                <span className="max-w-[110px] truncate">{user?.name || (isArabic ? 'لوحة التحكم' : 'Dashboard')}</span>
               </Link>
             ) : (
               <Link

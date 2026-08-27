@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
-import { Download, Compass, Award, CheckCircle2, QrCode } from 'lucide-react';
+import React, { useRef, useState, useEffect } from 'react';
+import { Download, Award, Calendar, CheckCircle2, User } from 'lucide-react';
 import { AssessmentResult, RiasecType } from '@/types';
 import { RIASEC_CATEGORIES } from '@/data/questions';
 import { useLanguage } from '@/context/LanguageContext';
@@ -11,12 +11,16 @@ import {
   RadarChart,
   PolarGrid,
   PolarAngleAxis,
-  PolarRadiusAxis,
   Radar,
 } from 'recharts';
 
 interface PersonalityCardProps {
   result: AssessmentResult;
+  student?: {
+    name?: string;
+    image?: string;
+    email?: string;
+  };
 }
 
 const ARCHETYPE_TITLES: Record<RiasecType, { en: string; ar: string }> = {
@@ -37,11 +41,24 @@ const RIASEC_SHORT_NAMES: Record<RiasecType, { ar: string; en: string }> = {
   C: { ar: 'التنظيمي', en: 'Conventional' },
 };
 
-export default function PersonalityCard({ result }: PersonalityCardProps) {
+export default function PersonalityCard({ result, student }: PersonalityCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isDownloading, setIsDownloading] = useState(false);
   const { language } = useLanguage();
   const isArabic = language === 'ar';
+
+  const [studentInfo, setStudentInfo] = useState<{ name?: string; image?: string } | null>(student || null);
+
+  useEffect(() => {
+    if (!studentInfo) {
+      try {
+        const saved = localStorage.getItem('bausalty_user_session');
+        if (saved) {
+          setStudentInfo(JSON.parse(saved));
+        }
+      } catch {}
+    }
+  }, [student, studentInfo]);
 
   const primaryCat = result.primaryType;
   const archetype = ARCHETYPE_TITLES[primaryCat] || ARCHETYPE_TITLES['I'];
@@ -64,6 +81,18 @@ export default function PersonalityCard({ result }: PersonalityCardProps) {
     score: result.normalizedScores[cat] || 0,
     fullMark: 100,
   }));
+
+  const testDate = result.completedAt
+    ? new Date(result.completedAt).toLocaleDateString(isArabic ? 'ar-SA' : 'en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      })
+    : new Date().toLocaleDateString(isArabic ? 'ar-SA' : 'en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      });
 
   const renderCustomPolarTick = (props: any) => {
     const { x, y, cx, cy, payload } = props;
@@ -93,9 +122,9 @@ export default function PersonalityCard({ result }: PersonalityCardProps) {
         x={x + xOffset}
         y={y + yOffset}
         textAnchor={textAnchor}
-        fill="#3a2f21"
+        fill="#1F1B13"
         fontSize={10}
-        fontWeight={800}
+        fontWeight={700}
         className="select-none font-sans"
       >
         {text}
@@ -127,69 +156,101 @@ export default function PersonalityCard({ result }: PersonalityCardProps) {
   };
 
   return (
-    <div className="flex flex-col items-center space-y-6">
+    <div className="flex flex-col items-center space-y-5">
       
       {/* --- SHAREABLE DOWNLOADABLE CARD CONTAINER --- */}
       <div
         ref={cardRef}
-        className="w-full max-w-lg notebook-paper-lined rounded-[18px] p-6 sm:p-8 text-[#3a2f21] border-2 border-[#3a2f21] shadow-[5px_5px_0_#3a2f21] relative overflow-hidden space-y-5"
+        className="w-full max-w-lg bg-white rounded-2xl p-6 sm:p-7 text-[#1F1B13] border-2 border-[#1F1B13] shadow-[4px_4px_0_#1F1B13] relative overflow-hidden space-y-4"
       >
         {/* Card Header & Brand */}
-        <div className="flex items-center justify-between border-b-2 border-[#3a2f21]/15 pb-4 relative z-10">
-          <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-2xl border-2 border-[#3a2f21] overflow-hidden shadow-2xs bg-white shrink-0">
+        <div className="flex items-center justify-between border-b border-[#1F1B13]/10 pb-3 relative z-10">
+          <div className="flex items-center gap-2.5">
+            <div className="w-10 h-10 rounded-xl border-2 border-[#1F1B13] overflow-hidden shadow-2xs bg-white shrink-0">
               <img
-                src="/logo.png"
+                src="/bawsalati-logo.webp"
                 alt="بوصلتي"
                 className="w-full h-full object-cover"
                 crossOrigin="anonymous"
               />
             </div>
             <div>
-              <span className="text-xl font-display font-black text-[#3a2f21] tracking-tight block">
+              <span className="text-xl font-display font-black text-[#1F1B13] tracking-tight block">
                 {isArabic ? 'بوصلتي' : 'Bausalty'}
               </span>
-              <p className="text-[11px] font-bold text-[#8a7a5f]">
+              <p className="text-[11px] font-semibold text-[#109E91]">
                 {isArabic ? 'تحسين التعليمية' : 'Tahseen Education'}
               </p>
             </div>
           </div>
 
-          <div className="bg-[#ffd66e] px-3 py-1.5 rounded-xl border-2 border-[#3a2f21] text-center shadow-2xs">
-            <span className="block text-[10px] text-[#3a2f21] font-black uppercase tracking-wider">
+          <div className="bg-[#FEF6E8] px-3 py-1 rounded-xl border border-[#E5A93C] text-center shadow-2xs">
+            <span className="block text-[9px] text-[#7D715D] font-bold uppercase tracking-wider">
               {isArabic ? 'كود الميول' : 'Holland Code'}
             </span>
-            <span className="text-xl font-display font-black tracking-widest text-[#3a2f21]">{result.topCode}</span>
+            <span className="text-lg font-display font-black tracking-widest text-[#1F1B13] font-mono">{result.topCode}</span>
+          </div>
+        </div>
+
+        {/* Student Profile Info Bar (Photo + Name + Date) */}
+        <div className="flex items-center justify-between bg-[#FAF6EA] p-3 rounded-xl border border-[#1F1B13]/15 relative z-10">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-full border-2 border-[#1F1B13] overflow-hidden bg-white shrink-0 relative flex items-center justify-center">
+              {studentInfo?.image ? (
+                <img
+                  src={studentInfo.image}
+                  alt={studentInfo.name || 'Student'}
+                  className="w-full h-full object-cover"
+                  crossOrigin="anonymous"
+                />
+              ) : (
+                <User className="w-4 h-4 text-[#109E91]" />
+              )}
+            </div>
+            <div>
+              <span className="text-xs sm:text-sm font-bold text-[#1F1B13] block">
+                {studentInfo?.name || (isArabic ? 'طالب بوصلتي' : 'Bausalty Student')}
+              </span>
+              <span className="text-[10px] text-[#109E91] font-semibold flex items-center gap-1">
+                <CheckCircle2 className="w-3 h-3 text-[#109E91]" />
+                <span>{isArabic ? 'مقياس معتمد وموثق' : 'Verified Assessment'}</span>
+              </span>
+            </div>
+          </div>
+
+          <div className="text-left flex items-center gap-1 text-[11px] font-semibold text-[#7D715D]">
+            <Calendar className="w-3 h-3 text-[#109E91]" />
+            <span className="font-mono">{testDate}</span>
           </div>
         </div>
 
         {/* Archetype Title */}
-        <div className="py-2 text-center space-y-1.5 relative z-10">
-          <div className="inline-flex items-center gap-1.5 bg-[#c9f2e8] text-[#0f766e] border border-[#0d9488] px-3 py-0.5 rounded-full text-xs font-black">
-            <Award className="w-3.5 h-3.5 text-[#0d9488]" />
-            <span>{isArabic ? 'نمط الشخصية' : 'Personality Archetype'}</span>
+        <div className="py-1 text-center space-y-1 relative z-10">
+          <div className="inline-flex items-center gap-1.5 bg-[#E8F7F5] text-[#0D7E74] border border-[#109E91]/30 px-3 py-0.5 rounded-full text-xs font-bold">
+            <Award className="w-3.5 h-3.5 text-[#109E91]" />
+            <span>{isArabic ? 'نمط الميول والشخصية' : 'Personality Archetype'}</span>
           </div>
 
-          <h3 className="text-2xl sm:text-3xl font-display font-black text-[#3a2f21] leading-tight">
+          <h3 className="text-xl sm:text-2xl font-display font-black text-[#1F1B13] leading-tight">
             {isArabic ? archetype.ar : archetype.en}
           </h3>
         </div>
 
         {/* Mini Radar Chart + Strengths Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center bg-white/90 p-4 rounded-2xl border-2 border-[#3a2f21] relative z-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 items-center bg-white p-3.5 rounded-xl border border-[#1F1B13]/15 relative z-10">
           {/* Radar Chart */}
-          <div className="h-56 sm:h-52 w-full flex items-center justify-center py-2">
+          <div className="h-48 w-full flex items-center justify-center py-1">
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart cx="50%" cy="50%" outerRadius="55%" data={radarData}>
-                <PolarGrid stroke="#3a2f21" strokeDasharray="2 2" strokeOpacity={0.25} />
+                <PolarGrid stroke="#1F1B13" strokeDasharray="2 2" strokeOpacity={0.2} />
                 <PolarAngleAxis dataKey="category" tick={renderCustomPolarTick} />
                 <Radar
                   name="Score"
                   dataKey="score"
-                  stroke="#0d9488"
-                  strokeWidth={2.5}
-                  fill="#0d9488"
-                  fillOpacity={0.35}
+                  stroke="#109E91"
+                  strokeWidth={2}
+                  fill="#109E91"
+                  fillOpacity={0.3}
                 />
               </RadarChart>
             </ResponsiveContainer>
@@ -197,18 +258,18 @@ export default function PersonalityCard({ result }: PersonalityCardProps) {
 
           {/* Top 3 Traits Vector List */}
           <div className="space-y-2">
-            <span className="text-[11px] font-black text-[#8a7a5f] uppercase tracking-wider block border-b border-[#3a2f21]/15 pb-1">
+            <span className="text-[10px] font-bold text-[#7D715D] uppercase tracking-wider block border-b border-[#1F1B13]/10 pb-1">
               {isArabic ? 'أبرز الميول الشخصية:' : 'Top Trait Dimensions:'}
             </span>
             {topStrengths.map((item, idx) => (
               <div key={item.code} className="flex items-center justify-between text-xs font-bold">
-                <span className="flex items-center gap-1.5 text-[#3a2f21]">
-                  <span className="w-4 h-4 rounded-full bg-[#ffd66e] text-[#3a2f21] border border-[#3a2f21] flex items-center justify-center text-[10px] font-black">
+                <span className="flex items-center gap-1.5 text-[#1F1B13]">
+                  <span className="w-4 h-4 rounded-full bg-[#FEF6E8] text-[#1F1B13] border border-[#E5A93C] flex items-center justify-center text-[10px] font-bold">
                     {idx + 1}
                   </span>
                   <span>{isArabic ? item.info.nameAr : item.info.nameEn}</span>
                 </span>
-                <span className="font-mono font-black text-[#0d9488]">{item.score}%</span>
+                <span className="font-mono font-black text-[#109E91]">{item.score}%</span>
               </div>
             ))}
           </div>
@@ -216,15 +277,15 @@ export default function PersonalityCard({ result }: PersonalityCardProps) {
 
         {/* Top Recommended Major Pill */}
         {topMajor && (
-          <div className="bg-[#c9f2e8] p-3.5 rounded-2xl border-2 border-[#0d9488] space-y-1 relative z-10">
-            <span className="text-[10px] font-black uppercase tracking-wider text-[#0f766e] block">
+          <div className="bg-[#E8F7F5] p-3 rounded-xl border border-[#109E91]/40 space-y-1 relative z-10">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#0D7E74] block">
               {isArabic ? 'أعلى تخصص موصى به:' : 'Top Recommended Major:'}
             </span>
-            <p className="text-base sm:text-lg font-display font-black text-[#3a2f21]">
+            <p className="text-base font-display font-black text-[#1F1B13]">
               {isArabic ? topMajor.nameAr : topMajor.nameEn}
             </p>
             {secondMajor && (
-              <p className="text-xs text-[#5c4f3a] font-prose">
+              <p className="text-xs text-[#4B4131] font-prose">
                 {isArabic ? 'التخصص البديل:' : 'Alternative Match:'}{' '}
                 <strong>{isArabic ? secondMajor.nameAr : secondMajor.nameEn}</strong>
               </p>
@@ -233,9 +294,9 @@ export default function PersonalityCard({ result }: PersonalityCardProps) {
         )}
 
         {/* Card Footer Stamp */}
-        <div className="pt-2 border-t-2 border-dashed border-[#3a2f21]/20 flex items-center justify-between text-[11px] font-bold text-[#8a7a5f] relative z-10">
-          <span>{isArabic ? 'رؤية السعودية ٢٠٣٠' : 'Saudi Vision 2030'}</span>
-          <span>{isArabic ? 'منصة بوصلتي' : 'Bausalty Platform'}</span>
+        <div className="pt-2 border-t border-dashed border-[#1F1B13]/15 flex items-center justify-between text-[11px] font-semibold text-[#7D715D] relative z-10">
+          <span>{isArabic ? 'رؤية السعودية 2030' : 'Saudi Vision 2030'}</span>
+          <span>{isArabic ? 'منصة بوصلتي · تحسين التعليمية' : 'Bausalty · Tahseen Education'}</span>
         </div>
       </div>
 
@@ -243,9 +304,9 @@ export default function PersonalityCard({ result }: PersonalityCardProps) {
       <button
         onClick={handleDownloadImage}
         disabled={isDownloading}
-        className="h-12 px-6 rounded-2xl bg-[#ffd66e] hover:bg-amber-300 text-[#3a2f21] border-2 border-[#3a2f21] font-display font-black text-sm shadow-[3px_3px_0_#3a2f21] flex items-center gap-2 hover:scale-105 transition-all"
+        className="h-11 px-6 rounded-xl bg-[#109E91] hover:bg-[#0D7E74] text-white border-2 border-[#1F1B13] font-display font-bold text-sm shadow-[2.5px_2.5px_0_#1F1B13] flex items-center gap-2 hover:translate-x-[-1px] hover:translate-y-[1px] hover:shadow-[1.5px_1.5px_0_#1F1B13] transition-all cursor-pointer"
       >
-        <Download className="w-4 h-4 text-[#3a2f21]" />
+        <Download className="w-4 h-4 text-[#FEF6E8]" />
         <span>
           {isDownloading
             ? (isArabic ? 'جاري تجهيز الصورة...' : 'Generating Image...')

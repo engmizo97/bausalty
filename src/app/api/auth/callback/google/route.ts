@@ -46,7 +46,19 @@ export async function GET(request: Request) {
       signedInAt: new Date().toISOString(),
     };
 
-    // 3. Render client bridge that writes to localStorage and navigates to dashboard immediately
+    // 3. Determine final redirection destination (support edutahseen.com if came from there)
+    const state = searchParams.get('state');
+    let finalDestination = '/dashboard';
+    if (state) {
+      try {
+        const decoded = decodeURIComponent(state);
+        if (decoded.startsWith('https://edutahseen.com') || decoded.startsWith('/')) {
+          finalDestination = decoded;
+        }
+      } catch {}
+    }
+
+    // 4. Render client bridge that writes to localStorage and navigates to dashboard immediately
     const userJson = JSON.stringify(userProfile);
     const html = `<!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -55,11 +67,11 @@ export async function GET(request: Request) {
     <title>جاري تسجيل الدخول...</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
-  <body style="background:#faf6ea;font-family:system-ui,-apple-system,sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;">
-    <div style="text-align:center;padding:24px;background:#ffffff;border:2px solid #1f1b13;border-radius:20px;box-shadow:4px 4px 0 #1f1b13;max-width:320px;">
-      <div style="width:36px;height:36px;border:3px solid #0d9488;border-top-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 14px;"></div>
-      <h2 style="color:#1f1b13;font-size:18px;margin:0 0 6px;">مرحباً ${userProfile.name}</h2>
-      <p style="color:#5c4f3a;font-size:13px;margin:0;">جاري نقلك إلى لوحة التحكم...</p>
+  <body style="background:#FAF6EA;font-family:system-ui,-apple-system,sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;">
+    <div style="text-align:center;padding:24px;background:#ffffff;border:2px solid #1F1B13;border-radius:20px;box-shadow:4px 4px 0 #1F1B13;max-width:320px;">
+      <div style="width:36px;height:36px;border:3px solid #109E91;border-top-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 14px;"></div>
+      <h2 style="color:#1F1B13;font-size:18px;margin:0 0 6px;">مرحباً ${userProfile.name}</h2>
+      <p style="color:#4B4131;font-size:13px;margin:0;">جاري نقلك إلى لوحة التحكم...</p>
     </div>
     <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
     <script>
@@ -67,7 +79,7 @@ export async function GET(request: Request) {
         localStorage.setItem('bausalty_user_session', ${JSON.stringify(userJson)});
         window.dispatchEvent(new Event('storage'));
       } catch (e) {}
-      window.location.replace('/dashboard');
+      window.location.replace('${finalDestination}');
     </script>
   </body>
 </html>`;
