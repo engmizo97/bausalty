@@ -57,7 +57,8 @@ export default function Header() {
   }, [pathname, session]);
 
   const navLinks = [
-    { href: '/', labelEn: 'Home', labelAr: 'الرئيسية' },
+    { href: 'https://edutahseen.com', labelEn: 'Tahseen Hub', labelAr: 'الرئيسية' },
+    { href: '/', labelEn: 'Home', labelAr: 'بوصلتي' },
     { href: '/assessment', labelEn: 'Assessments', labelAr: 'الاختبارات' },
     { href: '/majors', labelEn: 'Majors Explorer', labelAr: 'مستكشف التخصصات' },
   ];
