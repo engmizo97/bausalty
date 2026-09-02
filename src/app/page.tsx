@@ -111,13 +111,13 @@ export default function HomePage() {
               {/* Dashed Tag Pill */}
               <div className="inline-flex items-center gap-2 bg-[#E8F7F5] border border-[#109E91]/40 rounded-full px-3.5 py-1 text-xs font-semibold text-[#0D7E74]">
                 <Pencil className="w-3.5 h-3.5 text-[#109E91] shrink-0" />
-                <span>{isArabic ? 'دليلك لاختيار التخصص الجامعي المناسب' : 'Your Guide to the Ideal College Major'}</span>
+                <span>{isArabic ? 'مقياس هولاند العلمي (RIASEC) · مواءمة رؤية 2030' : 'Holland Code Assessment · Vision 2030'}</span>
               </div>
 
               {/* Calligraphic Headline */}
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-black text-[#1F1B13] leading-tight tracking-tight">
                 {isArabic ? (
-                  <span className="hl-y inline-block">اكتشف تخصصك الأنسب</span>
+                  <>اكتشف تخصصك الأنسب.. <span className="hl-y inline-block">واضمن مستقبلك</span></>
                 ) : (
                   <span className="hl-y inline-block">Find Your Ideal Major</span>
                 )}
@@ -126,8 +126,8 @@ export default function HomePage() {
               {/* Description Body */}
               <p className="font-prose text-sm sm:text-base text-[#4B4131] leading-relaxed max-w-xl">
                 {isArabic
-                  ? 'طريقك نحو التخصص الجامعي الأنسب يبدأ من هنا: حلل مهاراتك وميولك باختبارات علمية معتمدة، وتعرف على التخصصات المتوافقة مع قدراتك في الجامعات السعودية وسوق العمل.'
-                  : 'Your journey to the ideal university major starts here: assess your personality with validated scientific frameworks, and align your strengths with Saudi market demand.'}
+                  ? 'توقف عن الحيرة والتردد. مقياس علمي معتمد يحلل ميولك وشخصيتك في 10 دقائق، ويرشدك بدقة لأفضل التخصصات بالجامعات السعودية المتوافقة مع قدراتك وسوق العمل.'
+                  : 'Stop second-guessing your future. Assess your personality in 10 minutes with validated scientific frameworks, matching your strengths with Saudi university majors.'}
               </p>
 
               {/* Hero CTAs */}
@@ -135,8 +135,9 @@ export default function HomePage() {
                 <Link
                   href="/assessment"
                   className="w-full sm:w-auto text-center font-display font-bold text-base text-white bg-[#109E91] hover:bg-[#0D7E74] border-2 border-[#1F1B13] rounded-xl px-7 py-3 shadow-[2.5px_2.5px_0_#1F1B13] hover:translate-x-[-1px] hover:translate-y-[1px] hover:shadow-[1.5px_1.5px_0_#1F1B13] transition-all"
+                  style={{ color: '#ffffff', textDecoration: 'none' }}
                 >
-                  {isArabic ? 'ابدأ التقييم مجاناً ←' : 'Start Assessment Free →'}
+                  {isArabic ? 'ابدأ التقييم مجاناً الآن ←' : 'Start Assessment Free →'}
                 </Link>
 
                 <Link
