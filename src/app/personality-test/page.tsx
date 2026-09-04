@@ -53,9 +53,24 @@ export default function PersonalityTestPage() {
   // Restore saved progress or results from localStorage
   useEffect(() => {
     try {
+      const params = new URLSearchParams(window.location.search);
+      const isFresh = params.get('fresh') === 'true';
+
+      if (isFresh) {
+        setAnswers({});
+        setResult(null);
+        setCurrentIndex(0);
+        try {
+          localStorage.removeItem('bausalty_mbti_answers');
+          localStorage.removeItem('bausalty_mbti_result');
+        } catch {}
+        return;
+      }
+
       const savedResult = localStorage.getItem('bausalty_mbti_result');
       if (savedResult) {
         setResult(JSON.parse(savedResult));
+        return;
       }
 
       const savedAnswers = localStorage.getItem('bausalty_mbti_answers');
@@ -94,7 +109,10 @@ export default function PersonalityTestPage() {
     }
   };
 
+  const isCurrentAnswered = answers[currentQuestion.id] !== undefined;
+
   const handleNext = () => {
+    if (!isCurrentAnswered) return;
     if (currentIndex < totalQuestions - 1) {
       setCurrentIndex((prev) => prev + 1);
     }
@@ -699,21 +717,45 @@ export default function PersonalityTestPage() {
                 <span>{isArabic ? 'السابق' : 'Previous'}</span>
               </button>
 
-              {currentIndex < totalQuestions - 1 ? (
+              {/* If all questions are answered, activate "إظهار النتيجة" everywhere */}
+              {answeredCount === totalQuestions ? (
                 <button
-                  onClick={handleNext}
-                  className="h-12 min-h-[48px] inline-flex items-center gap-2 bg-teal hover:bg-teal-deep text-white px-6 rounded-xl font-extrabold text-sm border-2 border-ink shadow-notebook-xs transition-all hover:scale-102 active:scale-98"
+                  type="button"
+                  onClick={handleCalculateResult}
+                  className="h-12 min-h-[48px] inline-flex items-center gap-2 px-7 rounded-xl font-display font-black text-sm sm:text-base border-2 border-ink bg-yellow hover:bg-amber-400 text-ink shadow-notebook-md hover:scale-102 active:scale-98 transition-all cursor-pointer"
                 >
-                  <span>{isArabic ? 'التالي' : 'Next'}</span>
+                  <Sparkles className="w-5 h-5 text-teal" />
+                  <span>{isArabic ? 'إظهار النتيجة' : 'Show Results'}</span>
+                  <ArrowRight className={`w-4 h-4 ${isArabic ? 'rotate-180' : ''}`} />
+                </button>
+              ) : currentIndex === totalQuestions - 1 ? (
+                <button
+                  type="button"
+                  onClick={handleCalculateResult}
+                  disabled={!isCurrentAnswered}
+                  className={`h-12 min-h-[48px] inline-flex items-center gap-2 px-7 rounded-xl font-display font-black text-sm sm:text-base border-2 transition-all ${
+                    !isCurrentAnswered
+                      ? 'opacity-40 cursor-not-allowed bg-paper-inset text-muted border-ink/20 shadow-none'
+                      : 'bg-yellow hover:bg-amber-400 text-ink border-ink shadow-notebook-md hover:scale-102 active:scale-98 cursor-pointer'
+                  }`}
+                >
+                  <Sparkles className="w-5 h-5 text-teal" />
+                  <span>{isArabic ? 'إظهار النتيجة' : 'Show Results'}</span>
                   <ArrowRight className={`w-4 h-4 ${isArabic ? 'rotate-180' : ''}`} />
                 </button>
               ) : (
                 <button
-                  onClick={handleCalculateResult}
-                  className="h-12 min-h-[48px] inline-flex items-center gap-2 bg-yellow hover:bg-amber-300 text-ink px-7 rounded-xl font-display font-black text-base border-2 border-ink shadow-notebook-md hover:scale-102 active:scale-98 transition-all"
+                  type="button"
+                  onClick={handleNext}
+                  disabled={!isCurrentAnswered}
+                  className={`h-12 min-h-[48px] inline-flex items-center gap-2 px-6 rounded-xl font-extrabold text-sm border-2 transition-all ${
+                    !isCurrentAnswered
+                      ? 'opacity-40 cursor-not-allowed bg-paper-inset text-muted border-ink/20 shadow-none'
+                      : 'bg-teal hover:bg-teal-deep text-white border-ink shadow-notebook-xs hover:scale-102 active:scale-98 cursor-pointer'
+                  }`}
                 >
-                  <Sparkles className="w-5 h-5 text-teal" />
-                  <span>{isArabic ? 'عرض تحليل الشخصية الكامل' : 'Calculate & View Archetype'}</span>
+                  <span>{isArabic ? 'التالي' : 'Next'}</span>
+                  <ArrowRight className={`w-4 h-4 ${isArabic ? 'rotate-180' : ''}`} />
                 </button>
               )}
             </div>
