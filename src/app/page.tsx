@@ -117,7 +117,7 @@ export default function HomePage() {
               {/* Calligraphic Headline */}
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-black text-[#1F1B13] leading-tight tracking-tight">
                 {isArabic ? (
-                  <>اكتشف تخصصك الأنسب.. <span className="hl-y inline-block">واضمن مستقبلك</span></>
+                  <>تخصصك الأنسب.. <span className="hl-y inline-block">يبدأ من فهمك لنفسك</span></>
                 ) : (
                   <span className="hl-y inline-block">Find Your Ideal Major</span>
                 )}
@@ -137,7 +137,7 @@ export default function HomePage() {
                   className="w-full sm:w-auto text-center font-display font-bold text-base text-white bg-[#109E91] hover:bg-[#0D7E74] border-2 border-[#1F1B13] rounded-xl px-7 py-3 shadow-[2.5px_2.5px_0_#1F1B13] hover:translate-x-[-1px] hover:translate-y-[1px] hover:shadow-[1.5px_1.5px_0_#1F1B13] transition-all"
                   style={{ color: '#ffffff', textDecoration: 'none' }}
                 >
-                  {isArabic ? 'ابدأ التقييم مجاناً الآن ←' : 'Start Assessment Free →'}
+                  {isArabic ? 'ابدأ الآن ←' : 'Start Now →'}
                 </Link>
 
                 <Link
