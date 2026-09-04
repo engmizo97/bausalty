@@ -20,6 +20,10 @@ export default function CheckoutPage() {
   const { language } = useLanguage();
   const isArabic = language === 'ar';
 
+  React.useEffect(() => {
+    window.location.href = 'https://edutahseen.com/checkout?track=busalati&tier=comprehensive';
+  }, []);
+
   const [paymentMethod, setPaymentMethod] = useState<'MADA' | 'CARD' | 'APPLE_PAY'>('MADA');
   const [cardName, setCardName] = useState('فهد السعدي');
   const [cardNumber, setCardNumber] = useState('4847 •••• •••• 9201');

@@ -122,14 +122,14 @@ export default function UpgradeModal({
           {/* Action Choice Buttons */}
           <div className="pt-2 space-y-2.5">
             {/* Primary Action: Go to Checkout (49 SAR) */}
-            <Link
-              href="/checkout"
+            <a
+              href="https://edutahseen.com/checkout?track=busalati&tier=comprehensive"
               className="w-full h-13 min-h-[46px] bg-teal hover:bg-teal-deep text-white border-2 border-ink rounded-xl font-display font-black text-sm sm:text-base shadow-notebook-sm flex items-center justify-center gap-2 hover:scale-102 transition-all"
             >
               <Sparkles className="w-4 h-4 text-yellow" />
               <span>{isArabic ? 'إكمال الاختبار والتقرير الشامل (خصم 50% — 49 ر.س)' : 'Complete Quiz & Full Report (49 SAR)'}</span>
               <ArrowRight className={`w-4 h-4 ${isArabic ? 'rotate-180' : ''}`} />
-            </Link>
+            </a>
 
             {/* Secondary Action: View Free Results */}
             {onViewFreeResults && (
