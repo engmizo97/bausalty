@@ -152,7 +152,11 @@ export default function RiasecQuizPage() {
     }
   }, [currentIndex, isPaid]);
 
+  const isCurrentAnswered = answers[currentQuestion.id] !== undefined;
+
   const handleNext = () => {
+    if (!isCurrentAnswered) return;
+
     // Free Tier Paywall Check
     if (!isPaid && currentIndex >= 20) {
       setShowUpgradeModal(true);
@@ -293,26 +297,25 @@ export default function RiasecQuizPage() {
         questionsCompleted={21}
       />
 
-      {/* --- STICKY PROGRESS BAR --- */}
-      <div className="sticky top-20 z-40 bg-[#fffdf6] border-b-2 border-ink shadow-notebook-xs">
-        <div className="max-w-4xl mx-auto px-4 py-3 sm:px-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs sm:text-sm font-bold text-ink gap-1 mb-2">
-            
+      {/* --- PROGRESS BAR CONTAINER (CLEAN & NON-OVERLAPPING) --- */}
+      <div className="bg-[#fffdf6] border-b-2 border-ink shadow-notebook-xs mb-3 sm:mb-6">
+        <div className="max-w-3xl mx-auto px-4 py-3 sm:px-6">
+          <div className="flex items-center justify-between text-xs sm:text-sm font-bold text-ink mb-2">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-teal animate-ping" />
-              <span>{isArabic ? `السؤال ${currentIndex + 1} من ${totalQuestions}` : `Question ${currentIndex + 1} of ${totalQuestions}`}</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-teal animate-ping shrink-0" />
+              <span className="font-extrabold">{isArabic ? `السؤال ${currentIndex + 1} من ${totalQuestions}` : `Question ${currentIndex + 1} of ${totalQuestions}`}</span>
             </div>
 
-            <div className="flex items-center justify-between sm:justify-end gap-3">
+            <div className="flex items-center gap-2">
               <span className="text-ink font-extrabold bg-teal-soft px-2.5 py-0.5 rounded-full border border-teal text-xs">
                 {isArabic ? currentCategory.nameAr : currentCategory.nameEn}
               </span>
-              <span className="text-ink-soft font-semibold">{progressPercent}%</span>
+              <span className="text-ink-soft font-black">{progressPercent}%</span>
             </div>
           </div>
 
           {/* Progress Bar Track */}
-          <div className="w-full h-3 bg-paper-inset rounded-full overflow-hidden p-0.5 border border-ink">
+          <div className="w-full h-2.5 bg-paper-inset rounded-full overflow-hidden p-0.5 border border-ink">
             <motion.div
               className="h-full bg-teal rounded-full"
               initial={{ width: 0 }}
@@ -323,8 +326,8 @@ export default function RiasecQuizPage() {
         </div>
       </div>
 
-      {/* --- MAIN QUESTION CARD CONTAINER --- */}
-      <div className="flex-1 max-w-3xl w-full mx-auto px-4 py-6 sm:py-10 flex flex-col justify-center">
+      {/* --- MAIN QUESTION CARD CONTAINER (NO VERTICAL CLIPPING) --- */}
+      <div className="flex-1 max-w-3xl w-full mx-auto px-4 py-2 sm:py-4 flex flex-col">
         
         {/* Category Header Badge */}
         <div className="mb-4 flex items-center justify-between">
@@ -445,17 +448,28 @@ export default function RiasecQuizPage() {
             </button>
           ) : currentIndex < totalQuestions - 1 ? (
             <button
+              type="button"
               onClick={handleNext}
-              className="h-12 min-h-[48px] inline-flex items-center gap-2 bg-teal hover:bg-teal-deep text-white px-6 rounded-xl font-extrabold text-sm border-2 border-ink shadow-notebook-xs transition-all hover:scale-102 active:scale-98"
+              disabled={!isCurrentAnswered}
+              className={`h-12 min-h-[48px] inline-flex items-center gap-2 px-6 rounded-xl font-extrabold text-sm border-2 transition-all ${
+                !isCurrentAnswered
+                  ? 'opacity-40 cursor-not-allowed bg-gray-100 text-gray-400 border-gray-300 shadow-none'
+                  : 'bg-teal hover:bg-teal-deep text-white border-ink shadow-notebook-xs hover:scale-102 active:scale-98 cursor-pointer'
+              }`}
             >
               <span>{isArabic ? 'التالي' : 'Next'}</span>
               <ArrowRight className={`w-4 h-4 ${isArabic ? 'rotate-180' : ''}`} />
             </button>
           ) : (
             <button
+              type="button"
               onClick={handleSubmit}
-              disabled={isSubmitting}
-              className="h-12 min-h-[48px] inline-flex items-center gap-2 bg-yellow hover:bg-amber-300 text-ink px-7 rounded-xl font-display font-black text-base border-2 border-ink shadow-notebook-md hover:scale-102 active:scale-98 transition-all"
+              disabled={!isCurrentAnswered || isSubmitting}
+              className={`h-12 min-h-[48px] inline-flex items-center gap-2 px-7 rounded-xl font-display font-black text-base border-2 transition-all ${
+                !isCurrentAnswered || isSubmitting
+                  ? 'opacity-40 cursor-not-allowed bg-gray-100 text-gray-400 border-gray-300 shadow-none'
+                  : 'bg-yellow hover:bg-amber-300 text-ink border-ink shadow-notebook-md hover:scale-102 active:scale-98 cursor-pointer'
+              }`}
             >
               <Sparkles className="w-5 h-5 text-purple" />
               <span>{isSubmitting ? (isArabic ? 'جاري التحليل...' : 'Calculating...') : (isArabic ? 'عرض النتائج' : 'View Results')}</span>
